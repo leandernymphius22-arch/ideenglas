@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Unser Ideenglas</title>
 <meta name="description" content="Eure gemeinsamen Ideen, Pläne und Erinnerungen.">
-<meta name="theme-color" content="#F4F1FA" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1F1A36" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F8F5FE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#271F50" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,7 +17,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Figtree:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Figtree:wght@500;600;700;800&display=swap">
 <style>
 /* Layout: "Euer Glühwürmchenglas". Phone-first column; lavender pages (Glas, Geplant, Erlebt) with white rounded
    rows and colored icon tiles, a night page for Einigen where the raccoon jar and fireflies glow, bottom bar with a raised plus. */
@@ -607,6 +607,325 @@ body.gated .app,body.gated .tabs,body.gated .flies{display:none}
 .av-opt .av{width:56px;height:56px;font-size:24px}
 .me-row{display:flex;align-items:center;gap:12px;min-width:0}
 .me-row .av{width:42px;height:42px;font-size:18px}
+
+/* Reise: Plan mit Stationen und Karte, Packliste, To-dos, Links */
+.trip{position:fixed;inset:0;z-index:45;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--bg);color:var(--ink)}
+.trip-in{max-width:560px;margin:0 auto;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 40px)}
+.trip-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;margin-inline:-16px;padding:calc(env(safe-area-inset-top,0px) + 8px) 16px 8px;background:var(--bg)}
+.trip-top .iconbtn{background:var(--surface);border-color:transparent;box-shadow:var(--shadow)}
+.trip-top-t{flex:1;min-width:0;font-family:var(--f-display);font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+.trip-hero{margin-top:4px}
+.trip-h{position:relative;margin:4px 0 0;font-weight:800;font-size:clamp(26px,7.5vw,34px);line-height:1.05;overflow-wrap:anywhere;outline:none}
+.trip-when{position:relative;margin:6px 0 0;font-weight:700;color:var(--deep-muted)}
+.trip-geo{position:relative;display:flex;align-items:center;gap:6px;margin:4px 0 0;font-size:13.5px;font-weight:600;color:var(--deep-muted)}
+.trip-geo svg{color:var(--fly);flex:none}
+.link-btn.on-deep{color:var(--fly);padding:4px 2px;font-size:13.5px}
+.trip-hero .recap-facts{position:relative;margin-top:12px}
+.trip-acts{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.trip-acts .btn.fly.small{background:var(--fly);color:var(--fly-ink);font-size:15px}
+.trip-seg{margin-top:14px}
+.trip-seg button{flex-direction:column;gap:0;min-height:52px;line-height:1.15}
+.trip-seg small{font-size:11.5px;font-weight:700;opacity:.75;font-variant-numeric:tabular-nums}
+.geocard{display:flex;flex-direction:column;gap:8px;margin-top:14px;padding:12px 14px;border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.searchrow{display:flex;gap:8px;align-items:stretch}
+.searchrow input{flex:1}
+.searchrow .btn{flex:none}
+.georesults{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.georesults button{display:flex;align-items:flex-start;gap:10px;width:100%;padding:9px 12px;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit}
+.sheet .georesults button{background:var(--bg)}
+.georesults svg{flex:none;margin-top:2px;color:var(--accent)}
+.georesults b{display:block;font-weight:700;line-height:1.25}
+.georesults small{display:block;font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.3}
+.geo-ok{display:flex;align-items:center;gap:6px;margin:0;font-size:13px;font-weight:700;color:var(--t1f)}
+.geo-ok .link-btn{padding:0 0 0 4px;font-size:13px}
+.mapwrap{position:relative;margin-top:14px;height:min(46vh,340px);border-radius:22px;overflow:hidden;background:var(--track);box-shadow:var(--shadow);isolation:isolate}
+.mapwrap.full{position:fixed;inset:0;z-index:48;height:auto;margin:0;border-radius:0}
+.tmap{position:absolute;inset:0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.tmap img{-webkit-touch-callout:none}
+.mapwrap .leaflet-container{font-family:var(--f-body);background:var(--track)}
+.mapwrap .leaflet-control-attribution,.recap-map .leaflet-control-attribution{font-size:10px}
+.map-btns{position:absolute;top:10px;right:10px;z-index:1100;display:flex;flex-direction:column;gap:8px}
+.mapwrap.full .map-btns{top:calc(env(safe-area-inset-top,0px) + 12px)}
+.map-btn{width:44px;height:44px;border:0;border-radius:14px;background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px -4px rgba(36,31,59,.5)}
+.map-btn.busy{color:var(--accent);animation:blink .8s ease-in-out infinite alternate}
+.map-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.map-pick{position:absolute;left:12px;right:68px;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:1100;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:var(--deep);color:var(--deep-ink);font-weight:700;font-size:14px;box-shadow:var(--shadow-lg)}
+.map-pick span{flex:1}
+.map-pick .btn.small{background:rgba(255,255,255,.12);color:var(--deep-ink)}
+.map-msg{position:absolute;left:12px;right:12px;bottom:12px;z-index:1100;margin:0;padding:10px 12px;border-radius:14px;background:var(--surface);font-weight:600;font-size:13.5px;box-shadow:var(--shadow)}
+.map-help{margin:8px 2px 0;text-align:center}
+.map-help:empty{display:none}
+.stop-pin span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c);color:#FFFFFF;font:800 14px/1 var(--f-display);border:2.5px solid #FFFFFF;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.stop-pin.faded span{width:24px;height:24px;margin:3px}
+.stop-pin.done span{box-shadow:0 0 0 3px rgba(255,216,102,.9),0 0 18px 5px rgba(255,196,60,.6)}
+.fly-pin span{display:block;width:18px;height:18px;margin:1px;border-radius:50%;background:#FFD866;border:2px solid #FFFFFF;box-shadow:0 0 0 5px rgba(255,216,102,.35),0 0 20px 8px rgba(255,196,60,.55)}
+.me-pin span{display:block;width:18px;height:18px;border-radius:50%;background:#2F7DF6;border:3px solid #FFFFFF;box-shadow:0 1px 6px rgba(0,0,0,.35)}
+.daychips{margin-top:12px}
+.tday-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.chip[aria-pressed="true"] .tday-dot{box-shadow:0 0 0 2px #FFFFFF}
+.tday{margin-top:18px}
+.tday-h{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-weight:700;font-size:18px;line-height:1.2;flex-wrap:wrap}
+.tday-d{font-family:var(--f-body);font-size:13.5px;font-weight:600;color:var(--muted)}
+.stops{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.stop{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:10px;padding:10px 8px 10px 12px;border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.stop-n{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c);color:#FFFFFF;font-family:var(--f-display);font-weight:800;font-size:14px;line-height:1;flex:none}
+.stop-n.nomap{background:transparent;color:var(--c);box-shadow:inset 0 0 0 2px var(--c)}
+.stop.done .stop-n:not(.nomap){box-shadow:0 0 0 3px rgba(255,216,102,.75),0 0 12px 2px rgba(255,196,60,.5)}
+.stop-main{min-width:0;display:flex;flex-direction:column;justify-content:center;padding:2px 0;border:0;background:none;color:inherit;text-align:left;cursor:pointer;font:inherit;min-height:44px}
+.stop-main:focus-visible,.stop-check:focus-visible,.addstop:focus-visible,.ti-check:focus-visible,.ti-x:focus-visible,.ti-who:focus-visible,.ti-main:focus-visible,.georesults button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.stop-t{font-weight:700;font-size:15.5px;line-height:1.25;overflow-wrap:anywhere}
+.stop-meta{font-size:13px;font-weight:600;color:var(--muted);overflow-wrap:anywhere}
+.stop-x{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:2px;font-size:12.5px;font-weight:700;color:var(--muted-2)}
+.stop-x svg{width:13px;height:13px;vertical-align:-2px}
+.stop-x .ic-heart{color:var(--heart)}
+.stop-x i{font-style:normal;opacity:.5}
+.stop-check{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:transparent;color:transparent;display:grid;place-items:center;cursor:pointer;flex:none;padding:0}
+.stop-check[aria-pressed="true"],.stop-check.static{background:var(--fly);border-color:var(--fly-deep);color:var(--fly-ink)}
+.stop-ph{grid-column:2 / -1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.stop-ph .ph-thumb,.stop-ph .ph-btn{width:52px;height:52px;border-radius:12px}
+.addstop{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:8px 14px;min-height:42px;border:2px dashed var(--dash);border-radius:14px;background:transparent;color:var(--muted-2);font-weight:700;font-size:14px;cursor:pointer}
+.trip-empty{margin-top:16px;padding:16px;border-radius:18px;border:2px dashed var(--dash);text-align:center}
+.trip-empty b{font-family:var(--f-display);font-size:18px}
+.trip-empty p{margin:4px 0 0;color:var(--muted);font-weight:600;text-wrap:pretty}
+.trip-empty .row-flex{justify-content:center}
+.tlist{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ti{display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 6px 8px 10px;border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.ti-check{width:34px;height:34px;flex:none;border-radius:10px;border:2px solid var(--dash);background:transparent;color:transparent;display:grid;place-items:center;cursor:pointer;padding:0}
+.ti-check[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ti-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.ti-t{font-weight:700;overflow-wrap:anywhere}
+.ti.done .ti-t{text-decoration:line-through;text-decoration-thickness:2px;color:var(--muted)}
+.ti-txt small{font-size:12.5px;font-weight:600;color:var(--muted)}
+.ti-x{width:40px;height:40px;flex:none;border:0;border-radius:12px;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0}
+.ti-who{flex:none;border:0;background:transparent;padding:4px;cursor:pointer;color:inherit;font:inherit}
+.who{display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 3px;border-radius:999px;background:var(--accent-soft);color:var(--accent-soft-ink);font-size:13px;font-weight:700;white-space:nowrap}
+.who.both{padding:5px 10px;background:var(--fly-soft);color:var(--ink)}
+.who.none{padding:3px 10px;background:transparent;border:2px dashed var(--dash);color:var(--muted)}
+.ti.link .ti-main{flex:1;min-width:0;display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none;min-height:40px}
+.ti.link .ti-main svg{flex:none;color:var(--accent)}
+.ti-progress{position:relative;margin:14px 0 0;padding:10px 14px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow);overflow:hidden}
+.ti-progress span{position:absolute;inset:0 auto 0 0;width:var(--p);background:var(--fly-soft)}
+.ti-progress b{position:relative;font-size:14px}
+.ti-add{display:flex;flex-direction:column;gap:10px;margin-top:14px;padding:12px 14px;border-radius:18px;background:var(--surface);box-shadow:var(--shadow)}
+.note-other{padding:12px 14px;border-radius:16px;background:var(--bg)}
+.note-other .no-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.note-other p{margin:6px 0 0;font-size:14.5px;line-height:1.45;white-space:pre-line;overflow-wrap:anywhere}
+iframe.spot{display:block;width:100%;border:0;border-radius:12px;margin-top:10px;background:rgba(127,127,127,.12)}
+#st-song-prev:empty{display:none}
+.music{margin-top:14px}
+.music iframe.spot{position:relative}
+.tripnow h2{font-size:21px}
+input[type=url]{width:100%;font:inherit;font-size:16px;font-weight:600;padding:11px 13px;border:2px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);min-width:0}
+input[type=url]:focus-visible{outline:3px solid var(--accent);outline-offset:1px;border-color:transparent}
+.geocard input,.ti-add input{background:var(--bg)}
+/* Reise im Rückblick */
+.recap-sec{margin:26px 0 0;font-family:var(--f-display);font-weight:800;font-size:24px}
+.recap-map{height:260px;margin-top:12px;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.07)}
+.rday{margin-top:18px}
+.rday h4{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-family:var(--f-display);font-weight:700;font-size:17px}
+.rstop{padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.07);margin-top:8px}
+.rstop-h{display:flex;align-items:center;gap:10px}
+.rstop-h b{display:block;font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1.2}
+.rstop-h small{display:block;font-size:13px;font-weight:600;color:var(--deep-muted)}
+.rstop-ph{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px}
+.rstop-ph .cl{aspect-ratio:1}
+.rstop-note{margin:10px 0 0;font-family:var(--f-display);font-weight:600;font-size:17px;line-height:1.35;white-space:pre-line;overflow-wrap:anywhere}
+.rstop-note .rn-by{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px;font-family:var(--f-body);font-size:13px;font-weight:700;color:var(--fly)}
+.rstop .btn.ghost{margin-top:10px;color:#F4F0FF;background:rgba(255,255,255,.08)}
+.rstop .hearts .off{color:rgba(255,255,255,.25)}
+.rstop .hearts .hn{color:var(--deep-muted)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .mapwrap .leaflet-control-attribution{background:rgba(31,26,54,.82);color:#BDB4DC}
+  :root:not([data-theme="light"]) .mapwrap .leaflet-control-attribution a{color:#FFD866}
+}
+.recap-map .leaflet-control-attribution{background:rgba(31,26,54,.82);color:#BDB4DC}
+.recap-map .leaflet-control-attribution a{color:#FFD866}
+:root[data-theme="dark"] .mapwrap .leaflet-control-attribution{background:rgba(31,26,54,.82);color:#BDB4DC}
+:root[data-theme="dark"] .mapwrap .leaflet-control-attribution a{color:#FFD866}
+/* Tag und Nacht, Profilfoto */
+.themes .optbtn{background:var(--bg);padding:10px 12px}
+.th-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface);color:var(--accent-soft-ink)}
+.themes .optbtn[aria-checked="true"] .th-ic{background:var(--accent);color:var(--accent-ink)}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.av-pick{grid-template-columns:repeat(3,minmax(0,1fr))}
+.av-opt{padding:12px 6px}
+.av-ph > svg{width:24px;height:24px}
+.av-ph{background:var(--track);color:var(--muted)}
+.photo-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+/* Nachtgarten (night) and Tagesgarten (day): soft gradient ground, glass cards with a thin border,
+   serif headings, floating bottom bar with a raised round plus. */
+:root{
+  --accent:#7B3F9E; --accent-ink:#FFFFFF;
+  --bg:#F3EEFC; --page-img:radial-gradient(130% 75% at 50% 16%,#FFFFFF 0%,#F3EEFC 48%,#E6DCF6 100%);
+  --surface:rgba(255,255,255,.74); --surface-solid:#FFFFFF; --sheet:#FFFFFF; --glass-line:rgba(110,58,150,.13);
+  --track:rgba(110,58,150,.08); --line:#E2D9F1; --dash:#CDBFE3; --timeline:#D3C6E6;
+  --ink:#241F3B; --muted:#625C7C; --muted-2:#4C4666;
+  --nav:rgba(255,255,255,.86); --nav-active:var(--accent); --nav-pill:var(--accent-soft);
+  --plus:var(--accent); --plus-ink:#FFFFFF; --plus-glow:0 12px 24px -10px rgba(110,58,150,.75);
+  --seg-on:#FFFFFF; --seg-on-ink:#241F3B;
+  --bar:rgba(246,242,253,.86);
+  --shadow:0 12px 26px -20px rgba(60,40,110,.5);
+  --deep:#221B48; --deep-2:#2C2358;
+  --f-display:"DM Serif Display",Georgia,"Times New Roman",serif;
+}
+html{font-synthesis:none}
+body{background:var(--bg)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--page-img);pointer-events:none}
+.gate{background:transparent}
+
+:root[data-theme="dark"], body.night{--bg:#1A1538; --page-img:radial-gradient(130% 75% at 50% 16%,#2C2358 0%,#1A1538 55%,#100C22 100%);
+  --surface:rgba(255,255,255,.07); --surface-solid:#2A2352; --sheet:#221B48; --glass-line:rgba(255,255,255,.12);
+  --track:rgba(255,255,255,.07); --line:rgba(255,255,255,.15); --dash:rgba(255,255,255,.24); --timeline:rgba(255,255,255,.2);
+  --ink:#F2EEFF; --muted:#B8AFD9; --muted-2:#D6CEF0;
+  --nav:rgba(30,24,64,.86); --nav-active:#FFD866; --nav-pill:rgba(255,216,102,.14);
+  --plus:#FFD866; --plus-ink:#1A1538; --plus-glow:0 0 26px -2px rgba(255,216,102,.6);
+  --seg-on:#FFD866; --seg-on-ink:#1A1538;
+  --bar:rgba(28,22,60,.86);
+  --shadow:0 14px 30px -22px rgba(0,0,0,.9);
+  --deep:#2A2352; --deep-2:#332A63;}
+:root[data-theme="dark"] body, body.night{--accent:#FFD866; --accent-ink:#1A1538;
+  --accent-soft:rgba(143,107,214,.28); --accent-soft-ink:#E6DCFF;}
+:root[data-theme="dark"] .sheet, body.night .sheet{border-top:1px solid rgba(255,255,255,.12)}
+:root[data-theme="dark"] .deep, body.night .deep{background:rgba(255,216,102,.06);box-shadow:inset 0 0 0 1px rgba(255,216,102,.24)}
+:root[data-theme="dark"] .empty-fig, body.night .empty-fig{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+:root[data-theme="dark"] .hero-jar::before, body.night .hero-jar::before{background:radial-gradient(closest-side,rgba(255,216,102,.30),rgba(255,216,102,.10) 55%,transparent 100%)}
+:root[data-theme="dark"] .lit, body.night .lit{--ink:#F2EEFF; --muted:#B8AFD9; --line:rgba(255,255,255,.15); --bg:#1A1538;
+  --accent-soft:rgba(143,107,214,.28); --accent-soft-ink:#E6DCFF;
+  --heart:#F27BB2; --heart-soft:#45263F;
+  --t1b:#24392F; --t1f:#8FDCA8; --t2b:#3D2A24; --t2f:#FFB48A; --t3b:#352A4D; --t3f:#CDA8EC; --t4b:#3A3320; --t4f:#FFD866;
+  --t5b:#22304D; --t5f:#9DB8F2; --t6b:#3A3026; --t6f:#E2B98A; --t7b:#42253A; --t7f:#F59AC4; --tgb:#3A3320; --tgf:#FFD866;
+  background:linear-gradient(170deg,#332A63 0%,#241D4A 100%); color:var(--ink); color-scheme:dark;}
+:root[data-theme="dark"] .stamp, body.night .stamp{background:#2A2250}
+:root[data-theme="dark"] .nc-date, body.night .nc-date{background:rgba(255,216,102,.14);color:#FFD866}
+:root[data-theme="dark"] .nc-k, body.night .nc-k{color:#FFD866}
+:root[data-theme="dark"] .tripnow .nc-main, body.night .tripnow .nc-main{border-color:rgba(255,216,102,.3);box-shadow:0 0 34px -14px rgba(255,216,102,.45)}
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]){--bg:#1A1538; --page-img:radial-gradient(130% 75% at 50% 16%,#2C2358 0%,#1A1538 55%,#100C22 100%);
+  --surface:rgba(255,255,255,.07); --surface-solid:#2A2352; --sheet:#221B48; --glass-line:rgba(255,255,255,.12);
+  --track:rgba(255,255,255,.07); --line:rgba(255,255,255,.15); --dash:rgba(255,255,255,.24); --timeline:rgba(255,255,255,.2);
+  --ink:#F2EEFF; --muted:#B8AFD9; --muted-2:#D6CEF0;
+  --nav:rgba(30,24,64,.86); --nav-active:#FFD866; --nav-pill:rgba(255,216,102,.14);
+  --plus:#FFD866; --plus-ink:#1A1538; --plus-glow:0 0 26px -2px rgba(255,216,102,.6);
+  --seg-on:#FFD866; --seg-on-ink:#1A1538;
+  --bar:rgba(28,22,60,.86);
+  --shadow:0 14px 30px -22px rgba(0,0,0,.9);
+  --deep:#2A2352; --deep-2:#332A63;}
+:root:not([data-theme="light"]) body{--accent:#FFD866; --accent-ink:#1A1538;
+  --accent-soft:rgba(143,107,214,.28); --accent-soft-ink:#E6DCFF;}
+:root:not([data-theme="light"]) .sheet{border-top:1px solid rgba(255,255,255,.12)}
+:root:not([data-theme="light"]) .deep{background:rgba(255,216,102,.06);box-shadow:inset 0 0 0 1px rgba(255,216,102,.24)}
+:root:not([data-theme="light"]) .empty-fig{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+:root:not([data-theme="light"]) .hero-jar::before{background:radial-gradient(closest-side,rgba(255,216,102,.30),rgba(255,216,102,.10) 55%,transparent 100%)}
+:root:not([data-theme="light"]) .lit{--ink:#F2EEFF; --muted:#B8AFD9; --line:rgba(255,255,255,.15); --bg:#1A1538;
+  --accent-soft:rgba(143,107,214,.28); --accent-soft-ink:#E6DCFF;
+  --heart:#F27BB2; --heart-soft:#45263F;
+  --t1b:#24392F; --t1f:#8FDCA8; --t2b:#3D2A24; --t2f:#FFB48A; --t3b:#352A4D; --t3f:#CDA8EC; --t4b:#3A3320; --t4f:#FFD866;
+  --t5b:#22304D; --t5f:#9DB8F2; --t6b:#3A3026; --t6f:#E2B98A; --t7b:#42253A; --t7f:#F59AC4; --tgb:#3A3320; --tgf:#FFD866;
+  background:linear-gradient(170deg,#332A63 0%,#241D4A 100%); color:var(--ink); color-scheme:dark;}
+:root:not([data-theme="light"]) .stamp{background:#2A2250}
+:root:not([data-theme="light"]) .nc-date{background:rgba(255,216,102,.14);color:#FFD866}
+:root:not([data-theme="light"]) .nc-k{color:#FFD866}
+:root:not([data-theme="light"]) .tripnow .nc-main{border-color:rgba(255,216,102,.3);box-shadow:0 0 34px -14px rgba(255,216,102,.45)}
+}
+
+
+/* day: the jar glass needs a visible rim on light ground */
+.hero-jar path[stroke="#D9D2F2"]{stroke:#B6A9DA}
+.hero-jar path[fill-opacity="0.08"]{fill-opacity:.5}
+:root[data-theme="dark"] .hero-jar path[stroke="#D9D2F2"],body.night .hero-jar path[stroke="#D9D2F2"]{stroke:#D9D2F2}
+:root[data-theme="dark"] .hero-jar path[fill-opacity="0.08"],body.night .hero-jar path[fill-opacity="0.08"]{fill-opacity:.08}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .hero-jar path[stroke="#D9D2F2"]{stroke:#D9D2F2}
+  :root:not([data-theme="light"]) .hero-jar path[fill-opacity="0.08"]{fill-opacity:.08}
+}
+
+/* type: serif for headings and big numbers, body font for small labels */
+h1,h2,h3,.sec,.month,.page-h h1,.brand h1,.sheet-h,.sc-title,.card-title,.lit-title,.empty-h,.gate-h,.trip-h,.recap-h,.recap-sec{font-weight:400;letter-spacing:-.005em}
+.page-h h1{font-size:32px;line-height:1.05}
+.page-h p{margin-top:4px}
+.sec{font-size:20px;font-weight:400}
+.month{font-size:22px;font-weight:400}
+.sheet-h{font-size:26px}
+.sc-title{font-size:25px}
+.card-title{font-size:32px;line-height:1.04}
+.lit-title{font-size:25px}
+.empty-h{font-size:26px}
+.gate-h{font-size:32px}
+.memo-title{font-size:21px;font-weight:400}
+.pinned-main h2{font-size:22px;font-weight:400}
+.tripnow h2{font-size:22px}
+.stat b{font-weight:400;font-size:30px;line-height:1.05}
+.days-num{font-weight:400;font-size:52px}
+.days-lbl{font-family:var(--f-body);font-weight:700;font-size:16px}
+.dg-n{font-weight:400}
+.dt-d{font-weight:400;font-size:23px}
+.drawbox h2{font-size:19px}
+.recap-quote blockquote{font-weight:400}
+.rstop-note{font-weight:400}
+.news-head b,.freshnote b,.status b,.set-item b,.opt-txt b,.sp-txt b,.matchnote b,.stamp,.btn.fly,.av,.stop-n,.stop-pin span,.trip-empty b{font-family:var(--f-body);font-weight:800}
+.btn.fly{font-size:16px;font-weight:700}
+.matchnote .mn-title{font-weight:400;font-size:20px}
+.trip-top-t{font-weight:400;font-size:18px}
+.tday-h{font-weight:400;font-size:20px}
+
+/* glass cards */
+.row,.stat,.news,.plan,.memo,.freshnote,.sugg,.drawbox,.geocard,.stop,.ti,.ti-progress,.ti-add,.nc-main{border:1px solid var(--glass-line)}
+.sheet .sugg{border:0}
+.chip{border:1px solid var(--glass-line);background:var(--surface)}
+.chip.add{border:1.5px dashed var(--dash);background:transparent}
+.iconbtn{border:1px solid var(--glass-line);background:var(--surface)}
+.heartbtn{border:1px solid var(--glass-line)}
+.seg{border:1px solid var(--glass-line)}
+.seg button[aria-pressed="true"]{background:var(--seg-on);color:var(--seg-on-ink)}
+.seg button[aria-pressed="true"] .ic-heart{color:var(--heart)}
+.row-right .av{border-color:var(--surface-solid)}
+.mapwrap{border:1px solid var(--glass-line)}
+.deep{background:radial-gradient(130% 140% at 88% 0%,#3B3070 0%,#221B48 62%)}
+.empty-fig{background:radial-gradient(130% 140% at 80% 0%,#3B3070 0%,#221B48 62%)}
+.drawbox{box-shadow:none}
+
+/* sheet, bars and overlays */
+.sheet,.sheet-bar{background:var(--sheet)}
+.trip{background:var(--bg) var(--page-img)}
+.trip-top{background:var(--bar);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2)}
+.trip-top .iconbtn{border:1px solid var(--glass-line);box-shadow:none}
+.map-btn,.map-msg{background:var(--surface-solid)}
+.recap{background:radial-gradient(130% 70% at 50% 0%,#2C2358 0%,#1A1538 55%,#100C22 100%)}
+
+/* floating bottom bar */
+.tabs{padding:0 12px calc(env(safe-area-inset-bottom,0px) + 10px)}
+.tabs-in{max-width:520px;align-items:center;min-height:68px;padding:6px;border-radius:26px;background:var(--nav);border:1px solid var(--glass-line);box-shadow:0 18px 36px -22px rgba(20,14,48,.7);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3)}
+.tab{min-height:54px;justify-content:center;gap:2px;font-size:11.5px}
+.tab .tw{width:48px;height:28px}
+.tab .tdot{border-color:var(--surface-solid)}
+.addbtn{width:56px;height:56px;margin-top:-22px;border:0;border-radius:50%;background:var(--plus);color:var(--plus-ink);box-shadow:var(--plus-glow)}
+.toast{bottom:calc(104px + env(safe-area-inset-bottom,0px))}
+
+/* start page */
+.hello{align-items:flex-start;margin-top:2px}
+.hello-txt{min-width:0}
+.hello-hi{margin:0;font-size:14px;font-weight:600;color:var(--muted)}
+.hello-h{margin:0;font-weight:400;font-size:clamp(28px,8.4vw,34px);line-height:1.05;overflow-wrap:anywhere}
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:8px}
+.hero-jar{position:relative;width:min(178px,48vw);transform-origin:50% 90%}
+.hero-jar::before{content:"";position:absolute;left:50%;top:60%;width:160%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,216,102,.34),rgba(255,216,102,.12) 55%,transparent 100%);pointer-events:none}
+.hero-jar svg{position:relative;display:block;width:100%;height:auto}
+.hero-jar.shake{animation:shake .55s ease-in-out}
+.hero-h{position:relative;margin:4px 0 0;font-size:28px;line-height:1.1}
+.hero-p{position:relative;margin:4px 0 0;max-width:34ch;font-size:14.5px;font-weight:600;color:var(--muted);text-wrap:pretty}
+.hero-btn{position:relative;margin-top:14px;min-width:210px;border-radius:999px;background:var(--plus);color:var(--plus-ink);box-shadow:var(--plus-glow)}
+.nextcard{margin-top:16px}
+.nextcard + .nextcard{margin-top:10px}
+.nc-main{display:flex;align-items:center;gap:12px;width:100%;padding:12px;border-radius:22px;background:var(--surface);box-shadow:var(--shadow);color:var(--ink);text-align:left;font:inherit;cursor:pointer}
+.nc-main:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.nc-date{flex:none;width:50px;height:56px;border-radius:15px;background:#FFF0B8;color:#8A6410;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.nc-date span{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.nc-date b{margin-top:3px;font-family:var(--f-display);font-weight:400;font-size:24px}
+.nc-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.nc-k{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#8A6410}
+.nc-t{font-weight:700;font-size:16px;line-height:1.25;overflow-wrap:anywhere}
+.nc-m{font-size:13px;font-weight:600;color:var(--muted);overflow-wrap:anywhere}
+.nc-main > svg{flex:none;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -633,6 +952,8 @@ body.gated .app,body.gated .tabs,body.gated .flies{display:none}
     <a class="tab" href="#album" data-tab="album"><span class="tw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="heartpath" d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg></span>Erlebt<span class="tdot" id="adot" hidden></span></a>
   </div>
 </nav>
+
+<div class="trip" id="trip" role="dialog" aria-modal="true" aria-label="Reise" hidden></div>
 
 <div class="sheet-wrap" id="sheet-wrap" hidden>
   <button class="backdrop" data-action="close" aria-label="Schließen" tabindex="-1"></button>
@@ -687,7 +1008,17 @@ const IC = {
   clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
   lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
-  left:'<path d="M15 5l-7 7 7 7"/>', right:'<path d="M9 5l7 7-7 7"/>'
+  left:'<path d="M15 5l-7 7 7 7"/>', right:'<path d="M9 5l7 7-7 7"/>',
+  music:'<path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',
+  link:'<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.1 1.1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.1-1.1"/>',
+  download:'<path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/>',
+  expand:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+  shrink:'<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>',
+  locate:'<circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22"/>',
+  moon:'<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
+  sunset:'<path d="M4 18h16"/><path d="M7 18a5 5 0 0 1 10 0"/><path d="M12 6v3M5.6 9.6l1.6 1.6M18.4 9.6l-1.6 1.6M3 14h1.5M19.5 14H21"/><path d="M8 21h8"/>',
+  phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+  frame:'<path d="M4 8.5V5a1 1 0 0 1 1-1h3.5M15.5 4H19a1 1 0 0 1 1 1v3.5M20 15.5V19a1 1 0 0 1-1 1h-3.5M8.5 20H5a1 1 0 0 1-1-1v-3.5"/><circle cx="12" cy="12" r="2.2"/>'
 };
 const ico = (n, size = 20, w = 2) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n] || IC.note}</svg>`;
 const HEART = 'M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z';
@@ -1020,6 +1351,7 @@ function avatar(id, px = 28){
   const p = prof(id);
   const nm = id === TEST_ID ? 'Testpartner' : (p?.name || (id === actor() ? 'Du' : 'Jemand'));
   const st = `width:${px}px;height:${px}px;font-size:${Math.round(px * 0.42)}px`;
+  if (p && p.photo && id !== TEST_ID) return `<span class="av" style="${st}" title="${esc(nm)}" role="img" aria-label="${esc(nm)}"><img ${imgAttr(p.photo)} alt="" data-asset="1"></span>`;
   if (isFigure(id)) return `<span class="av" style="${st}" title="${esc(nm)}" role="img" aria-label="${esc(nm)}">${figureSVG()}</span>`;
   const letter = (firstName(p?.name) || nm).charAt(0).toUpperCase() || '?';
   return `<span class="av" style="${st}" title="${esc(nm)}" role="img" aria-label="${esc(nm)}">${esc(letter)}</span>`;
@@ -1414,8 +1746,9 @@ function headerHTML(){
   state.ideas.forEach(i => { if (i.by) ids.add(i.by); likers(i).forEach(x => ids.add(x)); });
   if (state.me) ids.add(state.me);
   const people = [...ids].filter(id => id !== TEST_ID || state.testMode).filter(id => id === state.me || prof(id) || id === TEST_ID).slice(0, 3);
-  return `<header class="hdr">
-    <div class="brand">${logoSVG()}<h1>Unser Ideenglas</h1></div>
+  const names = coupleNames();
+  return `<header class="hdr hello">
+    <div class="hello-txt"><p class="hello-hi">${greetWord()}</p><h1 class="hello-h">${names ? esc(names) : 'Unser Ideenglas'}</h1></div>
     <div class="hdr-r"><div class="people">${people.map(id => avatar(id, 38)).join('')}</div><button class="iconbtn" data-action="settings" aria-label="Einstellungen">${ico('gear', 20, 1.9)}</button></div>
   </header>`;
 }
@@ -1426,15 +1759,15 @@ function renderGlas(){
   const jar = curJar(), kind = kindOfJar(jar), me = actor();
   const all = state.ideas, n = {open:0, planned:0, done:0};
   all.forEach(i => { n[statusOf(i)] = (n[statusOf(i)] || 0) + 1; });
-  let html = headerHTML() + newsHTML() + rememberHTML() + jarChipsHTML();
+  let html = headerHTML() + heroHTML() + nextHTML() + newsHTML() + rememberHTML();
   html += `<div class="stat3"><div class="stat">${n.open ? '<span class="glowdot"></span>' : ''}<b>${n.open}</b><span>im Glas</span></div><div class="stat"><b>${n.planned + (n.proposed || 0)}</b><span>geplant</span></div><div class="stat"><b>${n.done}</b><span>erlebt</span></div></div>`;
+  html += jarChipsHTML();
   const open = openIn(jar.id).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   const sugg = suggList(jar.id);
   if (!open.length) {
     const picks = [], seen = new Set();
     sugg.forEach(s => { const c = JSON.stringify(Object.values(s.f)[0]); if (!seen.has(c) && picks.length < 5) { seen.add(c); picks.push(s.idx); } });
     html += `<div class="empty" style="margin-top:18px">
-      <div class="empty-fig">${jarSVG(2, 'Waschbär im leeren Glas')}</div>
       <h2 class="empty-h">„${esc(jar.name)}“ ist noch leer</h2>
       <p class="empty-p">${esc(kind.empty)}</p>
       ${state.readOnly ? '' : `<button class="btn primary" data-action="add">${ico('plus', 18, 2.6)} Ersten Zettel einwerfen</button>`}
@@ -1458,7 +1791,6 @@ function renderGlas(){
     const idx = cf.options.findIndex(o => o.v === state.glasCat);
     html += `<div class="catchip"><button class="chip" data-action="glascat" data-v="alle" aria-pressed="true">${ico(cf.options[idx].i, 16)} ${esc(cf.options[idx].l)}<span class="x" aria-label="Filter entfernen">${ico('x', 14, 2.4)}</span></button></div>`;
   }
-  if (fresh.length && f !== 'neu') html += `<a class="freshnote" href="#einigen"><span class="glowdot"></span><span><b>${fresh.length}</b> ${fresh.length === 1 ? 'neuer Zettel wartet' : 'neue Zettel warten'} auf deine Stimme</span><span class="go">Wischen →</span></a>`;
   if (f === 'alle') {
     const rest = inCat.filter(i => !isMatch(i));
     if (matches.length) html += `<h2 class="sec">Wollen wir beide <span class="pill-fly">${matches.length} ${matches.length === 1 ? 'Match' : 'Matches'}</span></h2><div class="rows">${matches.map(rowHTML).join('')}</div>`;
@@ -1689,14 +2021,15 @@ function renderGeplant(){
   if (!list.length) { v.innerHTML = html; return; }
   if (props.length) html += `<h2 class="sec">Fest geplant <span class="n">${list.length}</span></h2>`;
   html += `<ol class="plans">${list.map(i => {
-    const past = i.planDate && i.planDate < t;
-    const when = i.planDate ? (past ? `war ${rel(i.planDate)} – schon erledigt?` : cap(rel(i.planDate))) : 'ohne Datum';
+    const trip = isTrip(i), end = (trip && i.planEnd) || i.planDate;
+    const past = end && end < t;
+    const when = i.planDate ? (past ? `war ${rel(end)} – schon erledigt?` : trip && i.planEnd ? (i.planDate <= t ? `Unterwegs bis ${F_SHORT.format(parseD(i.planEnd))}` : `${cap(rel(i.planDate))} bis ${F_SHORT.format(parseD(i.planEnd))}`) : cap(rel(i.planDate))) : 'ohne Datum';
     const meta = metaText(i);
     const kicker = i.surprise ? `<span class="row-kicker">${ico('gift', 13)} ${isMyGift(i) ? 'Deine Überraschung · nur du siehst den Inhalt' : 'Überraschung'}</span>` : `<span class="row-kicker">${esc(jarById(jarIdOf(i)).name)}</span>`;
     const canDone = !state.readOnly && (!i.surprise || isMyGift(i));
     const pl = visiblePlace(i);
     return `<li class="plan${past ? ' past' : ''}">
-      <button class="row-main" data-action="open" data-id="${esc(i.id)}">${dtileHTML(i.planDate, i)}<span class="row-txt">${kicker}<span class="row-title">${esc(titleOf(i))}</span><span class="row-meta">${when}${i.planTime ? ' · ' + esc(timeTxt(i.planTime)) : ''}${meta ? ' · ' + meta : ''}</span>${pl ? placeText(pl) : ''}</span></button>
+      <button class="row-main" data-action="${trip ? 'trip-open' : 'open'}" data-id="${esc(i.id)}">${dtileHTML(i.planDate, i)}<span class="row-txt">${kicker}<span class="row-title">${esc(titleOf(i))}</span><span class="row-meta">${when}${i.planTime ? ' · ' + esc(timeTxt(i.planTime)) : ''}${meta ? ' · ' + meta : ''}</span>${pl ? placeText(pl) : ''}</span></button>
       ${canDone ? `<button class="btn ${past ? 'primary' : 'soft'} small" data-action="done" data-id="${esc(i.id)}">${i.surprise ? 'Aufdecken' : 'Erledigt'}</button>` : ''}
     </li>`;
   }).join('')}</ol>`;
@@ -1755,16 +2088,17 @@ function daysCardHTML(){
 }
 function memoHTML(i){
   const ph = i.photos || [], id = esc(i.id), sp = isSpecial(i);
+  const trip = isTrip(i), cph = ph.length ? ph : (trip ? allStopPhotos(i) : []), nph = trip ? tripPhotoCount(i) : ph.length, nst = trip ? stopsOf(i).length : 0;
   const author = i.memory ? ` <b>${esc(personNom(i.doneBy || i.by))}</b>` : '';
   const canPhoto = !state.readOnly && state.assets && ph.length < photoLimit(sp);
-  const cover = sp && ph.length;
+  const cover = sp && cph.length;
   const photos = cover ? '' : (ph.length || canPhoto) ? `<div class="ph-row">${ph.slice(0, 3).map((p, k) => `<button class="ph-thumb" data-action="photo" data-id="${id}" data-v="${k}" aria-label="Foto ${k + 1} vergrößern"><img ${imgAttr(p)} alt="" loading="lazy" data-asset="1"></button>`).join('')}${ph.length > 3 ? `<button class="ph-btn" data-action="photo" data-id="${id}" data-v="3" aria-label="Alle ${ph.length} Fotos ansehen" style="border-style:solid;font-weight:800">+${ph.length - 3}</button>` : ''}${canPhoto ? `<button class="ph-btn" data-action="done" data-id="${id}" aria-label="Foto hinzufügen">${ico('plus', 22, 2.2)}</button>` : ''}</div>` : '';
-  const coverHTML = cover ? `<button class="memo-cover n${Math.min(ph.length, 3)}" data-action="recap" data-id="${id}" aria-label="Rückblick auf ${esc(i.title)} ansehen, ${ph.length} ${ph.length === 1 ? 'Foto' : 'Fotos'}">${ph.slice(0, 3).map(p => `<img ${imgAttr(p)} alt="" loading="lazy" data-asset="1">`).join('')}<span class="cover-pill">${ico('sparkle', 14, 2.2)} Rückblick · ${ph.length} ${ph.length === 1 ? 'Foto' : 'Fotos'}</span></button>` : '';
+  const coverHTML = cover ? `<button class="memo-cover n${Math.min(cph.length, 3)}" data-action="recap" data-id="${id}" aria-label="Rückblick auf ${esc(i.title)} ansehen, ${nph} ${nph === 1 ? 'Foto' : 'Fotos'}">${cph.slice(0, 3).map(p => `<img ${imgAttr(p)} alt="" loading="lazy" data-asset="1">`).join('')}<span class="cover-pill">${ico('sparkle', 14, 2.2)} Rückblick · ${nph} ${nph === 1 ? 'Foto' : 'Fotos'}</span></button>` : '';
   return `<article class="memo${sp ? ' special' : ''}">
     <div class="memo-top"><span class="memo-date">${shortRange(i.doneDate, i.doneEnd)}</span>${i.rating ? heartsHTML(i.rating) : ''}</div>
     ${coverHTML}
     <button class="memo-main" data-action="open" data-id="${id}">
-      <span class="memo-kicker">${i.surprise ? ico('gift', 13) + ' ' : sp ? ico('sparkle', 13, 2.2) + ' ' : ''}${esc(sourceLabel(i))}${sp && !cover && jarIdOf(i) !== 'reisen' ? ' · Besonders' : ''}</span>
+      <span class="memo-kicker">${i.surprise ? ico('gift', 13) + ' ' : sp ? ico('sparkle', 13, 2.2) + ' ' : ''}${esc(sourceLabel(i))}${sp && !cover && jarIdOf(i) !== 'reisen' ? ' · Besonders' : ''}${nst ? ' · ' + nst + (nst === 1 ? ' Station' : ' Stationen') : ''}</span>
       <span class="memo-title">${esc(i.title)}</span>
       ${i.memory ? `<span class="memo-quote">„${esc(i.memory)}“${author}</span>` : ''}
       ${i.place ? placeText(i.place) : ''}
@@ -1774,22 +2108,25 @@ function memoHTML(i){
 }
 function renderAlbum(){
   const v = $('#view-album');
-  if (!state.loaded) { v.innerHTML = loadingHTML(); return; }
+  if (!$('#album-music')) v.innerHTML = '<div id="album-head"></div><div id="album-music"></div><div id="album-body"></div>';
+  const head = $('#album-head'), body = $('#album-body');
+  if (!state.loaded) { head.innerHTML = ''; body.innerHTML = loadingHTML(); renderMusic(); return; }
   const list = state.ideas.filter(i => statusOf(i) === 'done').sort((a, b) => String(b.doneDate || '').localeCompare(String(a.doneDate || '')));
-  const photos = list.reduce((s, i) => s + ((i.photos || []).length), 0);
+  const photos = list.reduce((s, i) => s + tripPhotoCount(i), 0);
   const pastBtn = state.readOnly ? '' : `<button class="btn soft small" data-action="addpast">${ico('plus', 18, 2.2)} Erinnerung nachtragen</button>`;
-  let html = `<header class="page-h row-h"><div><h1>Unser Album</h1><p>${list.length ? `${list.length} gemeinsame ${list.length === 1 ? 'Erlebnis' : 'Erlebnisse'}${photos ? ` · ${photos} ${photos === 1 ? 'Foto' : 'Fotos'}` : ''}` : 'Hier sammeln sich eure Erlebnisse'}</p></div>${pastBtn}</header>`;
-  html += daysCardHTML();
+  head.innerHTML = `<header class="page-h row-h"><div><h1>Unser Album</h1><p>${list.length ? `${list.length} gemeinsame ${list.length === 1 ? 'Erlebnis' : 'Erlebnisse'}${photos ? ` · ${photos} ${photos === 1 ? 'Foto' : 'Fotos'}` : ''}` : 'Hier sammeln sich eure Erlebnisse'}</p></div>${pastBtn}</header>`;
+  renderMusic();
+  let html = daysCardHTML();
   const pinned = list.filter(i => i.pinned).sort((a, b) => (b.pinned || 0) - (a.pinned || 0))[0];
   if (pinned) html += `<article class="deep"><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="eyebrow-fly">${ico('tack', 14, 2.2)} Angepinnt</span><button class="pinned-main" data-action="open" data-id="${esc(pinned.id)}"><h2>${esc(pinned.title)}</h2><p>${pinned.doneDate ? F_LONG.format(parseD(pinned.doneDate)) : ''}${pinned.memory ? ' · ' + esc(pinned.memory.length > 80 ? pinned.memory.slice(0, 78) + '…' : pinned.memory) : ''}</p></button></article>`;
   if (!list.length) {
     html += `<div class="empty" style="margin-top:22px"><h2 class="empty-h">Hier entsteht euer Album</h2><p class="empty-p">Wenn ihr etwas gemacht habt, tippt auf „Erledigt“, vergebt Herzen, schreibt auf, was schön war, und hängt Fotos an. Euer erstes Date oder einen Urlaub von früher tragt ihr über „Erinnerung nachtragen“ ein.</p>${state.ideas.some(i => statusOf(i) === 'planned') ? `<div class="row-flex"><a class="btn primary" href="#geplant">${ico('cal', 18, 2.2)} Zu den Plänen</a></div>` : ''}</div>`;
-    v.innerHTML = html; return;
+    body.innerHTML = html; return;
   }
   const groups = [];
   list.forEach(i => { const m = i.doneDate ? F_MONTH.format(parseD(i.doneDate)) : 'Ohne Datum'; const g = groups[groups.length - 1]; if (g && g.m === m) g.items.push(i); else groups.push({m, items: [i]}); });
   groups.forEach(g => { html += `<h2 class="month">${esc(cap(g.m))}<span class="n">${g.items.length}</span></h2><div class="tl">${g.items.map(memoHTML).join('')}</div>`; });
-  v.innerHTML = html;
+  body.innerHTML = html;
 }
 
 /* ---------- sheets ---------- */
@@ -1798,7 +2135,12 @@ function openSheet(type, id, opts){
   if (!state.sheet) state.lastFocus = document.activeElement;
   state.sheet = {type, id: id || null, ...(opts || {})}; state.confirmDel = null; state.confirmClear = false;
   if (type === 'done') { const i = find(id); state.photoDraft = {keep: [...((i && i.photos) || [])], removed: [], add: [], special: !!i && isSpecial(i)}; }
+  else if (type === 'stop') {
+    if (!(opts && opts.keepPhotos && state.photoDraft)) { clearPhotoDraft(); const ti = find(id), st = ti && opts && opts.stop ? stopById(ti, opts.stop) : null; state.photoDraft = {keep: st ? stopPhotos(st) : [], removed: [], add: [], max: MAX_STOP_PHOTOS}; }
+  }
   else clearPhotoDraft();
+  if (type === 'settings' && !(state.backup && state.backup.busy)) state.backup = null;
+  if (type === 'profile') state.profilePic = null;
   if (type === 'idea') state.pickOpt = null;
   if (type === 'days') { const D = days(); state.daysDraft = {together: D.together || '', met: D.met || '', first: D.first || '', custom: (D.custom || []).map(c => ({...c}))}; }
   $('#sheet-wrap').hidden = false; document.body.classList.add('locked');
@@ -1810,13 +2152,13 @@ function clearPhotoDraft(){
 }
 function closeSheet(){
   state.sheet = null; clearPhotoDraft(); state.daysDraft = null;
-  $('#sheet-wrap').hidden = true; document.body.classList.remove('locked');
+  $('#sheet-wrap').hidden = true; if (!state.trip && !state.recap) document.body.classList.remove('locked');
   const lf = state.lastFocus; state.lastFocus = null;
   if (lf && document.contains(lf)) lf.focus({preventScroll:true});
 }
 function renderSheet(initial){
   const s = state.sheet; if (!s) return;
-  const box = $('#sheet'), needsIdea = ['idea', 'plan', 'done'].includes(s.type) || ((s.type === 'add' || s.type === 'surprise') && s.id);
+  const box = $('#sheet'), needsIdea = ['idea', 'plan', 'done', 'stop', 'tripdates'].includes(s.type) || ((s.type === 'add' || s.type === 'surprise') && s.id);
   const i = s.id ? find(s.id) : null;
   if (needsIdea && !i) { closeSheet(); return; }
   let html = '';
@@ -1833,9 +2175,13 @@ function renderSheet(initial){
   else if (s.type === 'days') html = daysSheet();
   else if (s.type === 'profile') html = profileSheet();
   else if (s.type === 'password') html = passwordSheet();
+  else if (s.type === 'stop') html = stopSheet(i);
+  else if (s.type === 'tripdates') html = tripDatesSheet(i);
+  else if (s.type === 'music') html = musicSheet();
   const scroll = box.scrollTop;
   box.innerHTML = `<div class="sheet-bar"><span class="grip"></span><button class="sheet-x" data-action="close" aria-label="Schließen">${ico('x', 20, 2.2)}</button></div>` + html;
   if (s.type === 'done') { paintHearts(); renderPhotoDraft(); }
+  if (s.type === 'stop') { paintHearts('st-r'); renderPhotoDraft(); }
   if (initial) { box.scrollTop = 0; const f = box.querySelector('#f-title') || box.querySelector('#j-name') || box.querySelector('#s-title') || box.querySelector('#sheet-h'); if (f) f.focus({preventScroll:true}); }
   else box.scrollTop = scroll;
 }
@@ -1874,11 +2220,11 @@ function ideaSheet(i){
   }
 
   let status = '';
-  if (st === 'planned') status = `<div class="status"><b>Abgemacht für ${i.planDate ? F_SHORT.format(parseD(i.planDate)) : 'irgendwann'}${i.planTime ? ', ' + esc(timeTxt(i.planTime)) : ''}</b>${i.planDate ? `<span class="muted">${cap(rel(i.planDate))}</span>` : ''}</div>`;
+  if (st === 'planned') status = `<div class="status"><b>Abgemacht für ${i.planDate ? F_SHORT.format(parseD(i.planDate)) : 'irgendwann'}${isTrip(i) && i.planEnd ? ' bis ' + F_SHORT.format(parseD(i.planEnd)) : ''}${i.planTime ? ', ' + esc(timeTxt(i.planTime)) : ''}</b>${i.planDate ? `<span class="muted">${cap(rel(i.planDate))}</span>` : ''}</div>`;
   if (st === 'proposed') status = proposalHTML(i);
   if (st === 'done') status = `<div class="status"><b>Erlebt ${i.doneEnd && i.doneEnd > i.doneDate ? '' : 'am '}${i.doneDate ? rangeText(i.doneDate, i.doneEnd) : '–'}</b>${i.rating ? heartsHTML(i.rating) : ''}${i.memory ? `<p class="sheet-note">„${esc(i.memory)}“ <b class="muted">${esc(personNom(i.doneBy || i.by))}</b></p>` : ''}</div>`;
   if (st === 'open' && i.declined && i.declined.by !== me && me) status = `<div class="status"><b>${esc(personNom(i.declined.by))} passte keiner der Termine</b><span class="muted">Schlag gern neue vor, wenn es wieder passt.</span></div>`;
-  const recapBtn = st === 'done' && isSpecial(i) && photos.length ? `<button class="btn primary" data-action="recap" data-id="${id}">${ico('sparkle', 18, 2.2)} Rückblick ansehen</button>` : '';
+  const recapBtn = st === 'done' && isSpecial(i) && (photos.length || (isTrip(i) && (tripPhotoCount(i) || stopsOf(i).length))) ? `<button class="btn primary" data-action="recap" data-id="${id}">${ico('sparkle', 18, 2.2)} Rückblick ansehen</button>` : '';
   let votes = '';
   if ((st === 'open' || st === 'planned') && me && !i.surprise) {
     const who = isMatch(i) ? `${charmSVG()} Match: Ihr wollt das beide.` : mv === null ? 'Du hast noch nicht abgestimmt.' : 'Noch kein Match.';
@@ -1903,6 +2249,10 @@ function ideaSheet(i){
       }
     }
     if (st === 'done') actions = recapBtn + `<button class="btn ${recapBtn ? 'soft' : 'primary'}" data-action="done" data-id="${id}">${photos.length ? 'Erinnerung bearbeiten' : 'Fotos und Erinnerung ergänzen'}</button><button class="btn soft" data-action="pin" data-id="${id}">${ico('tack', 18, 2.2)} ${i.pinned ? 'Nicht mehr anpinnen' : 'Oben anpinnen'}</button>${i.surprise ? '' : `<button class="btn soft" data-action="again" data-id="${id}">${ico('again', 18, 2.2)} Nochmal ins Glas</button>`}`;
+  }
+  if (isTrip(i)) {
+    const tb = `<button class="btn ${st === 'planned' ? 'primary' : 'soft'}" data-action="trip-open" data-id="${id}">${ico('compass', 18, 2.2)} ${st === 'done' ? 'Reise mit allen Stationen' : st === 'planned' ? 'Reise öffnen: Plan, Karte, Packliste' : 'Reise schon vorplanen'}</button>`;
+    actions = st === 'planned' ? tb + actions.replace('btn primary" data-action="done"', 'btn soft" data-action="done"') : actions + tb;
   }
   const jn = sourceLabel(i), cl = catLabel(i);
   return `<div class="sheet-card">
@@ -1954,7 +2304,7 @@ function quickDatesHTML(target, val){
 }
 function addSheet(i){
   const past = !i && !!(state.sheet && state.sheet.past);
-  const e = i || (state.sheet && state.sheet.draft) || {}, jar = i ? jarById(jarIdOf(i)) : addJar(), kind = kindOfJar(jar);
+  const sj = state.sheet && state.sheet.jar, e = i ? {...i, ...((state.sheet && state.sheet.draft) || {})} : (state.sheet && state.sheet.draft) || {}, jar = i ? jarById(sj || jarIdOf(i)) : addJar(), kind = kindOfJar(jar);
   const fields = kind.fields.map(f => {
     const cur = e[f.key] != null ? e[f.key] : f.def;
     return `<fieldset class="field"><legend class="lbl">${esc(f.label)}</legend><div class="chips wrap">${f.options.map(o => radioChip('f-' + f.key, o.v, o.l, String(o.v) === String(cur), o.i ? ico(o.i, 16) : '')).join('')}</div></fieldset>`;
@@ -1963,7 +2313,8 @@ function addSheet(i){
   return `<form id="f-add" class="form" novalidate>
     ${past ? `<div><h2 class="sheet-h" id="sheet-h" tabindex="-1">Erinnerung nachtragen</h2><p class="sheet-sub" style="margin:0">Etwas, das ihr schon erlebt habt, zum Beispiel euer erstes Date oder ein Urlaub. Im nächsten Schritt kommen Datum, Herzen und Fotos dazu.</p></div>
     <fieldset class="field"><legend class="lbl">Was war es?</legend><div class="chips wrap">${allJars().map(j => `<button type="button" class="chip" data-action="past-jar" data-v="${esc(j.id)}" aria-pressed="${j.id === jar.id}">${esc(j.name)}</button>`).join('')}</div></fieldset>`
-    : `<div><h2 class="sheet-h" id="sheet-h" tabindex="-1">${i ? 'Zettel ändern' : 'Neuer Zettel'}</h2><p class="sheet-sub" style="margin:0">Ins Glas „${esc(jar.name)}“</p></div>`}
+    : `<div><h2 class="sheet-h" id="sheet-h" tabindex="-1">${i ? 'Zettel ändern' : 'Neuer Zettel'}</h2><p class="sheet-sub" style="margin:0">${i ? 'Im Glas „' + esc(jarById(jarIdOf(i)).name) : 'Ins Glas „' + esc(jar.name)}“</p></div>`}
+    ${i && !i.surprise && !state.readOnly ? `<fieldset class="field"><legend class="lbl">Glas</legend><div class="chips wrap">${allJars().map(j => `<button type="button" class="chip" data-action="edit-jar" data-v="${esc(j.id)}" aria-pressed="${j.id === jar.id}">${esc(j.name)}</button>`).join('')}</div>${jar.id !== jarIdOf(i) ? `<p class="help">Der Zettel wandert beim Speichern ins Glas „${esc(jar.name)}“.${jar.id === 'reisen' ? ' Dort bekommt er Reiseplan, Karte, Packliste und Stationen.' : ''}</p>` : ''}</fieldset>` : ''}
     <div class="field"><label class="lbl" for="f-title">${esc(kind.q)}</label>
       <input id="f-title" type="text" maxlength="90" placeholder="${esc(kind.ph)}" value="${esc(e.title || '')}">
       <p class="err" id="f-title-err" hidden>Gib dem Zettel einen Namen.</p></div>
@@ -2050,7 +2401,7 @@ function doneSheet(i){
     <label class="special-row" for="done-special"><input type="checkbox" id="done-special" ${sp ? 'checked' : ''} ${trip ? 'disabled' : ''}><span class="sp-txt"><b>${ico('sparkle', 16, 2.2)} Besonderes Erlebnis</b><span>${trip ? 'Reisen bekommen immer einen eigenen Rückblick als Collage und bis zu ' + MAX_PHOTOS_SPECIAL + ' Fotos.' : 'Zum Beispiel euer erstes Date: eigener Rückblick als Collage und bis zu ' + MAX_PHOTOS_SPECIAL + ' Fotos.'}</span></span></label>
     <div class="time-row dates2">
       <div class="field"><label class="lbl" for="done-date">${sp ? 'Von' : 'Wann war das?'}</label><input type="date" id="done-date" max="${t}" value="${d}"></div>
-      <div class="field" id="done-end-f" ${sp ? '' : 'hidden'}><label class="lbl" for="done-end">Bis <span class="opt">optional</span></label><input type="date" id="done-end" max="${t}" value="${esc(i.doneEnd || '')}"></div>
+      <div class="field" id="done-end-f" ${sp ? '' : 'hidden'}><label class="lbl" for="done-end">Bis <span class="opt">optional</span></label><input type="date" id="done-end" max="${t}" value="${esc(i.doneEnd || (trip && i.planEnd && i.planEnd <= t && i.planEnd > d ? i.planEnd : ''))}"></div>
     </div>
     <div class="field"><label class="lbl" for="done-note">Was war schön? <span class="opt">optional</span></label><textarea id="done-note" rows="3" maxlength="500" placeholder="Ein Moment, den ihr nicht vergessen wollt …">${esc(i.memory || '')}</textarea></div>
     ${photoField}
@@ -2059,7 +2410,7 @@ function doneSheet(i){
 }
 function renderPhotoDraft(){
   const box = $('#ph-edit'), pd = state.photoDraft; if (!box || !pd) return;
-  const total = pd.keep.length + pd.add.length, max = photoLimit(pd.special);
+  const total = pd.keep.length + pd.add.length, max = pd.max || photoLimit(pd.special);
   const lbl = $('#ph-max'); if (lbl) lbl.textContent = `optional, bis zu ${max}${total ? ' · ' + total + ' gewählt' : ''}`;
   box.innerHTML = pd.keep.map(id => `<span class="ph-item"><img ${imgAttr(id)} alt="" data-asset="1"><button type="button" data-action="ph-remove" data-v="${esc(id)}" aria-label="Foto entfernen">${ico('x', 13, 2.8)}</button></span>`).join('')
     + pd.add.map(a => `<span class="ph-item"><img src="${a.url}" alt=""><button type="button" data-action="ph-drop" data-v="${a.tmp}" aria-label="Foto entfernen">${ico('x', 13, 2.8)}</button></span>`).join('')
@@ -2137,8 +2488,12 @@ function settingsSheet(){
     ${state.readOnly ? '' : '<div class="more" style="margin-top:12px"><button class="btn soft" data-action="newjar">Neues Glas anlegen</button></div>'}
     <h3 class="sec">Akzentfarbe</h3>
     <div class="set-block"><p class="muted">Gilt nur auf diesem Gerät.</p><div class="swatches" role="group" aria-label="Akzentfarbe">${ACCENTS.map(a => `<button class="swatch" data-action="accent" data-v="${a.v}" aria-pressed="${curAcc === a.v}" style="--c:${a.v}"><i></i>${a.l}</button>`).join('')}</div></div>
+    ${themeBlock()}
     <h3 class="sec">Unsere Tage</h3>
     <div class="set-block"><p class="muted">Zusammen seit, Kennenlernen, erstes Date und eigene Tage wie Geburtstage.</p>${state.readOnly ? '' : '<div><button class="btn soft" data-action="days">Tage bearbeiten</button></div>'}</div>
+    <h3 class="sec">Eure Playlist</h3>
+    <div class="set-block"><p class="muted">${spotifyParse(music().playlist) ? 'Läuft oben im Album.' : 'Füg den Link eurer Spotify-Playlist ein, dann läuft sie oben im Album.'}</p>${state.readOnly ? '' : `<div><button class="btn soft" data-action="music">${ico('music', 18, 2.2)} ${spotifyParse(music().playlist) ? 'Link ändern' : 'Link eintragen'}</button></div>`}</div>
+    ${state.readOnly ? '' : backupBlock()}
     <h3 class="sec">Du</h3>
     <div class="set-block">
       <div class="set-item"><span class="grow me-row">${avatar(state.me, 42)}<span style="min-width:0"><b>${esc((state.profiles[state.me] || {}).name || 'Ohne Namen')}</b><small>${esc(state.email || '')}</small></span></span><button class="btn soft small" data-action="profile">Ändern</button></div>
@@ -2167,8 +2522,8 @@ function newJarSheet(){
     <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button><button type="submit" class="btn primary">Glas anlegen</button></div>
   </form>`;
 }
-function paintHearts(){
-  const v = Number($('#sheet input[name=done-r]:checked')?.value || 0);
+function paintHearts(name = 'done-r'){
+  const v = Number($(`#sheet input[name=${name}]:checked`)?.value || 0);
   document.querySelectorAll('#sheet .hrt').forEach((l, k) => l.classList.toggle('on', k < v));
 }
 function syncDaysDraft(){
@@ -2196,19 +2551,24 @@ function openRecap(id){
   state.recap = id; renderRecap(true);
 }
 function closeRecap(){
-  state.recap = null; const r = $('#recap'); r.hidden = true; r.innerHTML = '';
-  if (!state.sheet) document.body.classList.remove('locked');
+  dropRecapMap();
+  state.recap = null; const r = $('#recap'); r.hidden = true; r.innerHTML = ''; r.dataset.sig = '';
+  if (!state.sheet && !state.trip) document.body.classList.remove('locked');
   const f = state.recapFocus; state.recapFocus = null;
   if (f && document.contains(f)) f.focus({preventScroll:true});
 }
 function renderRecap(initial){
   const r = $('#recap'), i = state.recap ? find(state.recap) : null;
   if (!i || statusOf(i) !== 'done') { closeRecap(); return; }
-  const ph = i.photos || [], id = esc(i.id), cells = collageCells(ph.length);
+  const sig = JSON.stringify(i) + '|' + state.readOnly;
+  if (!initial && r.dataset.sig === sig) return;
+  r.dataset.sig = sig; dropRecapMap();
+  const ph = i.photos || [], id = esc(i.id), cells = collageCells(ph.length), trip = isTrip(i), tripPart = tripRecapHTML(i), nph = tripPhotoCount(i), nst = trip ? stopsOf(i).length : 0;
   const n = i.doneEnd && i.doneEnd > i.doneDate ? dayDiff(parseD(i.doneDate), parseD(i.doneEnd)) + 1 : 0;
   const facts = [];
   if (n) facts.push(`${ico('cal', 15)} ${n} Tage`);
-  if (ph.length) facts.push(`${ico('camera', 15)} ${ph.length} ${ph.length === 1 ? 'Foto' : 'Fotos'}`);
+  if (nst) facts.push(`${ico('pin', 15)} ${nst} ${nst === 1 ? 'Station' : 'Stationen'}`);
+  if (nph) facts.push(`${ico('camera', 15)} ${nph} ${nph === 1 ? 'Foto' : 'Fotos'}`);
   if (i.rating) facts.push(heartsHTML(i.rating));
   const fx = '<span class="fx" aria-hidden="true"></span>'.repeat(5);
   const scroll = r.scrollTop;
@@ -2218,21 +2578,23 @@ function renderRecap(initial){
       <p class="recap-when">${rangeText(i.doneDate, i.doneEnd)}${i.surprise ? ' · Überraschung von ' + esc(personDat(i.by)) : ''}</p>
       ${i.place ? `<p class="recap-place">${placeLink(i.place)}</p>` : ''}
       ${facts.length ? `<div class="recap-facts">${facts.map(f => `<span class="fact">${f}</span>`).join('')}</div>` : ''}
-      ${ph.length ? `<div class="collage">${ph.map((p, k) => `<button class="cl ${cells[k] || ''}" data-action="photo" data-id="${id}" data-v="${k}" aria-label="Foto ${k + 1} von ${ph.length} vergrößern"><img ${imgAttr(p)} alt="" loading="${k < 6 ? 'eager' : 'lazy'}" data-asset="1"></button>`).join('')}</div>` : `<p class="recap-empty">Noch keine Fotos. Hängt bis zu ${MAX_PHOTOS_SPECIAL} Fotos an, dann entsteht hier eure Collage.</p>`}
+      ${ph.length ? `<div class="collage">${ph.map((p, k) => `<button class="cl ${cells[k] || ''}" data-action="photo" data-id="${id}" data-v="${k}" aria-label="Foto ${k + 1} von ${ph.length} vergrößern"><img ${imgAttr(p)} alt="" loading="${k < 6 ? 'eager' : 'lazy'}" data-asset="1"></button>`).join('')}</div>` : tripPart ? '' : `<p class="recap-empty">Noch keine Fotos. Hängt bis zu ${MAX_PHOTOS_SPECIAL} Fotos an, dann entsteht hier eure Collage.</p>`}
       ${i.memory ? `<figure class="recap-quote"><blockquote>„${esc(i.memory)}“</blockquote><figcaption>${esc(personNom(i.doneBy || i.by))}</figcaption></figure>` : ''}
-      <div class="recap-actions">${state.readOnly ? '' : `<button class="btn fly" data-action="recap-edit" data-id="${id}">${ico('camera', 18)} ${ph.length ? 'Fotos ergänzen' : 'Fotos anhängen'}</button>`}<button class="btn ghost recap-close" data-action="recap-close">Schließen</button></div>
+      ${tripPart}
+      <div class="recap-actions">${state.readOnly ? '' : `<button class="btn fly" data-action="recap-edit" data-id="${id}">${ico('camera', 18)} ${trip ? (ph.length ? 'Titelfotos ergänzen' : 'Titelfotos anhängen') : ph.length ? 'Fotos ergänzen' : 'Fotos anhängen'}</button>`}${trip ? `<button class="btn ghost" data-action="trip-open" data-id="${id}">${ico('pin', 18, 2.2)} Reise öffnen</button>` : ''}<button class="btn ghost recap-close" data-action="recap-close">Schließen</button></div>
     </div>`;
   r.hidden = false; document.body.classList.add('locked');
   if (initial) { r.scrollTop = 0; const x = r.querySelector('.recap-x'); if (x) x.focus({preventScroll:true}); }
   else r.scrollTop = scroll;
+  if (tripPart) initRecapMap(i);
 }
 
 /* ---------- lightbox ---------- */
-function openLightbox(ideaId, k){ state.lightbox = {id: ideaId, k: Number(k) || 0}; renderLightbox(); }
+function openLightbox(ideaId, k, stop){ state.lightbox = {id: ideaId, k: Number(k) || 0, stop: stop || null}; renderLightbox(); }
 function closeLightbox(){ state.lightbox = null; const lb = $('#lightbox'); lb.hidden = true; lb.innerHTML = ''; }
 function renderLightbox(){
   const lb = $('#lightbox'), s = state.lightbox; if (!s) return;
-  const i = find(s.id), ph = (i && i.photos) || [];
+  const i = find(s.id), ph = s.stop ? stopPhotos(i && stopById(i, s.stop)) : ((i && i.photos) || []);
   if (!ph.length) { closeLightbox(); return; }
   s.k = (s.k + ph.length) % ph.length;
   lb.innerHTML = `<img ${imgAttr(ph[s.k])} alt="Foto ${s.k + 1} von ${ph.length}" data-asset="1">
@@ -2247,8 +2609,10 @@ async function submitAdd(form){
   const title = $('#f-title').value.trim();
   if (!title) { $('#f-title-err').hidden = false; $('#f-title').focus(); return; }
   const editId = state.sheet && state.sheet.id;
-  const jar = editId ? jarById(jarIdOf(find(editId))) : addJar(), kind = kindOfJar(jar);
+  const moveTo = editId && state.sheet.jar && state.sheet.jar !== jarIdOf(find(editId)) ? state.sheet.jar : null;
+  const jar = editId ? jarById(moveTo || jarIdOf(find(editId))) : addJar(), kind = kindOfJar(jar);
   const data = {title, note: $('#f-note').value.trim()};
+  if (moveTo) data.jar = moveTo;
   kind.fields.forEach(f => { const v = form.querySelector(`input[name="f-${f.key}"]:checked`)?.value; data[f.key] = v == null ? f.def : (f.num ? Number(v) : v); });
   if (kind.text) data[kind.text.key] = ($('#f-text')?.value || '').trim();
   if (!kind.noPlace) data.place = ($('#f-place')?.value || '').trim();
@@ -2265,7 +2629,7 @@ async function submitAdd(form){
     return;
   }
   try {
-    if (editId) { await updateDoc('ideas', editId, data); toast('Zettel geändert.'); openSheet('idea', editId); }
+    if (editId) { await updateDoc('ideas', editId, data); toast(moveTo ? `Zettel liegt jetzt in „${jar.name}“.` : 'Zettel geändert.'); openSheet('idea', editId); }
     else { await addDoc('ideas', newIdea(jar.id, data)); toast('Liegt im Glas.'); closeSheet(); if (currentTab() !== 'glas' && currentTab() !== 'einigen') location.hash = 'glas'; }
   } catch (e) { btn.disabled = false; }
 }
@@ -2378,7 +2742,7 @@ async function submitDone(form){
     if (state.drawn === id) state.drawn = null;
     if (state.matchNote === id) state.matchNote = null;
     toast(gift ? 'Aufgedeckt und im Album.' : 'Im Album gespeichert.');
-    closeSheet(); location.hash = 'album';
+    closeSheet(); if (state.trip === id) closeTrip(); location.hash = 'album';
     if (special && pd.keep.length) openRecap(id);
   } catch (e) { btn.disabled = false; btn.textContent = label; }
 }
@@ -2403,7 +2767,7 @@ async function submitJar(form){
 async function removeIdea(i){
   await removeDoc('ideas', i.id);
   if (i.surprise && state.secrets[i.id]) { try { await delSecret(i.id); } catch (e) {} }
-  await deleteAssets(i.photos || []);
+  await deleteAssets((i.photos || []).concat(isTrip(i) ? allStopPhotos(i) : []));
 }
 async function clearTest(){
   const affected = state.ideas.filter(i => voteOf(i, TEST_ID) !== null || i.by === TEST_ID);
@@ -2428,6 +2792,944 @@ async function toggleHeart(id){
   const patch = {likes: {[me]: next}};
   if (next === true && othersYes) { patch.matchedAt = Date.now(); patch.matchedBy = me; }
   try { await updateDoc('ideas', id, patch); if (next === true && othersYes) toast('Match! Ihr wollt das beide.'); } catch (e) {}
+}
+
+/* ---------- trips: plan with stations and map, packing list, to-dos, links ---------- */
+/* Everything for a trip lives inside its idea under "trip", keyed by id, so both phones can add and tick things at once:
+   trip.stops {id: {t, day, time, place, lat, lon, done, ph {photoId: at}, notes {person: {t, r}}, song, at, by}},
+   trip.pack / trip.todo {id: {t, d, w, at, by}}, trip.links {id: {t, u, at, by}}, trip.geo {lat, lon, label}. */
+const MAX_STOP_PHOTOS = 10;
+const DAY_COLORS = ['#7B3F9E', '#2F5DB8', '#2F7D4F', '#C2571F', '#B32D6C', '#0E7C86', '#8A6410'];
+const LOOSE_COLOR = '#7A7394';
+const isTrip = i => !!i && jarIdOf(i) === 'reisen' && !i.surprise;
+const tripOf = i => (i && i.trip) || {};
+const listOf = o => Object.entries(o || {}).filter(([, v]) => v && typeof v === 'object').map(([id, v]) => ({...v, id}));
+const stopsOf = i => listOf(tripOf(i).stops);
+const stopById = (i, sid) => { const s = (tripOf(i).stops || {})[sid]; return s && typeof s === 'object' ? {...s, id: sid} : null; };
+const stopPhotos = s => Object.entries((s && s.ph) || {}).filter(([, v]) => v != null).sort((a, b) => (Number(a[1]) || 0) - (Number(b[1]) || 0)).map(([id]) => id);
+const allStopPhotos = i => stopsOf(i).sort((a, b) => String(a.day || '9').localeCompare(String(b.day || '9')) || (a.at || 0) - (b.at || 0)).flatMap(stopPhotos);
+const tripPhotoCount = i => (i.photos || []).length + (isTrip(i) ? stopsOf(i).reduce((n, s) => n + stopPhotos(s).length, 0) : 0);
+const hasCoords = s => !!s && typeof s.lat === 'number' && typeof s.lon === 'number';
+function tripRange(i){
+  const done = statusOf(i) === 'done';
+  const a = done ? i.doneDate : i.planDate;
+  if (!a) return null;
+  let b = done ? (i.doneEnd || (i.planEnd && i.planEnd > a ? i.planEnd : '')) : (i.planEnd || '');
+  if (!b || b < a) b = a;
+  return {a, b};
+}
+function datesBetween(a, b, max = 31){
+  const out = [], d = parseD(a), e = parseD(b);
+  while (d <= e && out.length < max) { out.push(ymd(d)); d.setDate(d.getDate() + 1); }
+  return out;
+}
+function tripDays(i){
+  const r = tripRange(i), set = new Set(r ? datesBetween(r.a, r.b) : []);
+  stopsOf(i).forEach(s => { if (s.day) set.add(s.day); });
+  return [...set].sort();
+}
+/* order inside a day: by time; a stop without time stays right after the stop that was added before it */
+function dayStops(list){
+  let last = '00:00';
+  return [...list].sort((x, y) => (x.at || 0) - (y.at || 0))
+    .map(s => { if (s.time) last = s.time; return {s, k: s.time || last, timed: !!s.time}; })
+    .sort((x, y) => x.k.localeCompare(y.k) || (x.timed === y.timed ? (x.s.at || 0) - (y.s.at || 0) : (x.timed ? -1 : 1)))
+    .map(x => x.s);
+}
+function tripPlan(i){
+  const days = tripDays(i), stops = stopsOf(i);
+  const groups = days.map((d, k) => ({day: d, k, color: DAY_COLORS[k % DAY_COLORS.length], stops: dayStops(stops.filter(s => s.day === d))}));
+  return {groups, loose: dayStops(stops.filter(s => !s.day || !days.includes(s.day)))};
+}
+function tripWhen(i){
+  const r = tripRange(i), t = todayStr(), st = statusOf(i);
+  if (st === 'done') return 'Erlebt';
+  if (!r) return st === 'proposed' ? 'Termin in Absprache' : 'Noch ohne Zeitraum';
+  if (t < r.a) return cap(rel(r.a)) + ' geht’s los';
+  if (t <= r.b) { const n = dayDiff(parseD(r.a), parseD(r.b)) + 1, k = dayDiff(parseD(r.a), parseD(t)) + 1; return n > 1 ? `Tag ${k} von ${n}` : 'Heute'; }
+  return 'Vorbei';
+}
+const dayLabel = (g) => `Tag ${g.k + 1}`;
+async function patchTrip(id, p){ return updateDoc('ideas', id, {trip: p}); }
+function avgHearts(s){
+  const rs = Object.values((s && s.notes) || {}).map(x => Number(x && x.r) || 0).filter(Boolean);
+  return rs.length ? Math.round(rs.reduce((a, b) => a + b, 0) / rs.length * 10) / 10 : 0;
+}
+
+/* Spotify links: playlist for the album, one song per station */
+function spotifyParse(u){
+  const s = String(u || '').trim();
+  let m = s.match(/open\.spotify\.com\/(?:intl-[a-z]{2}(?:-[a-zA-Z]{2})?\/)?(?:embed\/)?(playlist|track|album|episode|show|artist)\/([A-Za-z0-9]{10,40})/);
+  if (!m) m = s.match(/^spotify:(playlist|track|album|episode|show|artist):([A-Za-z0-9]{10,40})$/);
+  return m ? {type: m[1], id: m[2], url: `https://open.spotify.com/${m[1]}/${m[2]}`} : null;
+}
+const spotifyEmbed = (sp, h) => `<iframe class="spot" title="Spotify" src="https://open.spotify.com/embed/${sp.type}/${sp.id}?utm_source=generator&amp;theme=0" height="${h}" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+const music = () => state.couple.find(d => d.id === 'music') || {};
+function renderMusic(){
+  const box = $('#album-music'); if (!box) return;
+  const sp = state.loaded ? spotifyParse(music().playlist) : null;
+  const key = sp ? sp.id : (state.loaded && !state.readOnly ? 'ask' : 'none');
+  if (box.dataset.k === key) return;
+  box.dataset.k = key;
+  if (sp) box.innerHTML = `<section class="deep music" aria-label="Unsere Playlist"><div class="days-head"><span class="eyebrow-fly">${ico('music', 14, 2.2)} Unsere Playlist</span><a class="btn small" href="${esc(sp.url)}" target="_blank" rel="noopener">In Spotify öffnen</a></div>${spotifyEmbed(sp, 152)}</section>`;
+  else if (key === 'ask') box.innerHTML = `<button class="freshnote" data-action="music">${ico('music', 18, 2)}<span>Eure Spotify-Playlist hier abspielen?</span><span class="go">Link eintragen →</span></button>`;
+  else box.innerHTML = '';
+}
+function musicSheet(){
+  const cur = music().playlist || '';
+  return `<form id="f-music" class="form" novalidate>
+    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">Eure Playlist</h2><p class="sheet-sub" style="margin:0">Öffne die Playlist in Spotify, tippe auf die drei Punkte, dann auf „Teilen“ und „Link kopieren“. Füg den Link hier ein. Er landet nur in eurer Datenbank, nicht im öffentlichen Code.</p></div>
+    <div class="field"><label class="lbl" for="m-url">Link zur Playlist</label><input id="m-url" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://open.spotify.com/playlist/…" value="${esc(cur)}"><p class="err" id="m-err" hidden>Das ist kein Link zu einer Spotify-Playlist. Nimm den langen Link, der mit open.spotify.com anfängt.</p></div>
+    <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div>
+    ${cur ? '<button type="button" class="link-btn danger" data-action="music-del">Playlist aus dem Album nehmen</button>' : ''}
+  </form>`;
+}
+async function submitMusic(form){
+  const sp = spotifyParse($('#m-url').value);
+  if (!sp || sp.type !== 'playlist') { $('#m-err').hidden = false; $('#m-url').focus(); return; }
+  const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+  try { await setDoc('couple', 'music', {...music(), id: undefined, playlist: sp.url}); toast('Die Playlist läuft jetzt oben im Album.'); closeSheet(); if (currentTab() !== 'album') location.hash = 'album'; else render(); }
+  catch (e) { btn.disabled = false; }
+}
+
+/* backup: everything in the database as one file (photos stay in Supabase) */
+async function prepareBackup(){
+  state.backup = {busy: true}; renderSheet();
+  try {
+    const rows = [];
+    for (let from = 0; ; from += 1000) {
+      const data = await run(sb.from('docs').select('col,id,data,updated_at').order('col').order('id').range(from, from + 999));
+      rows.push(...data); if (data.length < 1000) break;
+    }
+    const sec = await run(sb.from('secrets').select('id,data').eq('owner', state.me));
+    const json = JSON.stringify({app: 'Unser Ideenglas', version: 1, createdAt: new Date().toISOString(), docs: rows, mySecrets: sec});
+    const name = `ideenglas-sicherung-${todayStr()}.json`;
+    state.backup = {file: new File([json], name, {type: 'application/json'}), name, n: rows.length};
+  } catch (e) { state.backup = null; toast('Die Sicherung hat nicht geklappt. Versuch es nochmal.'); }
+  renderSheet();
+}
+function saveBackup(){
+  const b = state.backup; if (!b || !b.file) return;
+  if (navigator.canShare && navigator.share && navigator.canShare({files: [b.file]})) {
+    navigator.share({files: [b.file], title: 'Ideenglas-Sicherung'}).then(() => { state.backup = null; toast('Sicherung gespeichert.'); renderSheet(); }).catch(() => {});
+    return;
+  }
+  const url = URL.createObjectURL(b.file), a = document.createElement('a');
+  a.href = url; a.download = b.name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+  state.backup = null; toast('Sicherung heruntergeladen.'); renderSheet();
+}
+function backupBlock(){
+  const b = state.backup;
+  const btn = b && b.busy ? `<button class="btn soft" disabled>Wird zusammengestellt …</button>`
+    : b && b.file ? `<button class="btn primary" data-action="backup-save">${ico('download', 18, 2.2)} Datei speichern (${b.n} Einträge)</button>`
+    : `<button class="btn soft" data-action="backup">${ico('download', 18, 2.2)} Sicherung erstellen</button>`;
+  return `<h3 class="sec">Sicherung</h3><div class="set-block"><p class="muted">Speichert alle Zettel, Pläne, Reisen und Erinnerungen als Datei, zum Beispiel in „Dateien“ auf deinem iPhone. Die Fotos bleiben in Supabase und sind nicht in der Datei.</p><div>${btn}</div></div>`;
+}
+
+/* places: search and reverse lookup with OpenStreetMap data (Photon, Nominatim as fallback) */
+async function fetchJSON(url, ms = 9000){
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms);
+  try { const r = await fetch(url, {signal: ctl.signal}); if (!r.ok) throw new Error('http ' + r.status); return await r.json(); }
+  finally { clearTimeout(t); }
+}
+function uniqParts(parts, name){ const seen = new Set([String(name || '').toLowerCase()]); return parts.filter(p => { const k = String(p || '').toLowerCase(); if (!k || seen.has(k)) return false; seen.add(k); return true; }); }
+function photonItem(f){
+  const p = (f && f.properties) || {}, c = f && f.geometry && f.geometry.coordinates;
+  if (!c || c.length < 2) return null;
+  const street = p.street ? p.street + (p.housenumber ? ' ' + p.housenumber : '') : '';
+  const name = p.name || street || p.city || p.county || p.state || p.country || '';
+  if (!name) return null;
+  return {name, sub: uniqParts([street, p.district || p.locality, p.city || p.county, p.country], name).join(', '), lat: Number(c[1]), lon: Number(c[0])};
+}
+async function geoSearch(q, near){
+  const u = new URL('https://photon.komoot.io/api/');
+  u.searchParams.set('q', q); u.searchParams.set('lang', 'de'); u.searchParams.set('limit', '7');
+  if (near && typeof near.lat === 'number') { u.searchParams.set('lat', near.lat.toFixed(4)); u.searchParams.set('lon', near.lon.toFixed(4)); }
+  try {
+    const r = await fetchJSON(u.toString());
+    const seen = new Set();
+    return (r.features || []).map(photonItem).filter(x => x && !seen.has(x.name + '|' + x.sub) && seen.add(x.name + '|' + x.sub));
+  } catch (e) {
+    const n = new URL('https://nominatim.openstreetmap.org/search');
+    n.searchParams.set('format', 'jsonv2'); n.searchParams.set('q', q); n.searchParams.set('limit', '7'); n.searchParams.set('accept-language', 'de');
+    const r = await fetchJSON(n.toString());
+    return (r || []).map(x => { const parts = String(x.display_name || '').split(', '); const name = x.name || parts[0] || ''; return name ? {name, sub: uniqParts(parts.slice(1, 4), name).join(', '), lat: Number(x.lat), lon: Number(x.lon)} : null; }).filter(Boolean);
+  }
+}
+async function geoReverse(lat, lon){
+  try {
+    const r = await fetchJSON(`https://photon.komoot.io/reverse?lat=${lat.toFixed(6)}&lon=${lon.toFixed(6)}&lang=de`, 7000);
+    const it = (r.features || []).map(photonItem).find(Boolean);
+    return it ? it.name : '';
+  } catch (e) { return ''; }
+}
+const mapsHref = (place, s) => hasCoords(s) ? `https://maps.apple.com/?ll=${s.lat},${s.lon}&q=${encodeURIComponent(place || s.t || 'Station')}` : mapsUrl(place);
+const routeHref = (place, s) => `https://maps.apple.com/?daddr=${hasCoords(s) ? s.lat + ',' + s.lon : encodeURIComponent(place)}&dirflg=r`;
+
+/* the map: Leaflet from the CDN, tiles from CARTO with OpenStreetMap data */
+const LEAFLET = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/';
+let leafletP = null;
+function loadLeaflet(){
+  if (window.L && window.L.map) return Promise.resolve(window.L);
+  if (!document.getElementById('leaflet-css')) { const l = document.createElement('link'); l.id = 'leaflet-css'; l.rel = 'stylesheet'; l.href = LEAFLET + 'leaflet.css'; document.head.appendChild(l); }
+  if (!leafletP) leafletP = new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = LEAFLET + 'leaflet.js'; s.async = true;
+    s.onload = () => (window.L && window.L.map ? res(window.L) : rej(new Error('leaflet')));
+    s.onerror = () => { leafletP = null; s.remove(); rej(new Error('leaflet')); };
+    document.head.appendChild(s);
+  });
+  return leafletP;
+}
+const darkUI = () => { const th = document.documentElement.getAttribute('data-theme'); return th ? th === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); };
+function baseTiles(L){
+  const style = darkUI() ? 'dark_all' : 'rastertiles/voyager';
+  return L.tileLayer(`https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`, {subdomains: 'abcd', maxZoom: 19, detectRetina: false,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'});
+}
+const pinIcon = (L, n, color, done, faded) => L.divIcon({className: 'stop-pin' + (done ? ' done' : '') + (faded ? ' faded' : ''), html: `<span style="--c:${color}">${esc(String(n))}</span>`, iconSize: [30, 30], iconAnchor: [15, 15]});
+const flyIcon = L => L.divIcon({className: 'fly-pin', html: '<span></span>', iconSize: [20, 20], iconAnchor: [10, 10]});
+const meIcon = L => L.divIcon({className: 'me-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9]});
+function bindLongPress(map, cb){
+  const el = map.getContainer(); let t = 0, sx = 0, sy = 0, fired = 0;
+  const clear = () => { clearTimeout(t); t = 0; };
+  el.addEventListener('touchstart', e => {
+    clear(); if (e.touches.length !== 1) return;
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+    t = setTimeout(() => { t = 0; fired = Date.now(); const r = el.getBoundingClientRect(); cb(map.containerPointToLatLng([sx - r.left, sy - r.top])); }, 550);
+  }, {passive: true});
+  el.addEventListener('touchmove', e => { const p = e.touches[0]; if (!p || e.touches.length > 1 || Math.hypot(p.clientX - sx, p.clientY - sy) > 10) clear(); }, {passive: true});
+  el.addEventListener('touchend', e => { clear(); if (Date.now() - fired < 700 && e.cancelable) e.preventDefault(); }, {passive: false});
+  el.addEventListener('touchcancel', clear, {passive: true});
+  map.on('contextmenu', e => { if (Date.now() - fired > 700) cb(e.latlng); });
+}
+/* markers for one trip, numbered per day like the list */
+function drawStops(L, layer, i, only, onPick){
+  const plan = tripPlan(i), pts = [];
+  plan.groups.forEach(g => {
+    if (only && only !== 'alle' && only !== g.day) return;
+    const line = [];
+    g.stops.forEach((s, k) => {
+      if (!hasCoords(s)) return;
+      line.push([s.lat, s.lon]); pts.push([s.lat, s.lon]);
+      const m = L.marker([s.lat, s.lon], {icon: pinIcon(L, k + 1, g.color, s.done), title: s.t || '', riseOnHover: true, interactive: !!onPick, keyboard: !!onPick});
+      if (onPick) m.on('click', () => onPick(s.id));
+      m.addTo(layer);
+    });
+    if (line.length > 1) L.polyline(line, {color: g.color, weight: 3, opacity: .55, dashArray: '6 8', interactive: false}).addTo(layer);
+  });
+  if (!only || only === 'alle' || only === 'ohne') plan.loose.forEach(s => {
+    if (!hasCoords(s)) return;
+    pts.push([s.lat, s.lon]);
+    const m = L.marker([s.lat, s.lon], {icon: pinIcon(L, '', LOOSE_COLOR, s.done, true), title: s.t || '', riseOnHover: true, interactive: !!onPick, keyboard: !!onPick});
+    if (onPick) m.on('click', () => onPick(s.id));
+    m.addTo(layer);
+  });
+  const g = tripOf(i).geo;
+  if (!pts.length && g && typeof g.lat === 'number') L.marker([g.lat, g.lon], {icon: flyIcon(L), title: g.label || '', interactive: false}).addTo(layer);
+  return pts;
+}
+function fitPts(map, pts, geo){
+  if (pts.length > 1) map.fitBounds(pts, {padding: [40, 40], maxZoom: 16});
+  else if (pts.length === 1) map.setView(pts[0], 15);
+  else if (geo && typeof geo.lat === 'number') map.setView([geo.lat, geo.lon], 12);
+  else map.setView([48.37, 10.9], 5);
+}
+
+const tmap = {map: null, layer: null, me: null, tripId: null, sig: '', n: -1};
+function destroyTripMap(){ if (tmap.map) { try { tmap.map.remove(); } catch (e) {} } Object.assign(tmap, {map: null, layer: null, me: null, tripId: null, sig: '', n: -1}); }
+function mapMsg(txt){ const m = $('#map-msg'); if (!m) return; m.textContent = txt; m.hidden = !txt; }
+async function ensureTripMap(){
+  const i = state.trip && find(state.trip);
+  if (!i || state.tripTab !== 'plan' || !$('#tmap')) return;
+  if (tmap.map && tmap.tripId === i.id) { updateTripMap(); return; }
+  destroyTripMap();
+  let L;
+  try { L = await loadLeaflet(); } catch (e) { mapMsg('Die Karte lädt gerade nicht. Prüf das Internet, dann öffne die Reise nochmal.'); return; }
+  const el = $('#tmap');
+  if (!state.trip || state.trip !== i.id || !el || tmap.map) return;
+  mapMsg('');
+  const m = L.map(el, {zoomControl: false, tapHold: false, worldCopyJump: true});
+  m.attributionControl.setPrefix(false);
+  baseTiles(L).addTo(m);
+  tmap.map = m; tmap.layer = L.layerGroup().addTo(m); tmap.tripId = i.id;
+  fitPts(m, [], tripOf(i).geo);
+  bindLongPress(m, ll => mapLongPress(ll));
+  m.on('click', e => { if (state.mapPick) finishPick(e.latlng); });
+  updateTripMap(true);
+}
+function updateTripMap(refit){
+  const i = state.trip && find(state.trip); if (!tmap.map || !i) return;
+  const sig = JSON.stringify([tripOf(i).stops || {}, tripOf(i).geo || null, state.tripDay, tripRange(i)]);
+  if (sig === tmap.sig && !refit) return;
+  tmap.sig = sig; tmap.layer.clearLayers();
+  const pts = drawStops(window.L, tmap.layer, i, state.tripDay, sid => { if (!state.mapPick) openStop(i.id, sid); });
+  if (refit || pts.length !== tmap.n) fitPts(tmap.map, pts, tripOf(i).geo);
+  tmap.n = pts.length;
+}
+function setMapFull(on){
+  const w = $('#mapwrap'); if (!w) return;
+  w.classList.toggle('full', !!on);
+  const b = $('#map-full'); if (b) { b.setAttribute('aria-label', on ? 'Karte verkleinern' : 'Karte groß anzeigen'); b.innerHTML = ico(on ? 'shrink' : 'expand', 20, 2.2); }
+  setTimeout(() => { if (tmap.map) tmap.map.invalidateSize(); }, 30);
+}
+function locateMe(){
+  if (!navigator.geolocation) { toast('Dein Handy gibt hier keinen Standort heraus.'); return; }
+  const b = $('#map-locate'); if (b) b.classList.add('busy');
+  navigator.geolocation.getCurrentPosition(pos => {
+    if (b) b.classList.remove('busy');
+    if (!tmap.map) return;
+    const L = window.L, ll = [pos.coords.latitude, pos.coords.longitude];
+    if (tmap.me) { try { tmap.me.remove(); } catch (e) {} }
+    tmap.me = L.layerGroup([L.circle(ll, {radius: Math.min(pos.coords.accuracy || 30, 300), color: '#2F7DF6', weight: 1, opacity: .4, fillOpacity: .12, interactive: false}), L.marker(ll, {icon: meIcon(L), interactive: false, keyboard: false})]).addTo(tmap.map);
+    tmap.map.setView(ll, Math.max(tmap.map.getZoom(), 15));
+  }, err => {
+    if (b) b.classList.remove('busy');
+    toast(err && err.code === 1 ? 'Der Standort ist nicht freigegeben. Erlauben kannst du ihn in den iPhone-Einstellungen unter Datenschutz → Ortungsdienste.' : 'Der Standort ließ sich gerade nicht bestimmen.');
+  }, {enableHighAccuracy: true, timeout: 12000, maximumAge: 30000});
+}
+function mapLongPress(ll){
+  if (state.readOnly || !state.trip) return;
+  if (state.mapPick) { finishPick(ll); return; }
+  const i = find(state.trip); if (!i) return;
+  const t = todayStr(), days = tripDays(i);
+  const day = state.tripDay !== 'alle' && state.tripDay !== 'ohne' ? state.tripDay : (days.includes(t) ? t : '');
+  state.stopDraft = {t: '', day, time: '', place: '', lat: ll.lat, lon: ll.lng, done: false, note: '', r: 0, song: '', fresh: true};
+  state.stopGeo = null;
+  openSheet('stop', i.id, {stop: null});
+  fillPlaceFromCoords(ll.lat, ll.lng);
+}
+async function fillPlaceFromCoords(lat, lon){
+  const d = state.stopDraft; if (!d) return;
+  const name = await geoReverse(lat, lon);
+  if (!name || state.stopDraft !== d || d.lat !== lat) return;
+  syncStopDraft();
+  if (!d.place) d.place = name;
+  if (!d.t) d.t = name;
+  if (state.sheet && state.sheet.type === 'stop') { const pl = $('#st-place'), tt = $('#st-t'); if (pl && !pl.value) pl.value = d.place; if (tt && !tt.value) tt.value = d.t; }
+}
+function startPick(){
+  syncStopDraft();
+  const s = state.sheet; if (!s) return;
+  state.mapPick = {id: s.id, stop: s.stop};
+  state.sheet = null; $('#sheet-wrap').hidden = true;
+  state.tripTab = 'plan'; renderTrip();
+  setMapFull(true);
+  const p = $('#map-pick'); if (p) { p.hidden = false; p.innerHTML = `<span>Tippe auf die Stelle${state.stopDraft && state.stopDraft.t ? ' für „' + esc(state.stopDraft.t) + '“' : ''}.</span><button class="btn small" data-action="pick-cancel">Abbrechen</button>`; }
+  ensureTripMap();
+}
+function finishPick(ll){
+  const p = state.mapPick; if (!p) return;
+  state.mapPick = null;
+  const box = $('#map-pick'); if (box) box.hidden = true;
+  setMapFull(false);
+  const d = state.stopDraft;
+  if (ll && d) { d.lat = ll.lat; d.lon = ll.lng; fillPlaceFromCoords(ll.lat, ll.lng); }
+  openSheet('stop', p.id, {stop: p.stop, keepPhotos: true});
+}
+
+/* trip page */
+function tripShellHTML(){
+  return `<div class="trip-in">
+    <div class="trip-top"><button class="iconbtn" data-action="trip-close" aria-label="Zurück">${ico('left', 22, 2.2)}</button><span class="trip-top-t" id="trip-top-t"></span><button class="iconbtn" data-action="trip-details" aria-label="Zettel und Termin ansehen">${ico('note', 20, 2)}</button></div>
+    <div id="trip-head"></div>
+    <div id="trip-tabs"></div>
+    <div id="trip-pane-plan">
+      <div id="trip-geo"></div>
+      <div class="mapwrap" id="mapwrap">
+        <div class="tmap" id="tmap" role="region" aria-label="Karte der Stationen"></div>
+        <div class="map-btns">
+          <button class="map-btn" id="map-full" data-action="map-full" aria-label="Karte groß anzeigen">${ico('expand', 20, 2.2)}</button>
+          <button class="map-btn" id="map-locate" data-action="map-locate" aria-label="Meinen Standort zeigen">${ico('locate', 20, 2.2)}</button>
+          <button class="map-btn" data-action="map-fit" aria-label="Alle Stationen zeigen">${ico('frame', 20, 2.2)}</button>
+        </div>
+        <div class="map-pick" id="map-pick" hidden></div>
+        <p class="map-msg" id="map-msg" hidden></p>
+      </div>
+      <p class="help map-help" id="map-help"></p>
+      <div id="trip-legend"></div>
+      <div id="trip-days"></div>
+    </div>
+    <div id="trip-pane-list" hidden>
+      <div id="trip-add"></div>
+      <div id="trip-items"></div>
+    </div>
+  </div>`;
+}
+function openTrip(id, opts){
+  const i = find(id); if (!i) return;
+  if (state.sheet) closeSheet();
+  if (state.recap) closeRecap();
+  const box = $('#trip');
+  if (state.trip !== id || !box.firstElementChild) {
+    destroyTripMap();
+    state.tripTab = (opts && opts.tab) || 'plan'; state.tripDay = 'alle'; state.tripGeo = null; state.tripAddTab = null;
+    if (!state.trip) state.tripFocus = document.activeElement;
+    box.innerHTML = tripShellHTML();
+  }
+  state.trip = id;
+  lsSet('ideenglas.trip', JSON.stringify({id, at: Date.now()}));
+  box.hidden = false; document.body.classList.add('locked');
+  renderTrip(true);
+}
+function closeTrip(){
+  const f = state.tripFocus;
+  state.trip = null; state.mapPick = null; state.tripFocus = null;
+  destroyTripMap();
+  const box = $('#trip'); box.hidden = true; box.innerHTML = '';
+  lsSet('ideenglas.trip', '');
+  if (!state.sheet && !state.recap) document.body.classList.remove('locked');
+  render();
+  if (f && document.contains(f)) f.focus({preventScroll: true});
+}
+function restoreTrip(){
+  if (state.tripRestored || !state.loaded) return;
+  state.tripRestored = true;
+  try { const o = JSON.parse(lsGet('ideenglas.trip') || 'null'); if (o && o.id && Date.now() - o.at < 3 * 36e5 && find(o.id)) openTrip(o.id); } catch (e) {}
+}
+function tripHeadHTML(i){
+  const r = tripRange(i), st = statusOf(i), ro = state.readOnly, t = todayStr(), id = esc(i.id);
+  const stops = stopsOf(i), photos = tripPhotoCount(i), nDays = r ? dayDiff(parseD(r.a), parseD(r.b)) + 1 : 0;
+  const facts = [];
+  if (nDays) facts.push(`${ico('cal', 15)} ${nDays} ${nDays === 1 ? 'Tag' : 'Tage'}`);
+  if (stops.length) facts.push(`${ico('pin', 15)} ${stops.length} ${stops.length === 1 ? 'Station' : 'Stationen'}`);
+  if (photos) facts.push(`${ico('camera', 15)} ${photos} ${photos === 1 ? 'Foto' : 'Fotos'}`);
+  let dates = r ? esc(rangeText(r.a, r.b > r.a ? r.b : null)) : (st === 'proposed' ? 'Termin in Absprache' : 'Noch ohne Zeitraum');
+  if (st === 'planned' && !ro) dates += r && r.b === r.a && !i.planEnd ? ` <button class="link-btn on-deep" data-action="trip-dates">Bis wann?</button>` : ` <button class="link-btn on-deep" data-action="trip-dates">ändern</button>`;
+  const g = tripOf(i).geo;
+  const acts = [];
+  if (!ro && st === 'open') acts.push(`<button class="btn fly small" data-action="plan" data-id="${id}">${ico('cal', 16, 2.2)} Termin vorschlagen</button>`);
+  if (!ro && st === 'planned' && r && r.a <= t) acts.push(`<button class="btn ${r.b < t ? 'fly' : ''} small" data-action="done" data-id="${id}">${ico('check', 16, 2.4)} Reise ins Album</button>`);
+  if (st === 'done' && (photos || stops.length)) acts.push(`<button class="btn fly small" data-action="recap" data-id="${id}">${ico('sparkle', 16, 2.2)} Rückblick ansehen</button>`);
+  return `<section class="deep trip-hero"><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span>
+    <span class="eyebrow-fly">${ico('compass', 14, 2.2)} ${esc(tripWhen(i))}</span>
+    <h1 class="trip-h" id="trip-h" tabindex="-1">${esc(i.title)}</h1>
+    <p class="trip-when">${dates}</p>
+    ${g && g.label ? `<p class="trip-geo">${ico('pin', 14, 2.2)}<span>${esc(g.label)}</span>${ro ? '' : '<button class="link-btn on-deep" data-action="geo-edit">ändern</button>'}</p>` : ''}
+    ${facts.length ? `<div class="recap-facts">${facts.map(f => `<span class="fact">${f}</span>`).join('')}</div>` : ''}
+    ${acts.length ? `<div class="trip-acts">${acts.join('')}</div>` : ''}
+  </section>`;
+}
+function tripTabsHTML(i){
+  const tr = tripOf(i), pack = listOf(tr.pack), todo = listOf(tr.todo), links = listOf(tr.links);
+  const tabs = [['plan', 'Plan', stopsOf(i).length ? String(stopsOf(i).length) : ''], ['pack', 'Packliste', pack.length ? `${pack.filter(x => x.d).length}/${pack.length}` : ''], ['todo', 'To-dos', todo.filter(x => !x.d).length ? String(todo.filter(x => !x.d).length) : (todo.length ? 'erledigt' : '')], ['links', 'Links', links.length ? String(links.length) : '']];
+  return `<div class="seg trip-seg" role="group" aria-label="Bereich der Reise">${tabs.map(([k, l, n]) => `<button data-action="trip-tab" data-v="${k}" aria-pressed="${state.tripTab === k}"><span>${l}</span>${n ? `<small>${esc(n)}</small>` : ''}</button>`).join('')}</div>`;
+}
+function tripGeoHTML(i){
+  const g = tripOf(i).geo, s = state.tripGeo;
+  if (state.readOnly || (g && !(s && s.edit))) return '';
+  const q = s && s.q != null ? s.q : (i.place || String(i.title || '').split(/[\s,:–-]+/)[0] || '');
+  const res = s && s.list ? (s.list.length ? `<ul class="georesults">${s.list.map((x, k) => `<li><button type="button" data-action="geo-pick" data-v="${k}">${ico('pin', 16, 2)}<span><b>${esc(x.name)}</b>${x.sub ? `<small>${esc(x.sub)}</small>` : ''}</span></button></li>`).join('')}</ul>` : '<p class="help">Nichts gefunden. Versuch es mit einem anderen Namen.</p>') : '';
+  return `<form class="geocard" id="f-geo" novalidate>
+    <label class="lbl" for="geo-q">${g ? 'Wohin geht die Reise?' : 'Wohin geht die Reise? Dann zeigt die Karte gleich den richtigen Ort, und die Ortssuche sucht dort zuerst.'}</label>
+    <div class="searchrow"><input id="geo-q" type="text" maxlength="80" placeholder="z. B. Wien" value="${esc(q)}" autocomplete="off"><button class="btn soft small" type="submit" ${s && s.loading ? 'disabled' : ''}>${s && s.loading ? 'Sucht …' : 'Suchen'}</button></div>
+    ${s && s.err ? `<p class="err">${esc(s.err)}</p>` : ''}${res}
+    ${g ? '<button type="button" class="link-btn" data-action="geo-cancel">Doch nicht ändern</button>' : ''}
+  </form>`;
+}
+const placeShort = s => { const p = String(s.place || ''), t = String(s.t || ''); if (!p || p === t) return ''; return p.startsWith(t + ', ') ? p.slice(t.length + 2) : p; };
+function stopRowHTML(s, n, color){
+  const ph = stopPhotos(s), notes = Object.values(s.notes || {}).filter(x => x && x.t), avg = avgHearts(s), ro = state.readOnly, sid = esc(s.id);
+  const meta = [s.time ? timeTxt(s.time) : '', placeShort(s)].filter(Boolean).map(esc).join(' · ');
+  const extra = [];
+  if (avg) extra.push(`${heartSVG(true, 13)} ${String(avg).replace('.', ',')}`);
+  if (notes.length) extra.push(`${ico('note', 13, 2)} ${notes.length}`);
+  if (s.song) extra.push(`${ico('music', 13, 2)} Song`);
+  if (!hasCoords(s)) extra.push(`<span class="muted">nicht auf der Karte</span>`);
+  return `<li class="stop${s.done ? ' done' : ''}">
+    <span class="stop-n${hasCoords(s) ? '' : ' nomap'}" style="--c:${color}" aria-hidden="true">${n || ''}</span>
+    <button class="stop-main" data-action="stop-open" data-v="${sid}"><span class="stop-t">${esc(s.t || s.place || 'Ohne Namen')}</span>${meta ? `<span class="stop-meta">${meta}</span>` : ''}${extra.length ? `<span class="stop-x">${extra.join('<i aria-hidden="true">·</i>')}</span>` : ''}</button>
+    ${ro ? (s.done ? `<span class="stop-check static" aria-label="Gemacht">${ico('check', 16, 2.6)}</span>` : '') : `<button class="stop-check" data-action="stop-done" data-v="${sid}" aria-pressed="${!!s.done}" aria-label="${s.done ? esc(s.t || 'Station') + ': als nicht gemacht markieren' : esc(s.t || 'Station') + ': als gemacht abhaken'}">${ico('check', 16, 2.6)}</button>`}
+    ${ph.length ? `<div class="stop-ph">${ph.slice(0, 5).map((p, k) => `<button class="ph-thumb" data-action="stop-photo" data-v="${sid}" data-k="${k}" aria-label="Foto ${k + 1} von ${ph.length} vergrößern"><img ${imgAttr(p)} alt="" loading="lazy" data-asset="1"></button>`).join('')}${ph.length > 5 ? `<button class="ph-btn" data-action="stop-photo" data-v="${sid}" data-k="5" style="border-style:solid;font-weight:800" aria-label="Alle ${ph.length} Fotos ansehen">+${ph.length - 5}</button>` : ''}</div>` : ''}
+  </li>`;
+}
+function tripDaysHTML(i){
+  const plan = tripPlan(i), t = todayStr(), ro = state.readOnly, f = state.tripDay;
+  const any = plan.groups.some(g => g.stops.length) || plan.loose.length;
+  let html = '';
+  if (!any) html += `<div class="trip-empty"><b>Plant eure Tage</b><p>${plan.groups.length ? 'Tippt bei einem Tag auf „Station“, zum Beispiel Museum, Café oder Riesenrad. Auf der Karte könnt ihr auch einfach einen Ort gedrückt halten.' : 'Sobald die Reise einen Zeitraum hat, bekommt jeder Tag seine Stationen. Ideen könnt ihr schon jetzt sammeln.'}</p></div>`;
+  plan.groups.forEach(g => {
+    if (f !== 'alle' && f !== g.day) return;
+    html += `<section class="tday" id="tday-${esc(g.day)}"><h2 class="tday-h"><span class="tday-dot" style="--c:${g.color}" aria-hidden="true"></span>${dayLabel(g)}<span class="tday-d">${esc(F_DAY.format(parseD(g.day)))}</span>${g.day === t ? '<span class="pill-fly">heute</span>' : ''}</h2>
+      ${g.stops.length ? `<ol class="stops">${g.stops.map((s, k) => stopRowHTML(s, k + 1, g.color)).join('')}</ol>` : ''}
+      ${ro ? '' : `<button class="addstop" data-action="stop-new" data-v="${esc(g.day)}">${ico('plus', 16, 2.4)} Station</button>`}</section>`;
+  });
+  if ((f === 'alle' || f === 'ohne') && (plan.loose.length || !plan.groups.length)) {
+    html += `<section class="tday"><h2 class="tday-h"><span class="tday-dot" style="--c:${LOOSE_COLOR}" aria-hidden="true"></span>Noch ohne Tag</h2>
+      ${plan.loose.length ? '' : '<p class="help" style="margin:0 0 8px">Ideen für die Reise, die noch keinen Tag haben.</p>'}
+      ${plan.loose.length ? `<ol class="stops">${plan.loose.map(s => stopRowHTML(s, '', LOOSE_COLOR)).join('')}</ol>` : ''}
+      ${ro ? '' : `<button class="addstop" data-action="stop-new" data-v="">${ico('plus', 16, 2.4)} Idee ohne Tag</button>`}</section>`;
+  }
+  return html;
+}
+function tripLegendHTML(i){
+  const plan = tripPlan(i);
+  if (plan.groups.length + (plan.loose.length ? 1 : 0) < 2) return '';
+  const opts = [{v: 'alle', l: 'Alle Tage'}].concat(plan.groups.map(g => ({v: g.day, l: dayLabel(g), c: g.color})));
+  if (plan.loose.length) opts.push({v: 'ohne', l: 'Ohne Tag', c: LOOSE_COLOR});
+  return `<div class="chips daychips" role="group" aria-label="Tag auf der Karte zeigen">${opts.map(o => `<button class="chip" data-action="trip-day" data-v="${esc(o.v)}" aria-pressed="${state.tripDay === o.v}">${o.c ? `<span class="tday-dot" style="--c:${o.c}" aria-hidden="true"></span>` : ''}${esc(o.l)}</button>`).join('')}</div>`;
+}
+function tiOrder(a, b){ return (a.d ? 1 : 0) - (b.d ? 1 : 0) || (a.at || 0) - (b.at || 0); }
+function whoHTML(w){
+  if (w === 'both') return '<span class="who both">Beide</span>';
+  if (w) return `<span class="who">${avatar(w, 24)}<span>${esc(personNom(w))}</span></span>`;
+  return '<span class="who none">Wer?</span>';
+}
+function tripItemsHTML(i, kind){
+  const items = listOf(tripOf(i)[kind]).sort(tiOrder), ro = state.readOnly;
+  const empty = {pack: 'Noch nichts auf der Packliste. Schreibt unten auf, was mit muss. Abhaken kann jeder von euch.', todo: 'Noch keine To-dos. Zum Beispiel Zug buchen, Unterkunft bezahlen oder Tickets für das Riesenrad holen.', links: 'Hier landen Links zu Unterkunft, Tickets oder Restaurants, damit ihr sie unterwegs schnell findet.'}[kind];
+  if (!items.length) {
+    let extra = '';
+    if (kind === 'pack' && !ro) {
+      const other = state.ideas.filter(x => x.id !== i.id && isTrip(x) && listOf(tripOf(x).pack).length).sort((a, b) => String(b.planDate || b.doneDate || '').localeCompare(String(a.planDate || a.doneDate || '')))[0];
+      if (other) extra = `<div class="row-flex" style="margin-top:12px"><button class="btn soft small" data-action="pack-copy" data-id="${esc(other.id)}">${ico('again', 16, 2.2)} Packliste von „${esc(other.title)}“ übernehmen</button></div>`;
+    }
+    return `<div class="trip-empty"><p>${empty}</p>${extra}</div>`;
+  }
+  if (kind === 'links') return `<ul class="tlist">${items.map(x => {
+    let host = ''; try { host = new URL(x.u).hostname.replace(/^www\./, ''); } catch (e) {}
+    return `<li class="ti link"><a class="ti-main" href="${esc(x.u)}" target="_blank" rel="noopener">${ico('link', 18, 2)}<span class="ti-txt"><b>${esc(x.t || host || x.u)}</b>${x.t && host ? `<small>${esc(host)}</small>` : ''}</span></a>${ro ? '' : `<button class="ti-x" data-action="ti-del" data-k="links" data-v="${esc(x.id)}" aria-label="${esc(x.t || host)} entfernen">${ico('x', 16, 2.4)}</button>`}</li>`;
+  }).join('')}</ul>`;
+  const done = items.filter(x => x.d).length;
+  return `${kind === 'pack' ? `<p class="ti-progress"><span style="--p:${Math.round(done / items.length * 100)}%"></span><b>${done} von ${items.length} eingepackt</b></p>` : ''}
+    <ul class="tlist">${items.map(x => `<li class="ti${x.d ? ' done' : ''}">
+      <button class="ti-check" data-action="ti-toggle" data-k="${kind}" data-v="${esc(x.id)}" aria-pressed="${!!x.d}" ${ro ? 'disabled' : ''} aria-label="${esc(x.t)}">${ico('check', 16, 2.8)}</button>
+      <span class="ti-txt"><span class="ti-t">${esc(x.t)}</span></span>
+      ${kind === 'todo' ? `<button class="ti-who" data-action="ti-who" data-v="${esc(x.id)}" ${ro ? 'disabled' : ''} aria-label="Wer kümmert sich?">${whoHTML(x.w)}</button>` : ''}
+      ${ro ? '' : `<button class="ti-x" data-action="ti-del" data-k="${kind}" data-v="${esc(x.id)}" aria-label="${esc(x.t)} entfernen">${ico('x', 16, 2.4)}</button>`}
+    </li>`).join('')}</ul>
+    ${kind === 'pack' && done && !ro ? '<div class="row-flex" style="margin-top:10px"><button class="link-btn" data-action="pack-reset">Alle Häkchen entfernen</button></div>' : ''}`;
+}
+function tripAddHTML(kind){
+  if (state.readOnly) return '';
+  if (kind === 'links') return `<form class="ti-add" id="f-titem" data-k="links" novalidate>
+    <div class="field"><label class="lbl" for="ti-u">Link</label><input id="ti-u" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://…"></div>
+    <div class="field"><label class="lbl" for="ti-t">Name <span class="opt">optional</span></label><input id="ti-t" type="text" maxlength="60" placeholder="z. B. Unterkunft"></div>
+    <p class="err" id="ti-err" hidden>Füg einen Link ein, der mit http anfängt.</p>
+    <button class="btn primary" type="submit">${ico('plus', 18, 2.4)} Link speichern</button></form>`;
+  const ph = kind === 'pack' ? 'z. B. Ladekabel' : 'z. B. Zugtickets kaufen';
+  return `<form class="ti-add" id="f-titem" data-k="${kind}" novalidate>
+    <label class="lbl sr" for="ti-t">${kind === 'pack' ? 'Was muss mit?' : 'Was ist zu tun?'}</label>
+    <div class="searchrow"><input id="ti-t" type="text" maxlength="80" placeholder="${ph}" autocomplete="off" enterkeyhint="done"><button class="btn primary small" type="submit">Hinzufügen</button></div></form>`;
+}
+function renderTrip(initial){
+  const box = $('#trip'), i = state.trip ? find(state.trip) : null;
+  if (!box || !state.trip) return;
+  if (!i) { closeTrip(); return; }
+  $('#trip-top-t').textContent = i.title || 'Reise';
+  $('#trip-head').innerHTML = tripHeadHTML(i);
+  $('#trip-tabs').innerHTML = tripTabsHTML(i);
+  const plan = state.tripTab === 'plan';
+  $('#trip-pane-plan').hidden = !plan; $('#trip-pane-list').hidden = plan;
+  if (plan) {
+    const gbox = $('#trip-geo'); if (!gbox.contains(document.activeElement) || !gbox.firstElementChild) gbox.innerHTML = tripGeoHTML(i);
+    $('#trip-legend').innerHTML = tripLegendHTML(i);
+    $('#trip-days').innerHTML = tripDaysHTML(i);
+    $('#map-help').textContent = state.readOnly ? '' : 'Ort auf der Karte gedrückt halten für eine neue Station.';
+    if (tmap.map) setTimeout(() => { if (tmap.map) tmap.map.invalidateSize(); }, 0);
+    ensureTripMap();
+  } else {
+    $('#trip-items').innerHTML = tripItemsHTML(i, state.tripTab);
+    if (state.tripAddTab !== state.tripTab) { state.tripAddTab = state.tripTab; $('#trip-add').innerHTML = tripAddHTML(state.tripTab); }
+  }
+  if (initial) { box.scrollTop = 0; const h = $('#trip-h'); if (h) h.focus({preventScroll: true}); }
+}
+
+/* station sheet */
+function openStop(tripId, sid, day){
+  const i = find(tripId); if (!i) return;
+  if (sid) {
+    const s = stopById(i, sid); if (!s) return;
+    const mine = (s.notes || {})[actor()] || {};
+    state.stopDraft = {t: s.t || '', day: s.day || '', time: s.time || '', place: s.place || '', lat: hasCoords(s) ? s.lat : null, lon: hasCoords(s) ? s.lon : null, done: !!s.done, note: mine.t || '', r: Number(mine.r) || 0, song: s.song || ''};
+  } else {
+    const t = todayStr(), days = tripDays(i);
+    state.stopDraft = {t: '', day: day != null ? day : (days.includes(t) ? t : ''), time: '', place: '', lat: null, lon: null, done: false, note: '', r: 0, song: '', fresh: true};
+  }
+  state.stopGeo = null;
+  openSheet('stop', tripId, {stop: sid || null});
+}
+function syncStopDraft(){
+  const d = state.stopDraft, f = $('#f-stop'); if (!d || !f) return;
+  const v = sel => { const el = f.querySelector(sel); return el ? el.value : undefined; };
+  ['t', 'time', 'place', 'note', 'song'].forEach(k => { const x = v('#st-' + k); if (x !== undefined) d[k] = x; });
+  const day = f.querySelector('input[name=st-day]:checked'); if (day) d.day = day.value;
+  const r = f.querySelector('input[name=st-r]:checked'); d.r = r ? Number(r.value) : d.r;
+  const done = f.querySelector('#st-done'); if (done) d.done = done.checked;
+}
+function stopSheet(i){
+  const s = state.sheet, d = state.stopDraft || {}, me = actor(), ro = state.readOnly;
+  const stop = s.stop ? stopById(i, s.stop) : null;
+  if (s.stop && !stop) return `<h2 class="sheet-h" id="sheet-h" tabindex="-1">Station gelöscht</h2><p class="sheet-sub">Diese Station gibt es nicht mehr.</p><button class="btn soft" data-action="close">Schließen</button>`;
+  const days = tripDays(i), plan = tripPlan(i), g = tripOf(i).geo;
+  if (d.day && !days.includes(d.day)) days.push(d.day);
+  const dayChips = days.map(dd => { const k = plan.groups.findIndex(x => x.day === dd); return radioChip('st-day', dd, `${k >= 0 ? 'Tag ' + (k + 1) + ' · ' : ''}${F_SHORT.format(parseD(dd))}`, d.day === dd); }).join('') + radioChip('st-day', '', 'Ohne Tag', !d.day);
+  const geo = state.stopGeo;
+  const results = geo && geo.list ? (geo.list.length ? `<ul class="georesults">${geo.list.map((x, k) => `<li><button type="button" data-action="stop-geo-pick" data-v="${k}">${ico('pin', 16, 2)}<span><b>${esc(x.name)}</b>${x.sub ? `<small>${esc(x.sub)}</small>` : ''}</span></button></li>`).join('')}</ul>` : `<p class="help">Nichts gefunden${g ? ' rund um ' + esc(g.label) : ''}. Probier einen anderen Namen oder tippe die Stelle auf der Karte an.</p>`) : '';
+  const placeState = d.lat != null
+    ? `<p class="geo-ok">${ico('check', 15, 2.6)} Auf der Karte markiert <button type="button" class="link-btn" data-action="stop-geo-clear">Entfernen</button></p>`
+    : '';
+  const others = stop ? Object.entries(stop.notes || {}).filter(([k, x]) => k !== me && x && (x.t || x.r)) : [];
+  const otherHTML = others.map(([k, x]) => `<div class="note-other"><div class="no-h">${avatar(k, 26)}<b>${esc(personNom(k))}</b>${x.r ? heartsHTML(Number(x.r)) : ''}</div>${x.t ? `<p>„${esc(x.t)}“</p>` : ''}</div>`).join('');
+  const sp = spotifyParse(d.song);
+  const photoField = state.assets ? `<div class="field"><span class="lbl">Fotos <span class="opt" id="ph-max">optional, bis zu ${MAX_STOP_PHOTOS}</span></span><div class="ph-edit" id="ph-edit"></div><p class="help">Fotos werden beim Speichern verkleinert und hochgeladen.</p></div>` : '';
+  const del = !stop || ro ? '' : (state.confirmDel === 'stop:' + stop.id
+    ? `<div class="confirm" role="group" aria-label="Bestätigen"><p>${stopPhotos(stop).length ? 'Station samt Fotos löschen?' : 'Station löschen?'}</p><div class="row-flex"><button type="button" class="btn danger small" data-action="stop-del-yes">Ja, löschen</button><button type="button" class="btn ghost small" data-action="stop-del-no">Behalten</button></div></div>`
+    : `<button type="button" class="link-btn danger" data-action="stop-del">Station löschen</button>`);
+  return `<form id="f-stop" class="form" novalidate>
+    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">${stop ? 'Station' : 'Neue Station'}</h2><p class="sheet-sub" style="margin:0">${esc(i.title)}</p></div>
+    <div class="field"><label class="lbl" for="st-t">Was?</label><input id="st-t" type="text" maxlength="80" placeholder="z. B. Café Sperl" value="${esc(d.t || '')}"><p class="err" id="st-t-err" hidden>Gib der Station einen Namen.</p></div>
+    <fieldset class="field"><legend class="lbl">Wann?</legend><div class="chips wrap">${dayChips}</div></fieldset>
+    <div class="field"><label class="lbl" for="st-time">Uhrzeit <span class="opt">optional</span></label><input id="st-time" type="time" value="${esc(d.time || '')}" style="max-width:160px"></div>
+    <div class="field"><label class="lbl" for="st-place">Wo? <span class="opt">Name oder Adresse</span></label>
+      <div class="searchrow"><input id="st-place" type="text" maxlength="100" placeholder="z. B. Gumpendorfer Straße 11" value="${esc(d.place || '')}" autocomplete="off"><button type="button" class="btn soft small" data-action="stop-geo-search" ${geo && geo.loading ? 'disabled' : ''}>${geo && geo.loading ? 'Sucht …' : 'Suchen'}</button></div>
+      ${placeState}${geo && geo.err ? `<p class="err">${esc(geo.err)}</p>` : ''}${results}
+      <div class="row-flex">${ro ? '' : `<button type="button" class="btn ghost small" data-action="stop-pickmap">${ico('pin', 16, 2.2)} Auf der Karte antippen</button>`}${d.place || d.lat != null ? `<a class="btn ghost small" href="${esc(routeHref(d.place, d))}" target="_blank" rel="noopener">${ico('compass', 16, 2.2)} Route</a>` : ''}</div>
+    </div>
+    <label class="special-row" for="st-done"><input type="checkbox" id="st-done" ${d.done ? 'checked' : ''}><span class="sp-txt"><b>${ico('sparkle', 16, 2.2)} Haben wir gemacht</b><span>Fotos und euer Eindruck machen daraus eine kleine Erinnerung in der großen Reise.</span></span></label>
+    ${photoField}
+    ${otherHTML}
+    <fieldset class="field"><legend class="lbl">Dein Eindruck <span class="opt">optional</span></legend><div class="hearts-input">${[1, 2, 3, 4, 5].map(n => `<label class="hrt" for="st-r-${n}"><input type="radio" name="st-r" id="st-r-${n}" value="${n}" ${n === Number(d.r) ? 'checked' : ''}><span>${heartSVG(true, 34).replace('class="ic-heart"', '')}</span><span class="sr">${n} von 5 Herzen</span></label>`).join('')}</div></fieldset>
+    <div class="field"><label class="lbl" for="st-note">Was war schön? <span class="opt">dein Satz, sieht ${esc(partnerName('der andere'))} sofort</span></label><textarea id="st-note" rows="2" maxlength="300" placeholder="Ein Moment von hier …">${esc(d.note || '')}</textarea></div>
+    <div class="field"><label class="lbl" for="st-song">Song dazu <span class="opt">Spotify-Link, optional</span></label><input id="st-song" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://open.spotify.com/track/…" value="${esc(d.song || '')}"><p class="err" id="st-song-err" hidden>Das ist kein Spotify-Link.</p><div id="st-song-prev">${sp ? spotifyEmbed(sp, 80) : ''}</div></div>
+    <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button>${ro ? '' : `<button type="submit" class="btn primary" id="stop-submit">${stop ? 'Speichern' : 'Station anlegen'}</button>`}</div>
+    ${del}
+  </form>`;
+}
+async function submitStop(form){
+  syncStopDraft();
+  const s = state.sheet, i = find(s.id), d = state.stopDraft; if (!i || !d) return;
+  const t = (d.t || '').trim() || (d.place || '').trim();
+  if (!t) { $('#st-t-err').hidden = false; $('#st-t').focus(); return; }
+  const song = (d.song || '').trim();
+  if (song && !spotifyParse(song)) { $('#st-song-err').hidden = false; $('#st-song').focus(); return; }
+  const pd = state.photoDraft || {keep: [], removed: [], add: []};
+  const btn = $('#stop-submit'), label = btn.textContent; btn.disabled = true;
+  if (pd.add.length && state.assets) {
+    const total = pd.add.length; let n = 0;
+    while (pd.add.length) {
+      const a = pd.add[0];
+      btn.textContent = `Foto ${++n} von ${total} wird hochgeladen …`;
+      try { const res = await uploadPhoto(a.file); pd.keep.push(res.id); (pd.fresh = pd.fresh || []).push(res.id); pd.add.shift(); try { URL.revokeObjectURL(a.url); } catch (e) {} renderPhotoDraft(); }
+      catch (e) { toast(photoError(e)); btn.disabled = false; btn.textContent = label; return; }
+    }
+  }
+  btn.textContent = 'Wird gespeichert …';
+  const me = actor(), sid = s.stop || newId(), now = Date.now();
+  const ph = {}; (pd.fresh || []).forEach((id, k) => { ph[id] = now + k; }); pd.removed.forEach(id => { ph[id] = null; });
+  const note = (d.note || '').trim(), r = Number(d.r) || 0;
+  const done = !!d.done || ((!s.stop || !stopById(i, sid)?.done) && !!((pd.fresh || []).length || note || r));
+  const p = {t, day: d.day || null, time: d.time || null, place: (d.place || '').trim() || null, lat: d.lat != null ? Number(d.lat) : null, lon: d.lon != null ? Number(d.lon) : null, done, song: song ? spotifyParse(song).url : null};
+  if (Object.keys(ph).length) p.ph = ph;
+  if (me) p.notes = {[me]: note || r ? {t: note, r} : null};
+  if (!s.stop) { p.at = now; if (me) p.by = me; }
+  try {
+    await patchTrip(i.id, {stops: {[sid]: p}});
+    await deleteAssets(pd.removed); pd.removed = [];
+    toast(s.stop ? 'Station gespeichert.' : 'Station angelegt.');
+    state.stopDraft = null; closeSheet(); renderTrip();
+  } catch (e) { btn.disabled = false; btn.textContent = label; }
+}
+async function deleteStop(){
+  const s = state.sheet, i = s && find(s.id), stop = i && s.stop ? stopById(i, s.stop) : null; if (!stop) return;
+  try { await patchTrip(i.id, {stops: {[stop.id]: null}}); await deleteAssets(stopPhotos(stop)); toast('Station gelöscht.'); state.stopDraft = null; closeSheet(); renderTrip(); } catch (e) {}
+}
+function tripDatesSheet(i){
+  const r = tripRange(i) || {};
+  return `<form id="f-tdates" class="form" novalidate>
+    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">Zeitraum der Reise</h2><p class="sheet-name">${esc(i.title)}</p></div>
+    <div class="time-row dates2">
+      <div class="field"><label class="lbl" for="td-a">Von</label><input type="date" id="td-a" value="${esc(i.planDate || '')}"></div>
+      <div class="field"><label class="lbl" for="td-b">Bis</label><input type="date" id="td-b" value="${esc(i.planEnd || (r.b && r.b !== r.a ? r.b : ''))}"></div>
+    </div>
+    <p class="err" id="td-err" hidden>Das Ende muss nach dem Anfang liegen.</p>
+    <p class="help">Jeder Tag bekommt in der Reise seine eigenen Stationen.</p>
+    <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button><button type="submit" class="btn primary">Speichern</button></div>
+  </form>`;
+}
+async function submitTripDates(form){
+  const id = state.sheet.id, a = $('#td-a').value, b = $('#td-b').value;
+  if (!a || (b && b < a)) { $('#td-err').hidden = false; $('#td-err').textContent = a ? 'Das Ende muss nach dem Anfang liegen.' : 'Wähl ein Startdatum.'; return; }
+  const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+  try { await updateDoc('ideas', id, {planDate: a, planEnd: b && b > a ? b : null}); toast('Zeitraum gespeichert.'); closeSheet(); renderTrip(); }
+  catch (e) { btn.disabled = false; }
+}
+async function addTripItem(form){
+  const kind = form.dataset.k, id = state.trip, me = actor(); if (!id) return;
+  const tIn = $('#ti-t'), t = (tIn.value || '').trim();
+  const p = {at: Date.now(), ...(me ? {by: me} : {})};
+  if (kind === 'links') {
+    let u = ($('#ti-u').value || '').trim();
+    if (u && !/^https?:\/\//i.test(u)) u = 'https://' + u;
+    let ok = false; try { ok = /^https?:$/.test(new URL(u).protocol) && /\./.test(new URL(u).hostname); } catch (e) {}
+    if (!ok) { $('#ti-err').hidden = false; $('#ti-u').focus(); return; }
+    Object.assign(p, {u, t});
+    $('#ti-u').value = ''; tIn.value = ''; $('#ti-err').hidden = true;
+  } else {
+    if (!t) { tIn.focus(); return; }
+    Object.assign(p, {t, d: false});
+    tIn.value = ''; tIn.focus();
+  }
+  try { await patchTrip(id, {[kind]: {[newId()]: p}}); } catch (e) {}
+}
+function tripGeoSearch(){
+  const i = find(state.trip); if (!i) return;
+  const q = ($('#geo-q') || {}).value || '';
+  if (!q.trim()) return;
+  const edit = !!(state.tripGeo && state.tripGeo.edit);
+  state.tripGeo = {q, loading: true, edit};
+  $('#trip-geo').innerHTML = tripGeoHTML(i);
+  geoSearch(q.trim()).then(list => { if (state.tripGeo && state.tripGeo.q === q) state.tripGeo = {q, list, edit}; })
+    .catch(() => { if (state.tripGeo && state.tripGeo.q === q) state.tripGeo = {q, err: 'Die Ortssuche geht gerade nicht. Prüf das Internet.', edit}; })
+    .finally(() => { const x = find(state.trip); if (x && $('#trip-geo')) $('#trip-geo').innerHTML = tripGeoHTML(x); });
+}
+function stopGeoSearch(){
+  syncStopDraft();
+  const d = state.stopDraft, i = state.sheet && find(state.sheet.id); if (!d || !i) return;
+  const q = (d.place || d.t || '').trim();
+  if (!q) { toast('Schreib zuerst einen Namen oder eine Adresse hin.'); const p = $('#st-place'); if (p) p.focus(); return; }
+  const g = tripOf(i).geo, near = g && typeof g.lat === 'number' ? g : (stopsOf(i).find(hasCoords) || null);
+  state.stopGeo = {q, loading: true}; renderSheet();
+  geoSearch(q, near).then(list => { if (state.stopGeo && state.stopGeo.q === q) state.stopGeo = {q, list}; })
+    .catch(() => { if (state.stopGeo && state.stopGeo.q === q) state.stopGeo = {q, err: 'Die Ortssuche geht gerade nicht. Schreib den Ort einfach so hin oder tippe ihn auf der Karte an.'}; })
+    .finally(() => { if (state.sheet && state.sheet.type === 'stop') { syncStopDraft(); renderSheet(); } });
+}
+
+/* trip sections elsewhere in the app */
+function tripNowHTML(){
+  const t = todayStr(), soon = addDays(2);
+  const list = state.ideas.filter(i => isTrip(i) && statusOf(i) === 'planned' && i.planDate && i.planDate <= soon && (i.planEnd || i.planDate) >= t).sort((a, b) => a.planDate.localeCompare(b.planDate));
+  if (!list.length) return '';
+  const i = list[0], r = tripRange(i), on = r.a <= t, id = esc(i.id);
+  const g = on ? tripPlan(i).groups.find(x => x.day === t) : null;
+  const next = g ? g.stops.find(s => !s.done) : null;
+  const line = esc(tripWhen(i)) + (next ? ' · Als Nächstes: ' + esc(next.t) : g && g.stops.length ? ' · Alles von heute abgehakt' : '');
+  return `<section class="deep tripnow"><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span>
+    <span class="eyebrow-fly">${ico('compass', 14, 2.2)} ${on ? 'Unterwegs' : 'Bald geht’s los'}</span>
+    <button class="pinned-main" data-action="trip-open" data-id="${id}"><h2>${esc(i.title)}</h2><p>${line}</p></button>
+    <div class="row-flex" style="margin-top:10px"><button class="btn small" data-action="trip-open" data-id="${id}">${ico('pin', 16, 2.2)} Reise öffnen</button></div>
+  </section>`;
+}
+/* Rückblick of a trip: day by day with its stations, plus a map */
+let recapMap = null;
+function dropRecapMap(){ if (recapMap) { try { recapMap.remove(); } catch (e) {} recapMap = null; } }
+function tripRecapHTML(i){
+  if (!isTrip(i)) return '';
+  const plan = tripPlan(i);
+  const worth = s => s.done || stopPhotos(s).length || Object.values(s.notes || {}).some(x => x && (x.t || x.r));
+  const anyWorth = stopsOf(i).some(worth);
+  const pick = list => anyWorth ? list.filter(worth) : list;
+  const groups = plan.groups.map(g => ({...g, show: pick(g.stops)})).filter(g => g.show.length);
+  const loose = pick(plan.loose);
+  if (!groups.length && !loose.length) return '';
+  const stopHTML = (s, n, color) => {
+    const ph = stopPhotos(s), notes = Object.entries(s.notes || {}).filter(([, x]) => x && (x.t || x.r));
+    const meta = [s.time ? timeTxt(s.time) : '', placeShort(s)].filter(Boolean).map(esc).join(' · ');
+    return `<article class="rstop"><div class="rstop-h"><span class="stop-n" style="--c:${color}" aria-hidden="true">${n}</span><div><b>${esc(s.t || s.place || 'Station')}</b>${meta ? `<small>${meta}</small>` : ''}</div></div>
+      ${ph.length ? `<div class="rstop-ph">${ph.map((p, k) => `<button class="cl" data-action="stop-photo" data-v="${esc(s.id)}" data-k="${k}" data-trip="${esc(i.id)}" aria-label="Foto ${k + 1} von ${ph.length} vergrößern"><img ${imgAttr(p)} alt="" loading="lazy" data-asset="1"></button>`).join('')}</div>` : ''}
+      ${notes.map(([k, x]) => `<p class="rstop-note">${x.t ? `„${esc(x.t)}“ ` : ''}<span class="rn-by">${esc(personNom(k))}${x.r ? heartsHTML(Number(x.r)) : ''}</span></p>`).join('')}
+      ${spotifyParse(s.song) ? `<a class="btn ghost small" href="${esc(spotifyParse(s.song).url)}" target="_blank" rel="noopener">${ico('music', 16, 2.2)} Song dazu</a>` : ''}
+    </article>`;
+  };
+  return `<h3 class="recap-sec">Tag für Tag</h3>
+    ${stopsOf(i).some(hasCoords) ? '<div class="recap-map" id="recap-map" role="region" aria-label="Karte der Reise"></div>' : ''}
+    ${groups.map(g => `<section class="rday"><h4><span class="tday-dot" style="--c:${g.color}" aria-hidden="true"></span>${dayLabel(g)} · ${esc(F_DAY.format(parseD(g.day)))}</h4>${g.show.map(s => stopHTML(s, g.stops.indexOf(s) + 1, g.color)).join('')}</section>`).join('')}
+    ${loose.length ? `<section class="rday"><h4><span class="tday-dot" style="--c:${LOOSE_COLOR}" aria-hidden="true"></span>Außerdem</h4>${loose.map(s => stopHTML(s, '', LOOSE_COLOR)).join('')}</section>` : ''}`;
+}
+async function initRecapMap(i){
+  const el = $('#recap-map'); if (!el) return;
+  let L; try { L = await loadLeaflet(); } catch (e) { el.hidden = true; return; }
+  if (!document.contains(el) || recapMap) return;
+  const m = L.map(el, {zoomControl: false, tapHold: false, scrollWheelZoom: false});
+  m.attributionControl.setPrefix(false);
+  baseTiles(L).addTo(m);
+  const layer = L.layerGroup().addTo(m);
+  fitPts(m, drawStops(L, layer, i, 'alle'), tripOf(i).geo);
+  recapMap = m;
+}
+
+
+/* ---------- look: day and night, per phone ---------- */
+const THEMES = [
+  {v: 'sonne', l: 'Nach Sonnenstand', s: 'Hell ab Sonnenaufgang, dunkel ab Sonnenuntergang'},
+  {v: 'system', l: 'Wie iPhone', s: 'Folgt der Einstellung „Hell“ oder „Dunkel“ am iPhone'},
+  {v: 'tag', l: 'Tag', s: 'Immer hell'},
+  {v: 'nacht', l: 'Nacht', s: 'Immer dunkel'}
+];
+const HOME = {lat: 48.3705, lon: 10.8978, label: 'Augsburg'};
+const themePref = () => { const v = lsGet('ideenglas.theme'); return THEMES.some(t => t.v === v) ? v : 'sonne'; };
+/* sunrise and sunset for a day and place (the usual astronomical formulas, good to about a minute) */
+function sunTimes(date, lat, lon){
+  const rad = Math.PI / 180, DAYMS = 864e5, J1970 = 2440588, J2000 = 2451545, e = rad * 23.4397, J0 = 0.0009;
+  const noon = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12);
+  const d = noon.valueOf() / DAYMS - 0.5 + J1970 - J2000, lw = rad * -lon, phi = rad * lat;
+  const n = Math.round(d - J0 - lw / (2 * Math.PI));
+  const transit = (ht) => J0 + (ht + lw) / (2 * Math.PI) + n;
+  const ds = transit(0), M = rad * (357.5291 + 0.98560028 * ds);
+  const L = M + rad * (1.9148 * Math.sin(M) + 0.02 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M)) + rad * 102.9372 + Math.PI;
+  const dec = Math.asin(Math.sin(e) * Math.sin(L));
+  const jt = (a) => J2000 + a + 0.0053 * Math.sin(M) - 0.0069 * Math.sin(2 * L);
+  const w = Math.acos((Math.sin(rad * -0.833) - Math.sin(phi) * Math.sin(dec)) / (Math.cos(phi) * Math.cos(dec)));
+  if (!isFinite(w)) return null;
+  const jnoon = jt(ds), jset = jt(transit(w)), jrise = jnoon - (jset - jnoon);
+  const toDate = j => new Date((j + 0.5 - J1970) * DAYMS);
+  return {rise: toDate(jrise), set: toDate(jset)};
+}
+/* while a trip is running, the sun of its destination decides */
+function themePlace(){
+  const t = todayStr();
+  const tr = (state.ideas || []).find(i => isTrip(i) && statusOf(i) === 'planned' && i.planDate && i.planDate <= t && (i.planEnd || i.planDate) >= t && tripOf(i).geo && typeof tripOf(i).geo.lat === 'number');
+  if (!tr) return HOME;
+  const g = tripOf(tr).geo;
+  return {lat: g.lat, lon: g.lon, label: String(g.label || tr.title || '').split(',')[0]};
+}
+const hm = d => pad(d.getHours()) + ':' + pad(d.getMinutes());
+function sunLine(){
+  const pl = themePlace(), st = sunTimes(new Date(), pl.lat, pl.lon);
+  return st ? `Heute in ${pl.label}: hell von ${hm(st.rise)} bis ${hm(st.set)} Uhr` : '';
+}
+let themeT = 0;
+function applyTheme(){
+  clearTimeout(themeT); themeT = 0;
+  const pref = themePref(), root = document.documentElement;
+  let mode = null;
+  if (pref === 'tag') mode = 'light';
+  else if (pref === 'nacht') mode = 'dark';
+  else if (pref === 'sonne') {
+    const now = new Date(), pl = themePlace(), st = sunTimes(now, pl.lat, pl.lon);
+    if (st) {
+      mode = now >= st.rise && now < st.set ? 'light' : 'dark';
+      const tomorrow = sunTimes(new Date(now.getTime() + 864e5), pl.lat, pl.lon);
+      const next = now < st.rise ? st.rise : now < st.set ? st.set : (tomorrow && tomorrow.rise);
+      if (next) themeT = setTimeout(applyTheme, Math.min(Math.max(next - now + 2000, 20000), 3 * 36e5));
+    }
+  }
+  const before = root.getAttribute('data-theme');
+  if (mode) root.setAttribute('data-theme', mode); else root.removeAttribute('data-theme');
+  const dark = mode ? mode === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.querySelectorAll('meta[name="theme-color"]').forEach(m => { if (!m.dataset.orig) m.dataset.orig = m.content; m.content = mode ? (dark ? '#271F50' : '#F8F5FE') : m.dataset.orig; });
+  if (before !== root.getAttribute('data-theme')) {
+    if (tmap.map) { destroyTripMap(); ensureTripMap(); }
+    if (state.recap) { const r = $('#recap'); if (r) r.dataset.sig = ''; renderRecap(); }
+  }
+}
+function themeBlock(){
+  const pref = themePref();
+  return `<h3 class="sec">Tag und Nacht</h3>
+    <div class="set-block"><div class="optlist themes" role="radiogroup" aria-label="Tag und Nacht">${THEMES.map(t => `<button type="button" class="optbtn" role="radio" aria-checked="${pref === t.v}" data-action="theme" data-v="${t.v}"><span class="th-ic" aria-hidden="true">${ico(t.v === 'tag' ? 'sun' : t.v === 'nacht' ? 'moon' : t.v === 'sonne' ? 'sunset' : 'phone', 20, 2)}</span><span class="opt-txt"><b>${t.l}</b><span>${t.v === 'sonne' ? esc(sunLine()) || t.s : t.s}</span></span><span class="opt-check" aria-hidden="true">${ico('check', 16, 2.6)}</span></button>`).join('')}</div>
+    <p class="muted">Gilt nur auf diesem Handy. „Einigen“ bleibt immer nachts, dort leuchtet das Glas.</p></div>`;
+}
+
+/* ---------- own profile photo ---------- */
+async function squarePhoto(file, size = 480){
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await loadImg(url), s = Math.min(img.naturalWidth, img.naturalHeight);
+    const c = document.createElement('canvas'); c.width = c.height = Math.min(size, s);
+    c.getContext('2d').drawImage(img, (img.naturalWidth - s) / 2, (img.naturalHeight - s) / 2, s, s, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.86));
+    if (!blob || !blob.size) throw new Error('format');
+    return blob;
+  } finally { URL.revokeObjectURL(url); }
+}
+async function pickProfilePhoto(input){
+  const f = input.files && input.files[0]; input.value = '';
+  if (!f) return;
+  try {
+    const blob = await squarePhoto(f);
+    if (state.profilePic) { try { URL.revokeObjectURL(state.profilePic.url); } catch (e) {} }
+    state.profilePic = {blob, url: URL.createObjectURL(blob)};
+    const prev = $('#p-photo-prev'); if (prev) prev.innerHTML = `<img src="${state.profilePic.url}" alt="">`;
+    const r = $('#p-fig-2'); if (r) r.checked = true;
+    const er = $('#p-photo-err'); if (er) er.hidden = true;
+    const b = $('#p-photo-btn span'); if (b) b.textContent = 'Anderes Foto wählen';
+  } catch (e) { toast('Dieses Bild ließ sich nicht öffnen. Versuch es mit einem anderen Foto.'); }
+}
+
+/* ---------- Nachtgarten / Tagesgarten: the start page ---------- */
+function greetWord(){
+  const h = new Date().getHours();
+  return h < 5 ? 'Gute Nacht' : h < 11 ? 'Guten Morgen' : h < 17 ? 'Guten Tag' : h < 22 ? 'Guten Abend' : 'Gute Nacht';
+}
+function coupleNames(){
+  const ids = [state.me, partnerId()].filter((x, k, a) => x && x !== TEST_ID && a.indexOf(x) === k);
+  const names = ids.map(id => firstName(prof(id)?.name)).filter(Boolean);
+  return names.length === 2 ? names.join(' & ') : '';
+}
+/* the glowing jar on top: what waits for me, or a nudge to shake it */
+function heroHTML(){
+  const me = actor();
+  const open = state.ideas.filter(i => statusOf(i) === 'open' && !i.surprise);
+  const fresh = me ? allJars().flatMap(j => freshFor(j.id, me)) : [];
+  const matches = open.filter(isMatch);
+  const n = fresh.length, o = open.length, m = matches.length;
+  let title, sub, btn = '';
+  if (n) {
+    title = 'Das Glas leuchtet';
+    sub = `${n} ${n === 1 ? 'neuer Zettel wartet' : 'neue Zettel warten'} auf deine Stimme`;
+    btn = `<button class="btn hero-btn" data-action="hero-go" data-jar="${esc(topJarOf(fresh))}">${ico('sparkle', 19, 2.2)} Glas schütteln</button>`;
+  } else if (o) {
+    title = 'Was machen wir heute?';
+    sub = m ? `${o} Zettel im Glas, ${m === 1 ? 'einen davon wollt ihr beide' : m + ' davon wollt ihr beide'}` : `${o} Zettel im Glas. Schüttelt es und schaut, was aufleuchtet.`;
+    btn = `<button class="btn hero-btn" data-action="hero-go">${ico('sparkle', 19, 2.2)} Glas schütteln</button>`;
+  } else {
+    title = 'Das Glas ist noch leer';
+    sub = 'Werft den ersten Zettel ein, dann fängt es an zu leuchten.';
+    if (!state.readOnly) btn = `<button class="btn hero-btn" data-action="add">${ico('plus', 19, 2.6)} Zettel einwerfen</button>`;
+  }
+  const lit = Math.max(1, Math.min(10, o));
+  return `<section class="hero" aria-label="Euer Glas">
+    <div class="hero-jar" id="hero-jar">${jarSVG(lit, `Waschbär im Glas, ${o} ${o === 1 ? 'Zettel' : 'Zettel'} darin`)}</div>
+    <h2 class="hero-h">${title}</h2>
+    <p class="hero-p">${sub}</p>
+    ${btn}
+  </section>`;
+}
+async function heroGo(el){
+  const fig = $('#hero-jar');
+  if (fig && !reduceMotion()) { fig.classList.remove('shake'); void fig.offsetWidth; fig.classList.add('shake'); await sleep(480); }
+  if (currentTab() !== 'glas') return;
+  if (el.dataset.jar) { setJar(el.dataset.jar); location.hash = 'einigen'; return; }
+  if (!openIn(curJar().id).length) {
+    const best = allJars().map(j => [j.id, openIn(j.id).length]).sort((a, b) => b[1] - a[1])[0];
+    if (best && best[1]) setJar(best[0]);
+  }
+  location.hash = 'einigen';
+  render();
+  draw();
+}
+/* the next trip and the next date, as glass cards with a date tile */
+const ncTile = d => `<span class="nc-date" aria-hidden="true"><span>${esc(F_WD.format(d).replace('.', ''))}</span><b>${d.getDate()}</b></span>`;
+function tripCardHTML(i){
+  const r = tripRange(i), t = todayStr(), on = r.a <= t, id = esc(i.id);
+  const nDays = dayDiff(parseD(r.a), parseD(r.b)) + 1, stops = stopsOf(i).length;
+  let kick, line;
+  if (on) {
+    kick = nDays > 1 ? `Unterwegs · Tag ${dayDiff(parseD(r.a), parseD(t)) + 1} von ${nDays}` : 'Heute unterwegs';
+    const g = tripPlan(i).groups.find(x => x.day === t), nx = g ? g.stops.find(s => !s.done) : null;
+    line = nx ? 'Als Nächstes: ' + (nx.t || nx.place || 'Station') : g && g.stops.length ? 'Alles von heute abgehakt' : (stops ? `${stops} ${stops === 1 ? 'Station' : 'Stationen'}` : 'Noch ohne Stationen');
+  } else {
+    kick = cap(rel(r.a)) + ' geht’s los';
+    line = [nDays > 1 ? `${nDays} Tage` : '', stops ? `${stops} ${stops === 1 ? 'Station' : 'Stationen'}` : 'Noch ohne Stationen'].filter(Boolean).join(' · ');
+  }
+  return `<section class="nextcard tripnow"><button class="nc-main" data-action="trip-open" data-id="${id}" aria-label="${esc(i.title)}, ${esc(kick)}. Reise öffnen">${ncTile(parseD(on ? t : r.a))}<span class="nc-txt"><span class="nc-k">${ico('compass', 13, 2.4)} ${esc(kick)}</span><span class="nc-t">${esc(i.title)}</span><span class="nc-m">${esc(line)}</span></span>${ico('right', 22, 2.2)}</button></section>`;
+}
+function planCardHTML(i){
+  const t = todayStr(), id = esc(i.id);
+  const kick = i.planDate === t ? 'Heute' : cap(rel(i.planDate));
+  const meta = [i.planTime ? timeTxt(i.planTime) : '', placeOf(i)].filter(Boolean).join(' · ');
+  return `<section class="nextcard"><button class="nc-main" data-action="open" data-id="${id}">${ncTile(parseD(i.planDate))}<span class="nc-txt"><span class="nc-k">${ico('cal', 13, 2.4)} Als Nächstes · ${esc(kick)}</span><span class="nc-t">${esc(i.title)}</span>${meta ? `<span class="nc-m">${esc(meta)}</span>` : ''}</span>${ico('right', 22, 2.2)}</button></section>`;
+}
+function nextHTML(){
+  const t = todayStr();
+  const planned = state.ideas.filter(i => statusOf(i) === 'planned' && !i.surprise && i.planDate && ((isTrip(i) && i.planEnd) || i.planDate) >= t);
+  const byDate = (a, b) => a.planDate.localeCompare(b.planDate) || String(a.planTime || '99').localeCompare(String(b.planTime || '99'));
+  const trip = planned.filter(isTrip).sort(byDate)[0] || null;
+  const other = planned.filter(i => !isTrip(i)).sort(byDate)[0] || null;
+  const cards = [];
+  if (trip) cards.push([trip.planDate, tripCardHTML(trip)]);
+  if (other && (!trip || other.planDate < trip.planDate)) cards.push([other.planDate, planCardHTML(other)]);
+  return cards.sort((a, b) => a[0].localeCompare(b[0])).map(c => c[1]).join('');
 }
 
 /* ---------- events ---------- */
@@ -2456,6 +3758,7 @@ document.addEventListener('click', async e => {
     case 'remember-hide': lsSet('ideenglas.remember.hide', todayStr()); render(); break;
     case 'addpast': openSheet('add', null, {past: true}); break;
     case 'past-jar': { const s = state.sheet; if (!s) return; s.draft = addDraft(); s.jar = v; renderSheet(); break; }
+    case 'edit-jar': { const s = state.sheet; if (!s) return; s.draft = addDraft(); s.jar = v; renderSheet(); break; }
     case 'done': openSheet('done', id); break;
     case 'surprise': openSheet('surprise'); break;
     case 'surprise-edit': openSheet('surprise', id); break;
@@ -2482,6 +3785,7 @@ document.addEventListener('click', async e => {
     case 'vote-no': voteTop(false); break;
     case 'vote-later': laterTop(); break;
     case 'news-seen': markSeen(); state.since = Date.now(); render(); break;
+    case 'hero-go': heroGo(el); break;
     case 'news-go': {
       if (el.dataset.jar) setJar(el.dataset.jar);
       if (el.dataset.seg) state.einSeg = el.dataset.seg;
@@ -2571,13 +3875,81 @@ document.addEventListener('click', async e => {
     case 'clear-test': state.confirmClear = true; renderSheet(); break;
     case 'clear-no': state.confirmClear = false; renderSheet(); break;
     case 'clear-yes': clearTest(); break;
+    case 'trip-open': openTrip(id); break;
+    case 'trip-close': closeTrip(); break;
+    case 'trip-details': if (state.trip) openSheet('idea', state.trip); break;
+    case 'trip-tab': state.tripTab = v; renderTrip(); { const b = $(`#trip [data-action="trip-tab"][data-v="${v}"]`); if (b) b.focus({preventScroll: true}); } break;
+    case 'trip-day': state.tripDay = v; renderTrip(); updateTripMap(true); break;
+    case 'trip-dates': if (state.trip) openSheet('tripdates', state.trip); break;
+    case 'geo-edit': { const g = tripOf(find(state.trip)).geo; state.tripGeo = {edit: true, q: g && g.label ? g.label.split(',')[0] : ''}; renderTrip(); const q = $('#geo-q'); if (q) q.focus(); break; }
+    case 'geo-cancel': state.tripGeo = null; renderTrip(); break;
+    case 'geo-pick': {
+      const x = state.tripGeo && state.tripGeo.list && state.tripGeo.list[Number(v)]; if (!x || !state.trip) return;
+      const country = x.sub ? x.sub.split(', ').pop() : '';
+      state.tripGeo = null;
+      try { await patchTrip(state.trip, {geo: {lat: x.lat, lon: x.lon, label: x.name + (country && country !== x.name ? ', ' + country : '')}}); updateTripMap(true); } catch (err) {}
+      break;
+    }
+    case 'map-full': setMapFull(!$('#mapwrap').classList.contains('full')); break;
+    case 'map-locate': locateMe(); break;
+    case 'map-fit': updateTripMap(true); break;
+    case 'pick-cancel': finishPick(null); break;
+    case 'stop-new': openStop(state.trip, null, v); break;
+    case 'stop-open': openStop(state.trip, v); break;
+    case 'stop-done': { const i = find(state.trip), s = i && stopById(i, v); if (!s) return; try { await patchTrip(i.id, {stops: {[v]: {done: !s.done}}}); } catch (err) {} break; }
+    case 'stop-photo': openLightbox(el.dataset.trip || state.trip, el.dataset.k, v); break;
+    case 'stop-geo-search': stopGeoSearch(); break;
+    case 'stop-geo-pick': {
+      syncStopDraft();
+      const d = state.stopDraft, x = state.stopGeo && state.stopGeo.list && state.stopGeo.list[Number(v)]; if (!d || !x) return;
+      const street = x.sub ? x.sub.split(', ')[0] : '';
+      d.lat = x.lat; d.lon = x.lon; d.place = x.name + (street && street !== x.name ? ', ' + street : '');
+      if (!String(d.t || '').trim()) d.t = x.name;
+      state.stopGeo = null; renderSheet(); break;
+    }
+    case 'stop-geo-clear': syncStopDraft(); if (state.stopDraft) { state.stopDraft.lat = null; state.stopDraft.lon = null; } renderSheet(); break;
+    case 'stop-pickmap': startPick(); break;
+    case 'stop-del': syncStopDraft(); state.confirmDel = 'stop:' + (state.sheet && state.sheet.stop); renderSheet(); { const b = $('#sheet [data-action="stop-del-yes"]'); if (b) b.focus(); } break;
+    case 'stop-del-no': syncStopDraft(); state.confirmDel = null; renderSheet(); break;
+    case 'stop-del-yes': deleteStop(); break;
+    case 'ti-toggle': { const i = find(state.trip), k = el.dataset.k, x = i && (tripOf(i)[k] || {})[v]; if (!x) return; try { await patchTrip(i.id, {[k]: {[v]: {d: !x.d}}}); } catch (err) {} break; }
+    case 'ti-del': { if (!state.trip) return; try { await patchTrip(state.trip, {[el.dataset.k]: {[v]: null}}); } catch (err) {} break; }
+    case 'ti-who': {
+      const i = find(state.trip), x = i && (tripOf(i).todo || {})[v]; if (!x) return;
+      const cyc = [actor(), partnerId(), 'both', ''].filter((w, k, a) => w != null && a.indexOf(w) === k);
+      const next = cyc[(cyc.indexOf(x.w || '') + 1) % cyc.length];
+      try { await patchTrip(i.id, {todo: {[v]: {w: next || null}}}); } catch (err) {}
+      break;
+    }
+    case 'pack-copy': {
+      const from = find(id), i = find(state.trip); if (!from || !i) return;
+      const me = actor(), now = Date.now(), p = {};
+      listOf(tripOf(from).pack).sort((a, b) => (a.at || 0) - (b.at || 0)).forEach((x, k) => { p[newId()] = {t: x.t, d: false, at: now + k, ...(me ? {by: me} : {})}; });
+      try { await patchTrip(i.id, {pack: p}); toast('Packliste übernommen. Alle Häkchen sind wieder offen.'); } catch (err) {}
+      break;
+    }
+    case 'pack-reset': {
+      const i = find(state.trip); if (!i) return; const p = {};
+      listOf(tripOf(i).pack).forEach(x => { if (x.d) p[x.id] = {d: false}; });
+      try { await patchTrip(i.id, {pack: p}); } catch (err) {}
+      break;
+    }
+    case 'music': openSheet('music'); break;
+    case 'music-del': try { await updateDoc('couple', 'music', {playlist: null}); toast('Die Playlist ist nicht mehr im Album.'); closeSheet(); render(); } catch (err) {} break;
+    case 'backup': prepareBackup(); break;
+    case 'backup-save': saveBackup(); break;
+    case 'theme': lsSet('ideenglas.theme', v); applyTheme(); renderSheet(); { const b = $(`#sheet [data-action="theme"][data-v="${v}"]`); if (b) b.focus({preventScroll: true}); } break;
   }
 });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (t.closest && t.closest('#f-stop')) syncStopDraft();
   if (t.id === 'draw-match') { state.drawMatch = t.checked; renderSheet(); render(); const m = $('#draw-match'); if (m) m.focus({preventScroll:true}); }
   else if (t.id === 'test-mode') { markSeen(); state.testMode = t.checked; state.lastVote = null; state.matchNote = null; loadViewerPrefs(); render(); renderSheet(); const m = $('#test-mode'); if (m) m.focus({preventScroll:true}); toast(t.checked ? 'Du handelst jetzt als Testpartner.' : 'Testmodus beendet.'); }
-  else if (t.name === 'done-r') paintHearts();
+  else if (t.name === 'done-r' || t.name === 'st-r') paintHearts(t.name);
+  else if (t.id === 'p-photo') pickProfilePhoto(t);
+  else if (t.name === 'p-fig') { if (t.value === '2' && !state.profilePic && !(state.profiles[state.me] || {}).photo) { const f = $('#p-photo'); if (f) f.click(); } const er = $('#p-photo-err'); if (er) er.hidden = true; }
+  else if (t.id === 'st-song') { const sp = spotifyParse(t.value), pv = $('#st-song-prev'); if (pv) pv.innerHTML = sp ? spotifyEmbed(sp, 80) : ''; }
   else if (t.id === 'done-special') {
     const pd = state.photoDraft; if (pd) pd.special = t.checked;
     $('#done-end-f').hidden = !t.checked;
@@ -2590,10 +3962,10 @@ document.addEventListener('change', e => {
   }
   else if (t.id === 'ph-input') {
     const pd = state.photoDraft; if (!pd) return;
-    const max = photoLimit(pd.special), room = max - pd.keep.length - pd.add.length;
+    const max = pd.max || photoLimit(pd.special), room = max - pd.keep.length - pd.add.length;
     const files = [...(t.files || [])].filter(f => /^image\//.test(f.type) || /\.(heic|heif|jpe?g|png|webp|gif)$/i.test(f.name));
     files.slice(0, Math.max(0, room)).forEach(f => pd.add.push({tmp: 't' + Math.random().toString(36).slice(2, 9), file: f, url: URL.createObjectURL(f)}));
-    if (files.length > room) toast(pd.special ? `Bei besonderen Erlebnissen gehen bis zu ${max} Fotos.` : `Pro Erlebnis gehen bis zu ${max} Fotos. Mehr geht bei besonderen Erlebnissen.`);
+    if (files.length > room) toast(pd.max ? `Pro Station gehen bis zu ${max} Fotos.` : pd.special ? `Bei besonderen Erlebnissen gehen bis zu ${max} Fotos.` : `Pro Erlebnis gehen bis zu ${max} Fotos. Mehr geht bei besonderen Erlebnissen.`);
     t.value = '';
     renderPhotoDraft();
   }
@@ -2608,6 +3980,10 @@ document.addEventListener('input', e => {
   const id = e.target.id;
   if (id === 'f-title' || id === 'j-name' || id === 's-title') { const er = $('#' + (id === 'j-name' ? 'j-err' : id + '-err')); if (er) er.hidden = true; }
   if (id === 'd-new-label') $('#d-new-err').hidden = true;
+  if (e.target.closest && e.target.closest('#f-stop')) { syncStopDraft(); if (id === 'st-t' || id === 'st-song') { const er = $('#' + id + '-err'); if (er) er.hidden = true; } }
+  if (id === 'm-url') { const er = $('#m-err'); if (er) er.hidden = true; }
+  if (id === 'ti-u') { const er = $('#ti-err'); if (er) er.hidden = true; }
+  if (id === 'td-a' || id === 'td-b') { const er = $('#td-err'); if (er) er.hidden = true; }
   if (id === 'p-name') { const er = $('#p-name-err'); if (er) er.hidden = true; const l = $('#p-letter'); if (l) l.textContent = (firstName(e.target.value) || '?').charAt(0).toUpperCase(); }
   if (id === 'pw-new' || id === 'pw-new2') { const er = $('#pw-err'); if (er) er.hidden = true; }
   if ((id === 'l-mail' || id === 'l-pass' || id === 'l-code') && $('#l-err')) $('#l-err').hidden = true;
@@ -2616,11 +3992,14 @@ document.addEventListener('submit', e => {
   const f = e.target; e.preventDefault();
   if (f.id === 'f-add') submitAdd(f); else if (f.id === 'f-plan') submitPlan(f); else if (f.id === 'f-done') submitDone(f);
   else if (f.id === 'f-jar') submitJar(f);
+  else if (f.id === 'f-stop') submitStop(f); else if (f.id === 'f-tdates') submitTripDates(f); else if (f.id === 'f-music') submitMusic(f);
+  else if (f.id === 'f-geo') tripGeoSearch(); else if (f.id === 'f-titem') addTripItem(f);
   else if (f.id === 'f-login') submitLogin(f); else if (f.id === 'f-code') submitCode(f); else if (f.id === 'f-profile') submitProfile(f); else if (f.id === 'f-pw') submitPassword(f); else if (f.id === 'f-sur') submitSurprise(f); else if (f.id === 'f-days') submitDays(f);
 });
 document.addEventListener('error', e => { const t = e.target; if (t && t.tagName === 'IMG' && t.dataset && t.dataset.asset) t.classList.add('broken'); }, true);
 document.addEventListener('keydown', e => {
   if (state.gate) return;
+  if (e.key === 'Enter' && e.target && e.target.id === 'st-place') { e.preventDefault(); stopGeoSearch(); return; }
   if (state.lightbox) {
     if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); }
     else if (e.key === 'ArrowRight') { state.lightbox.k++; renderLightbox(); }
@@ -2635,6 +4014,10 @@ document.addEventListener('keydown', e => {
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } }
     }
+    return;
+  }
+  if (!state.sheet && state.trip) {
+    if (e.key === 'Escape') { e.preventDefault(); if (state.mapPick) finishPick(null); else if ($('#mapwrap.full')) setMapFull(false); else closeTrip(); }
     return;
   }
   if (!state.sheet) {
@@ -2676,6 +4059,9 @@ function afterData(){
   if (state.sheet && ['idea', 'suggest', 'drawfilter', 'glasfilter', 'settings'].includes(state.sheet.type)) renderSheet();
   if (state.recap) renderRecap();
   if (state.lightbox) renderLightbox();
+  if (state.trip) renderTrip();
+  restoreTrip();
+  applyTheme();
   refreshProfiles();
 }
 
@@ -2700,14 +4086,20 @@ function homeTip(){
   return `<div class="gate-tip">${ico('sparkle', 16, 2.2)}<span><b>Tipp vor dem Anmelden:</b> Tippe in Safari unten auf <b>Teilen</b> und dann auf <b>„Zum Home-Bildschirm“</b>. Öffne das Glas danach über das neue Symbol und melde dich dort an. So startet es wie eine App.</span></div>`;
 }
 function profileFields(p){
-  const fig = !!(p && p.figure), name = (p && p.name) || '';
+  const hasPh = !!(p && p.photo) || !!state.profilePic;
+  const choice = state.profilePic || (p && p.photo) ? 2 : (p && p.figure) ? 1 : 0;
+  const fig = choice === 1, name = (p && p.name) || '';
+  const prev = state.profilePic ? `<img src="${state.profilePic.url}" alt="">` : p && p.photo ? `<img ${imgAttr(p.photo)} alt="" data-asset="1">` : ico('camera', 24, 2);
   const letter = (firstName(name) || '?').charAt(0).toUpperCase();
   return `<div class="field"><label class="lbl" for="p-name">Wie heißt du?</label><input id="p-name" type="text" maxlength="30" autocomplete="given-name" placeholder="Dein Vorname" value="${esc(name)}"><p class="err" id="p-name-err" hidden>Schreib kurz deinen Namen hin.</p></div>
     <fieldset class="field"><legend class="lbl">Dein Bild in der App</legend>
       <div class="av-pick">
-        <label class="av-opt" for="p-fig-0"><input type="radio" name="p-fig" id="p-fig-0" value="0" ${fig ? '' : 'checked'}><span class="av" id="p-letter">${esc(letter)}</span><span>Anfangsbuchstabe</span></label>
-        <label class="av-opt" for="p-fig-1"><input type="radio" name="p-fig" id="p-fig-1" value="1" ${fig ? 'checked' : ''}><span class="av">${figureSVG()}</span><span>Gezeichnete Figur</span></label>
-      </div></fieldset>`;
+        <label class="av-opt" for="p-fig-0"><input type="radio" name="p-fig" id="p-fig-0" value="0" ${choice === 0 ? 'checked' : ''}><span class="av" id="p-letter">${esc(letter)}</span><span>Buchstabe</span></label>
+        <label class="av-opt" for="p-fig-1"><input type="radio" name="p-fig" id="p-fig-1" value="1" ${fig ? 'checked' : ''}><span class="av">${figureSVG()}</span><span>Figur</span></label>
+        <label class="av-opt" for="p-fig-2"><input type="radio" name="p-fig" id="p-fig-2" value="2" ${choice === 2 ? 'checked' : ''}><span class="av av-ph" id="p-photo-prev">${prev}</span><span>Eigenes Foto</span></label>
+      </div>
+      <div class="photo-row"><label class="btn soft small" id="p-photo-btn" for="p-photo">${ico('camera', 16, 2.2)} <span>${hasPh ? 'Anderes Foto wählen' : 'Foto wählen'}</span><input type="file" id="p-photo" accept="image/*" class="sr"></label><span class="help">Wird quadratisch aus der Mitte zugeschnitten.</span></div>
+      <p class="err" id="p-photo-err" hidden>Wähl zuerst ein Foto aus.</p></fieldset>`;
 }
 function renderGate(initial){
   const g = state.gate, box = $('#gate'); if (!g) return;
@@ -2793,13 +4185,23 @@ async function submitCode(form){
 function readProfileForm(){
   const name = $('#p-name').value.trim();
   if (!name) { $('#p-name-err').hidden = false; $('#p-name').focus(); return null; }
-  return {name, figure: $('#p-fig-1').checked};
+  const c = $('#p-fig-2') && $('#p-fig-2').checked ? 2 : $('#p-fig-1').checked ? 1 : 0;
+  if (c === 2 && !state.profilePic && !(state.profiles[state.me] || {}).photo) { $('#p-photo-err').hidden = false; return null; }
+  return {name, figure: c === 1, usePhoto: c === 2};
 }
 async function submitProfile(form){
   const p = readProfileForm(); if (!p) return;
   const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+  const old = (state.profiles[state.me] || {}).photo || null; let photo = old, drop = null;
   try {
-    await setDoc('profiles', state.me, {...(state.profiles[state.me] || {}), ...p, id: undefined});
+    if (p.usePhoto && state.profilePic && state.assets) { const label = btn.textContent; btn.textContent = 'Foto wird hochgeladen …'; try { photo = (await state.assets.upload(state.profilePic.blob)).id; } catch (e) { btn.textContent = label; throw e; } if (old) drop = old; }
+    else if (!p.usePhoto) { if (old) drop = old; photo = null; }
+  } catch (e) { toast(photoError(e)); btn.disabled = false; return; }
+  const usePhoto = p.usePhoto; delete p.usePhoto;
+  try {
+    await setDoc('profiles', state.me, {...(state.profiles[state.me] || {}), ...p, photo: usePhoto ? photo : null, id: undefined});
+    if (drop && drop !== photo) deleteAssets([drop]);
+    if (state.profilePic) { try { URL.revokeObjectURL(state.profilePic.url); } catch (e) {} state.profilePic = null; }
     if (state.gate) { hideGate(); render(); toast(`Hallo ${firstName(p.name)}!`); }
     else { toast('Gespeichert.'); openSheet('settings'); }
   } catch (e) { btn.disabled = false; }
@@ -2822,7 +4224,7 @@ async function start(user){
   render();
 }
 async function init(){
-  applyAccent();
+  applyAccent(); applyTheme();
   if (!CFG_OK) { showGate('config'); return; }
   if (!sb) { showGate('offline', {msg: 'Ein Baustein der App ließ sich nicht laden. Prüf das Internet und versuch es nochmal.'}); return; }
   render();
@@ -2851,6 +4253,7 @@ async function submitPassword(form){
   }
 }
 document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') applyTheme();
   if (document.visibilityState === 'visible' && state.me && Date.now() - store.lastSync > 15000) resync();
 });
 window.addEventListener('online', () => { if (state.me) resync(); render(); });
