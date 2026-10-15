@@ -752,6 +752,122 @@ input[type=url]:focus-visible{outline:3px solid var(--accent);outline-offset:1px
 .av-ph > svg{width:24px;height:24px}
 .av-ph{background:var(--track);color:var(--muted)}
 .photo-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+/* memories: each person's own note */
+.mem-cta{display:inline-flex;align-items:center;gap:6px;margin-top:10px;min-height:40px;padding:8px 14px;border-radius:14px;border:1.5px dashed var(--dash);background:transparent;color:var(--accent-soft-ink);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.mem-cta svg{color:var(--heart)}
+.mem-cta:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mem-wait{display:flex;align-items:flex-start;gap:6px;margin:8px 0 0;font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.4}
+.mem-wait svg{flex:none;margin-top:2px}
+.mem-note{display:flex;flex-direction:column;gap:2px;padding-top:6px}
+.mem-who{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--muted)}
+.mem-who .av{font-size:10px}
+.mem-r .hn{display:none}
+.memo .memo-quote + .memo-quote{margin-top:6px}
+
+/* album: monthly recap and song proposals */
+#album-month:empty{display:none}
+.mcard{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px;border-radius:22px;border:1px solid rgba(255,216,102,.35);background:var(--surface);box-shadow:0 0 30px -16px rgba(255,216,102,.6);color:var(--ink);text-align:left;font:inherit;cursor:pointer}
+.mcard > svg{flex:none;color:var(--muted)}
+.mcard-ic{flex:none;width:50px;height:56px;border-radius:15px;display:grid;place-items:center;background:#FFF0B8;color:#8A6410}
+.mcard:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.mchips{margin-top:10px}
+.songcard{margin-top:12px;padding:12px 14px;border-radius:20px;border:1px solid var(--glass-line);background:var(--surface);box-shadow:var(--shadow)}
+.songcard-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sc-k{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#8A6410}
+.songcard-p{margin:6px 0 0;font-size:13.5px;font-weight:600;color:var(--muted)}
+.songlist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.songlist li{display:flex;align-items:center;gap:8px;min-height:40px;padding:4px 4px 4px 12px;border-radius:12px;background:var(--track);font-weight:700;font-size:14px}
+.songlist li span{flex:1;min-width:0;overflow-wrap:anywhere}
+.songlist small{font-size:12.5px;font-weight:600;color:var(--muted)}
+
+/* the monthly story */
+.mrecap{position:fixed;inset:0;z-index:66;display:flex;flex-direction:column;background:radial-gradient(130% 70% at 50% 0%,#2C2358 0%,#1A1538 55%,#100C22 100%);color:#F2EEFF;--ink:#F2EEFF;--muted:#B8AFD9;--deep-muted:#B8AFD9;--line:rgba(255,255,255,.15);--surface:rgba(255,255,255,.07);--bg:#1A1538;--accent:#FFD866;--accent-ink:#1A1538;--heart:#F27BB2;--heart-off:#4C4472;color-scheme:dark}
+.mrecap .fx{position:fixed;width:6px;height:6px;border-radius:50%;background:var(--fly-hi);box-shadow:0 0 10px 4px rgba(255,216,102,.5);animation:blink 4.2s ease-in-out infinite alternate;pointer-events:none}
+.mrecap .fx:nth-of-type(1){top:14%;left:8%}
+.mrecap .fx:nth-of-type(2){top:30%;right:7%;animation-delay:-1.4s}
+.mrecap .fx:nth-of-type(3){top:66%;left:5%;width:4px;height:4px;animation-delay:-2.2s}
+.mrecap .fx:nth-of-type(4){top:82%;right:9%;animation-delay:-3s}
+.mr-top{position:relative;display:flex;align-items:center;gap:10px;max-width:560px;width:100%;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 10px) 14px 6px}
+.mr-bars{flex:1;display:flex;gap:4px}
+.mr-bars i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.18)}
+.mr-bars i.done{background:rgba(255,216,102,.7)}
+.mr-bars i.on{background:#FFD866;box-shadow:0 0 10px rgba(255,216,102,.7)}
+.mr-x{position:static;flex:none}
+.mr-slide{position:relative;flex:1;overflow-y:auto;overscroll-behavior:contain;max-width:560px;width:100%;margin:0 auto;padding:14px 20px 20px;display:flex;flex-direction:column;gap:12px;animation:pop .45s cubic-bezier(.2,.9,.3,1.1)}
+.mr-center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin:auto 0}
+.mr-kick{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#FFD866}
+.mr-big{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(56px,17vw,84px);line-height:1;text-shadow:0 0 40px rgba(255,216,102,.25)}
+.mr-h{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(28px,8vw,36px);line-height:1.08;overflow-wrap:anywhere}
+.mr-sub,.mr-p{margin:0;font-weight:600;color:#B8AFD9;line-height:1.45}
+.mr-p .hearts{display:inline-flex;vertical-align:-2px}
+.mr-hint{margin:6px 0 0;font-size:12.5px;font-weight:600;color:rgba(184,175,217,.75)}
+.mr-jar{width:min(210px,56vw);margin-top:4px;filter:drop-shadow(0 0 40px rgba(255,216,102,.35))}
+.mr-jar svg{display:block;width:100%;height:auto}
+.mr-nums{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mr-num{padding:14px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+.mr-num:first-child{grid-column:1/-1;border-color:rgba(255,216,102,.35);background:rgba(255,216,102,.08)}
+.mr-num b{display:block;font-family:var(--f-display);font-weight:400;font-size:44px;line-height:1}
+.mr-num:first-child b{font-size:64px;color:#FFD866}
+.mr-num span{font-size:13.5px;font-weight:700;color:#B8AFD9}
+.mr-list{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.mr-list li{display:flex;align-items:baseline;gap:10px;font-weight:700}
+.mr-list li span:nth-child(2){flex:1;min-width:0;overflow-wrap:anywhere}
+.mr-list small{font-size:12.5px;font-weight:600;color:#B8AFD9;white-space:nowrap}
+.mr-dot{flex:none;width:8px;height:8px;border-radius:50%;background:#FFD866;box-shadow:0 0 8px 2px rgba(255,216,102,.6);transform:translateY(-1px)}
+.mr-cover{display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;border-radius:22px;overflow:hidden;background:rgba(255,255,255,.07);box-shadow:0 0 0 2px rgba(255,216,102,.45),0 0 40px -8px rgba(255,216,102,.55);cursor:zoom-in}
+.mr-cover img{width:100%;height:100%;object-fit:cover;display:block}
+.mr-quote{margin:0;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.07)}
+.mr-quote blockquote{margin:0;font-family:var(--f-display);font-size:20px;line-height:1.35;white-space:pre-line;overflow-wrap:anywhere}
+.mr-quote figcaption{margin-top:6px;font-size:13px;font-weight:700;color:#FFD866}
+.mr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.mr-grid .cl{aspect-ratio:1}
+.mr-grid.n2,.mr-grid.n4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.mr-grid.n3 .cl:first-child,.mr-grid.n5 .cl:first-child,.mr-grid.n7 .cl:first-child{grid-column:span 2;grid-row:span 2}
+.mr-places{display:flex;flex-wrap:wrap;gap:8px}
+.mr-songs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.mr-songs li{padding:8px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.mr-songs li.on{border-color:rgba(255,216,102,.6);box-shadow:0 0 26px -10px rgba(255,216,102,.7)}
+.mr-songs iframe.spot{margin-top:0}
+.mr-song-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;padding:0 4px}
+.mr-song-row small{font-size:12.5px;font-weight:600;color:#B8AFD9}
+.mr-minijar{width:120px;align-self:center;transform-origin:50% 90%}
+.mr-minijar svg{display:block;width:100%;height:auto}
+.mr-minijar.shake{animation:shake .55s ease-in-out 3}
+.mr-share{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:6px}
+.mr-prev{width:min(170px,44vw);border-radius:14px;box-shadow:0 10px 30px -10px rgba(0,0,0,.8)}
+.mr-pl{width:100%;text-align:left;margin-top:8px}
+.mr-pl .mr-kick{margin-bottom:6px}
+.mr-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:560px;width:100%;margin:0 auto;padding:8px 16px calc(env(safe-area-inset-bottom,0px) + 14px)}
+.mr-nav .btn{min-height:48px}
+.mr-nav .btn.ghost{color:#F2EEFF;background:rgba(255,255,255,.08);border-color:transparent}
+.mr-count{font-size:13px;font-weight:700;color:#B8AFD9;font-variant-numeric:tabular-nums}
+.mrecap .btn.ghost{color:#F2EEFF;background:rgba(255,255,255,.08)}
+.mrecap .searchrow input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#F2EEFF}
+.mrecap :is(.btn,.lb-btn,.cl,.mr-cover):focus-visible{outline:3px solid #FFD866;outline-offset:3px}
+
+/* Unsere Orte */
+.places{z-index:47}
+.places-map{height:min(56vh,460px)}
+.pl-mark span{width:22px;height:22px;border-width:3px}
+.pl-pin{flex:none;width:14px;height:14px;border-radius:50%;background:#8F6BD6;box-shadow:0 0 0 3px rgba(143,107,214,.25)}
+.pl-pin.k-memo{background:#E8B526;box-shadow:0 0 0 3px rgba(232,181,38,.3)}
+.pl-go{flex:1;min-width:0;display:flex;align-items:center;gap:12px;border:0;background:none;color:inherit;text-align:left;font:inherit;cursor:pointer;min-height:44px;padding:0 0 0 4px}
+.pl-fix{flex:none;font-size:13px;padding:6px 8px}
+#places-list .sec{margin-top:22px}
+
+/* settings: notifications */
+.push-kinds{display:flex;flex-direction:column;gap:2px}
+.push-kinds .toggle span{display:flex;flex-direction:column;line-height:1.3}
+.push-kinds small{font-size:12.5px;font-weight:600;color:var(--muted)}
+
+/* Einigen by day: same light garden as the other pages */
+.dchip{background:var(--track);color:var(--ink)}
+.dchips .iconbtn{border-color:var(--glass-line)}
+.round{border:1px solid var(--glass-line)}
+.round.yes{border:0}
+.jarfig path[stroke="#D9D2F2"]{stroke:#B6A9DA}
+.jarfig path[fill-opacity="0.08"]{fill-opacity:.5}
+.drawbox .btn.fly{box-shadow:0 0 28px -8px rgba(232,181,38,.6)}
 /* Nachtgarten (night) and Tagesgarten (day): soft gradient ground, glass cards with a thin border,
    serif headings, floating bottom bar with a raised round plus. */
 :root{
@@ -799,6 +915,10 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--page-
 :root[data-theme="dark"] .nc-date, body.night .nc-date{background:rgba(255,216,102,.14);color:#FFD866}
 :root[data-theme="dark"] .nc-k, body.night .nc-k{color:#FFD866}
 :root[data-theme="dark"] .tripnow .nc-main, body.night .tripnow .nc-main{border-color:rgba(255,216,102,.3);box-shadow:0 0 34px -14px rgba(255,216,102,.45)}
+:root[data-theme="dark"] .mcard-ic, body.night .mcard-ic{background:rgba(255,216,102,.14);color:#FFD866}
+:root[data-theme="dark"] .sc-k, body.night .sc-k{color:#FFD866}
+:root[data-theme="dark"] .jarfig path[stroke="#D9D2F2"], body.night .jarfig path[stroke="#D9D2F2"]{stroke:#D9D2F2}
+:root[data-theme="dark"] .jarfig path[fill-opacity="0.08"], body.night .jarfig path[fill-opacity="0.08"]{fill-opacity:.08}
 @media (prefers-color-scheme: dark){
 :root:not([data-theme="light"]){--bg:#1A1538; --page-img:radial-gradient(130% 75% at 50% 16%,#2C2358 0%,#1A1538 55%,#100C22 100%);
   --surface:rgba(255,255,255,.07); --surface-solid:#2A2352; --sheet:#221B48; --glass-line:rgba(255,255,255,.12);
@@ -826,6 +946,10 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--page-
 :root:not([data-theme="light"]) .nc-date{background:rgba(255,216,102,.14);color:#FFD866}
 :root:not([data-theme="light"]) .nc-k{color:#FFD866}
 :root:not([data-theme="light"]) .tripnow .nc-main{border-color:rgba(255,216,102,.3);box-shadow:0 0 34px -14px rgba(255,216,102,.45)}
+:root:not([data-theme="light"]) .mcard-ic{background:rgba(255,216,102,.14);color:#FFD866}
+:root:not([data-theme="light"]) .sc-k{color:#FFD866}
+:root:not([data-theme="light"]) .jarfig path[stroke="#D9D2F2"]{stroke:#D9D2F2}
+:root:not([data-theme="light"]) .jarfig path[fill-opacity="0.08"]{fill-opacity:.08}
 }
 
 
@@ -961,6 +1085,8 @@ h1,h2,h3,.sec,.month,.page-h h1,.brand h1,.sheet-h,.sc-title,.card-title,.lit-ti
 </div>
 
 <div class="recap" id="recap" role="dialog" aria-modal="true" aria-labelledby="recap-h" hidden></div>
+<div class="mrecap" id="mrecap" role="dialog" aria-modal="true" aria-label="Monatsrückblick" hidden></div>
+<div class="trip places" id="places" role="dialog" aria-modal="true" aria-label="Unsere Orte" hidden></div>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto" hidden></div>
 
 <p class="toast" id="toast" role="status" aria-live="polite" hidden></p>
@@ -1015,6 +1141,7 @@ const IC = {
   expand:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
   shrink:'<path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/>',
   locate:'<circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22"/>',
+  bell:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
   moon:'<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
   sunset:'<path d="M4 18h16"/><path d="M7 18a5 5 0 0 1 10 0"/><path d="M12 6v3M5.6 9.6l1.6 1.6M18.4 9.6l-1.6 1.6M3 14h1.5M19.5 14H21"/><path d="M8 21h8"/>',
   phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
@@ -1614,7 +1741,7 @@ const loadingHTML = () => `<div class="empty"><div class="empty-fig">${jarSVG(3,
 
 function render(){
   const tab = currentTab();
-  document.body.classList.toggle('night', tab === 'einigen');
+  document.body.classList.remove('night');
   TABS.forEach(t => { $('#view-' + t).hidden = t !== tab; });
   document.querySelectorAll('.tab').forEach(a => {
     const on = a.dataset.tab === tab;
@@ -1949,7 +2076,7 @@ async function castVote(id, yes){
   try { await updateDoc('ideas', id, patch); }
   catch (e) { state.lastVote = null; }
   state.pending.delete(id);
-  if (yes && othersYes) state.matchNote = id;
+  if (yes && othersYes) { state.matchNote = id; notifyPush('match', id); }
   render();
   const top = $('#card-top'); if (top) top.focus({preventScroll:true});
 }
@@ -2095,30 +2222,32 @@ function memoHTML(i){
   const photos = cover ? '' : (ph.length || canPhoto) ? `<div class="ph-row">${ph.slice(0, 3).map((p, k) => `<button class="ph-thumb" data-action="photo" data-id="${id}" data-v="${k}" aria-label="Foto ${k + 1} vergrößern"><img ${imgAttr(p)} alt="" loading="lazy" data-asset="1"></button>`).join('')}${ph.length > 3 ? `<button class="ph-btn" data-action="photo" data-id="${id}" data-v="3" aria-label="Alle ${ph.length} Fotos ansehen" style="border-style:solid;font-weight:800">+${ph.length - 3}</button>` : ''}${canPhoto ? `<button class="ph-btn" data-action="done" data-id="${id}" aria-label="Foto hinzufügen">${ico('plus', 22, 2.2)}</button>` : ''}</div>` : '';
   const coverHTML = cover ? `<button class="memo-cover n${Math.min(cph.length, 3)}" data-action="recap" data-id="${id}" aria-label="Rückblick auf ${esc(i.title)} ansehen, ${nph} ${nph === 1 ? 'Foto' : 'Fotos'}">${cph.slice(0, 3).map(p => `<img ${imgAttr(p)} alt="" loading="lazy" data-asset="1">`).join('')}<span class="cover-pill">${ico('sparkle', 14, 2.2)} Rückblick · ${nph} ${nph === 1 ? 'Foto' : 'Fotos'}</span></button>` : '';
   return `<article class="memo${sp ? ' special' : ''}">
-    <div class="memo-top"><span class="memo-date">${shortRange(i.doneDate, i.doneEnd)}</span>${i.rating ? heartsHTML(i.rating) : ''}</div>
+    <div class="memo-top"><span class="memo-date">${shortRange(i.doneDate, i.doneEnd)}</span>${memRating(i) ? heartsHTML(memRating(i)) : ''}</div>
     ${coverHTML}
     <button class="memo-main" data-action="open" data-id="${id}">
       <span class="memo-kicker">${i.surprise ? ico('gift', 13) + ' ' : sp ? ico('sparkle', 13, 2.2) + ' ' : ''}${esc(sourceLabel(i))}${sp && !cover && jarIdOf(i) !== 'reisen' ? ' · Besonders' : ''}${nst ? ' · ' + nst + (nst === 1 ? ' Station' : ' Stationen') : ''}</span>
       <span class="memo-title">${esc(i.title)}</span>
-      ${i.memory ? `<span class="memo-quote">„${esc(i.memory)}“${author}</span>` : ''}
+      ${memQuotesHTML(i)}
       ${i.place ? placeText(i.place) : ''}
     </button>
+    ${memCTA(i)}
     ${photos}
   </article>`;
 }
 function renderAlbum(){
   const v = $('#view-album');
-  if (!$('#album-music')) v.innerHTML = '<div id="album-head"></div><div id="album-music"></div><div id="album-body"></div>';
+  if (!$('#album-music')) v.innerHTML = '<div id="album-head"></div><div id="album-month"></div><div id="album-music"></div><div id="album-body"></div>';
   const head = $('#album-head'), body = $('#album-body');
   if (!state.loaded) { head.innerHTML = ''; body.innerHTML = loadingHTML(); renderMusic(); return; }
   const list = state.ideas.filter(i => statusOf(i) === 'done').sort((a, b) => String(b.doneDate || '').localeCompare(String(a.doneDate || '')));
   const photos = list.reduce((s, i) => s + tripPhotoCount(i), 0);
   const pastBtn = state.readOnly ? '' : `<button class="btn soft small" data-action="addpast">${ico('plus', 18, 2.2)} Erinnerung nachtragen</button>`;
-  head.innerHTML = `<header class="page-h row-h"><div><h1>Unser Album</h1><p>${list.length ? `${list.length} gemeinsame ${list.length === 1 ? 'Erlebnis' : 'Erlebnisse'}${photos ? ` · ${photos} ${photos === 1 ? 'Foto' : 'Fotos'}` : ''}` : 'Hier sammeln sich eure Erlebnisse'}</p></div>${pastBtn}</header>`;
+  head.innerHTML = `<header class="page-h row-h"><div><h1>Unser Album</h1><p>${list.length ? `${list.length} gemeinsame ${list.length === 1 ? 'Erlebnis' : 'Erlebnisse'}${photos ? ` · ${photos} ${photos === 1 ? 'Foto' : 'Fotos'}` : ''}` : 'Hier sammeln sich eure Erlebnisse'}</p></div><div class="row-flex album-btns"><button class="btn soft small" data-action="places">${ico('pin', 18, 2.2)} Unsere Orte</button>${pastBtn}</div></header>`;
   renderMusic();
+  renderAlbumMonth();
   let html = daysCardHTML();
   const pinned = list.filter(i => i.pinned).sort((a, b) => (b.pinned || 0) - (a.pinned || 0))[0];
-  if (pinned) html += `<article class="deep"><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="eyebrow-fly">${ico('tack', 14, 2.2)} Angepinnt</span><button class="pinned-main" data-action="open" data-id="${esc(pinned.id)}"><h2>${esc(pinned.title)}</h2><p>${pinned.doneDate ? F_LONG.format(parseD(pinned.doneDate)) : ''}${pinned.memory ? ' · ' + esc(pinned.memory.length > 80 ? pinned.memory.slice(0, 78) + '…' : pinned.memory) : ''}</p></button></article>`;
+  if (pinned) html += `<article class="deep"><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="eyebrow-fly">${ico('tack', 14, 2.2)} Angepinnt</span><button class="pinned-main" data-action="open" data-id="${esc(pinned.id)}"><h2>${esc(pinned.title)}</h2><p>${pinned.doneDate ? F_LONG.format(parseD(pinned.doneDate)) : ''}${memFirstText(pinned) ? ' · ' + esc(memFirstText(pinned).length > 80 ? memFirstText(pinned).slice(0, 78) + '…' : memFirstText(pinned)) : ''}</p></button></article>`;
   if (!list.length) {
     html += `<div class="empty" style="margin-top:22px"><h2 class="empty-h">Hier entsteht euer Album</h2><p class="empty-p">Wenn ihr etwas gemacht habt, tippt auf „Erledigt“, vergebt Herzen, schreibt auf, was schön war, und hängt Fotos an. Euer erstes Date oder einen Urlaub von früher tragt ihr über „Erinnerung nachtragen“ ein.</p>${state.ideas.some(i => statusOf(i) === 'planned') ? `<div class="row-flex"><a class="btn primary" href="#geplant">${ico('cal', 18, 2.2)} Zu den Plänen</a></div>` : ''}</div>`;
     body.innerHTML = html; return;
@@ -2140,6 +2269,7 @@ function openSheet(type, id, opts){
   }
   else clearPhotoDraft();
   if (type === 'settings' && !(state.backup && state.backup.busy)) state.backup = null;
+  if (type === 'settings') pushRefresh();
   if (type === 'profile') state.profilePic = null;
   if (type === 'idea') state.pickOpt = null;
   if (type === 'days') { const D = days(); state.daysDraft = {together: D.together || '', met: D.met || '', first: D.first || '', custom: (D.custom || []).map(c => ({...c}))}; }
@@ -2152,7 +2282,7 @@ function clearPhotoDraft(){
 }
 function closeSheet(){
   state.sheet = null; clearPhotoDraft(); state.daysDraft = null;
-  $('#sheet-wrap').hidden = true; if (!state.trip && !state.recap) document.body.classList.remove('locked');
+  $('#sheet-wrap').hidden = true; if (!state.trip && !state.recap && !state.month && !state.places) document.body.classList.remove('locked');
   const lf = state.lastFocus; state.lastFocus = null;
   if (lf && document.contains(lf)) lf.focus({preventScroll:true});
 }
@@ -2178,6 +2308,8 @@ function renderSheet(initial){
   else if (s.type === 'stop') html = stopSheet(i);
   else if (s.type === 'tripdates') html = tripDatesSheet(i);
   else if (s.type === 'music') html = musicSheet();
+  else if (s.type === 'song') html = songSheet();
+  else if (s.type === 'placefix') html = placeFixSheet(i);
   const scroll = box.scrollTop;
   box.innerHTML = `<div class="sheet-bar"><span class="grip"></span><button class="sheet-x" data-action="close" aria-label="Schließen">${ico('x', 20, 2.2)}</button></div>` + html;
   if (s.type === 'done') { paintHearts(); renderPhotoDraft(); }
@@ -2222,7 +2354,7 @@ function ideaSheet(i){
   let status = '';
   if (st === 'planned') status = `<div class="status"><b>Abgemacht für ${i.planDate ? F_SHORT.format(parseD(i.planDate)) : 'irgendwann'}${isTrip(i) && i.planEnd ? ' bis ' + F_SHORT.format(parseD(i.planEnd)) : ''}${i.planTime ? ', ' + esc(timeTxt(i.planTime)) : ''}</b>${i.planDate ? `<span class="muted">${cap(rel(i.planDate))}</span>` : ''}</div>`;
   if (st === 'proposed') status = proposalHTML(i);
-  if (st === 'done') status = `<div class="status"><b>Erlebt ${i.doneEnd && i.doneEnd > i.doneDate ? '' : 'am '}${i.doneDate ? rangeText(i.doneDate, i.doneEnd) : '–'}</b>${i.rating ? heartsHTML(i.rating) : ''}${i.memory ? `<p class="sheet-note">„${esc(i.memory)}“ <b class="muted">${esc(personNom(i.doneBy || i.by))}</b></p>` : ''}</div>`;
+  if (st === 'done') status = `<div class="status"><b>Erlebt ${i.doneEnd && i.doneEnd > i.doneDate ? '' : 'am '}${i.doneDate ? rangeText(i.doneDate, i.doneEnd) : '–'}</b>${memSheetHTML(i)}</div>`;
   if (st === 'open' && i.declined && i.declined.by !== me && me) status = `<div class="status"><b>${esc(personNom(i.declined.by))} passte keiner der Termine</b><span class="muted">Schlag gern neue vor, wenn es wieder passt.</span></div>`;
   const recapBtn = st === 'done' && isSpecial(i) && (photos.length || (isTrip(i) && (tripPhotoCount(i) || stopsOf(i).length))) ? `<button class="btn primary" data-action="recap" data-id="${id}">${ico('sparkle', 18, 2.2)} Rückblick ansehen</button>` : '';
   let votes = '';
@@ -2389,21 +2521,21 @@ function surpriseSheet(i){
 }
 function doneSheet(i){
   const t = todayStr(), isDone = statusOf(i) === 'done' && !(state.sheet && state.sheet.fresh), gift = isHiddenGift(i);
-  const d = i.doneDate || (i.planDate && i.planDate <= t ? i.planDate : t), r = Number(i.rating) || 0;
+  const d = i.doneDate || (i.planDate && i.planDate <= t ? i.planDate : t), r = (memMine(i) || {}).r || 0;
   const trip = jarIdOf(i) === 'reisen' && !i.surprise, sp = state.photoDraft ? !!state.photoDraft.special : isSpecial(i);
   const photoField = state.assets
     ? `<div class="field"><span class="lbl">Fotos <span class="opt" id="ph-max">optional, bis zu ${photoLimit(sp)}</span></span><div class="ph-edit" id="ph-edit"></div><p class="help">Fotos werden beim Speichern verkleinert und hochgeladen.</p></div>`
     : `<p class="help">Fotos hochladen geht in dieser Ansicht nicht.</p>`;
   return `<form id="f-done" class="form" novalidate>
-    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">${gift ? 'Überraschung aufdecken' : isDone ? 'Erinnerung bearbeiten' : 'Wie war’s?'}</h2><p class="sheet-name">${esc(titleOf(i))}</p>
+    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">${gift ? 'Überraschung aufdecken' : isDone ? (memMine(i) ? 'Erinnerung bearbeiten' : 'Deine Erinnerung') : 'Wie war’s?'}</h2><p class="sheet-name">${esc(titleOf(i))}</p>
     ${gift ? '<p class="sheet-sub" style="margin:6px 0 0">Danach seht ihr beide, was dahintersteckte, und die Überraschung landet im Album.</p>' : ''}</div>
-    <fieldset class="field"><legend class="lbl">Wie schön war es?</legend><div class="hearts-input">${[1,2,3,4,5].map(n => `<label class="hrt" for="done-r-${n}"><input type="radio" name="done-r" id="done-r-${n}" value="${n}" ${n === r ? 'checked' : ''}><span>${heartSVG(true, 38).replace('class="ic-heart"', '')}</span><span class="sr">${n} von 5 Herzen</span></label>`).join('')}</div></fieldset>
+    <fieldset class="field"><legend class="lbl">Deine Herzen</legend><div class="hearts-input">${[1,2,3,4,5].map(n => `<label class="hrt" for="done-r-${n}"><input type="radio" name="done-r" id="done-r-${n}" value="${n}" ${n === r ? 'checked' : ''}><span>${heartSVG(true, 38).replace('class="ic-heart"', '')}</span><span class="sr">${n} von 5 Herzen</span></label>`).join('')}</div></fieldset>
     <label class="special-row" for="done-special"><input type="checkbox" id="done-special" ${sp ? 'checked' : ''} ${trip ? 'disabled' : ''}><span class="sp-txt"><b>${ico('sparkle', 16, 2.2)} Besonderes Erlebnis</b><span>${trip ? 'Reisen bekommen immer einen eigenen Rückblick als Collage und bis zu ' + MAX_PHOTOS_SPECIAL + ' Fotos.' : 'Zum Beispiel euer erstes Date: eigener Rückblick als Collage und bis zu ' + MAX_PHOTOS_SPECIAL + ' Fotos.'}</span></span></label>
     <div class="time-row dates2">
       <div class="field"><label class="lbl" for="done-date">${sp ? 'Von' : 'Wann war das?'}</label><input type="date" id="done-date" max="${t}" value="${d}"></div>
       <div class="field" id="done-end-f" ${sp ? '' : 'hidden'}><label class="lbl" for="done-end">Bis <span class="opt">optional</span></label><input type="date" id="done-end" max="${t}" value="${esc(i.doneEnd || (trip && i.planEnd && i.planEnd <= t && i.planEnd > d ? i.planEnd : ''))}"></div>
     </div>
-    <div class="field"><label class="lbl" for="done-note">Was war schön? <span class="opt">optional</span></label><textarea id="done-note" rows="3" maxlength="500" placeholder="Ein Moment, den ihr nicht vergessen wollt …">${esc(i.memory || '')}</textarea></div>
+    <div class="field"><label class="lbl" for="done-note">Deine Erinnerung <span class="opt">optional</span></label><textarea id="done-note" rows="3" maxlength="500" placeholder="Ein Moment, den ihr nicht vergessen wollt …">${esc((memMine(i) || {}).t || '')}</textarea>${memHelp(i)}</div>
     ${photoField}
     <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button><button type="submit" class="btn primary" id="done-submit">${gift ? 'Aufdecken und ins Album' : isDone ? 'Speichern' : 'Ins Album'}</button></div>
   </form>`;
@@ -2488,6 +2620,7 @@ function settingsSheet(){
     ${state.readOnly ? '' : '<div class="more" style="margin-top:12px"><button class="btn soft" data-action="newjar">Neues Glas anlegen</button></div>'}
     <h3 class="sec">Akzentfarbe</h3>
     <div class="set-block"><p class="muted">Gilt nur auf diesem Gerät.</p><div class="swatches" role="group" aria-label="Akzentfarbe">${ACCENTS.map(a => `<button class="swatch" data-action="accent" data-v="${a.v}" aria-pressed="${curAcc === a.v}" style="--c:${a.v}"><i></i>${a.l}</button>`).join('')}</div></div>
+    ${pushBlock()}
     ${themeBlock()}
     <h3 class="sec">Unsere Tage</h3>
     <div class="set-block"><p class="muted">Zusammen seit, Kennenlernen, erstes Date und eigene Tage wie Geburtstage.</p>${state.readOnly ? '' : '<div><button class="btn soft" data-action="days">Tage bearbeiten</button></div>'}</div>
@@ -2553,7 +2686,7 @@ function openRecap(id){
 function closeRecap(){
   dropRecapMap();
   state.recap = null; const r = $('#recap'); r.hidden = true; r.innerHTML = ''; r.dataset.sig = '';
-  if (!state.sheet && !state.trip) document.body.classList.remove('locked');
+  if (!state.sheet && !state.trip && !state.month && !state.places) document.body.classList.remove('locked');
   const f = state.recapFocus; state.recapFocus = null;
   if (f && document.contains(f)) f.focus({preventScroll:true});
 }
@@ -2569,7 +2702,7 @@ function renderRecap(initial){
   if (n) facts.push(`${ico('cal', 15)} ${n} Tage`);
   if (nst) facts.push(`${ico('pin', 15)} ${nst} ${nst === 1 ? 'Station' : 'Stationen'}`);
   if (nph) facts.push(`${ico('camera', 15)} ${nph} ${nph === 1 ? 'Foto' : 'Fotos'}`);
-  if (i.rating) facts.push(heartsHTML(i.rating));
+  if (memRating(i)) facts.push(heartsHTML(memRating(i)));
   const fx = '<span class="fx" aria-hidden="true"></span>'.repeat(5);
   const scroll = r.scrollTop;
   r.innerHTML = `${fx}<div class="recap-in">
@@ -2579,7 +2712,7 @@ function renderRecap(initial){
       ${i.place ? `<p class="recap-place">${placeLink(i.place)}</p>` : ''}
       ${facts.length ? `<div class="recap-facts">${facts.map(f => `<span class="fact">${f}</span>`).join('')}</div>` : ''}
       ${ph.length ? `<div class="collage">${ph.map((p, k) => `<button class="cl ${cells[k] || ''}" data-action="photo" data-id="${id}" data-v="${k}" aria-label="Foto ${k + 1} von ${ph.length} vergrößern"><img ${imgAttr(p)} alt="" loading="${k < 6 ? 'eager' : 'lazy'}" data-asset="1"></button>`).join('')}</div>` : tripPart ? '' : `<p class="recap-empty">Noch keine Fotos. Hängt bis zu ${MAX_PHOTOS_SPECIAL} Fotos an, dann entsteht hier eure Collage.</p>`}
-      ${i.memory ? `<figure class="recap-quote"><blockquote>„${esc(i.memory)}“</blockquote><figcaption>${esc(personNom(i.doneBy || i.by))}</figcaption></figure>` : ''}
+      ${memVisible(i).filter(n => n.t).map(n => `<figure class="recap-quote"><blockquote>„${esc(n.t)}“</blockquote><figcaption>${esc(personNom(n.uid))}</figcaption></figure>`).join('')}
       ${tripPart}
       <div class="recap-actions">${state.readOnly ? '' : `<button class="btn fly" data-action="recap-edit" data-id="${id}">${ico('camera', 18)} ${trip ? (ph.length ? 'Titelfotos ergänzen' : 'Titelfotos anhängen') : ph.length ? 'Fotos ergänzen' : 'Fotos anhängen'}</button>`}${trip ? `<button class="btn ghost" data-action="trip-open" data-id="${id}">${ico('pin', 18, 2.2)} Reise öffnen</button>` : ''}<button class="btn ghost recap-close" data-action="recap-close">Schließen</button></div>
     </div>`;
@@ -2694,12 +2827,14 @@ async function submitSurprise(form){
     if (editId) {
       await setSecret(editId, {title, note, place});
       await updateDoc('ideas', editId, {planDate: date, planTime: time, hint, meet});
+      notifyPush('surprise', editId);
       toast('Überraschung geändert.'); openSheet('idea', editId);
     } else {
       const id = newId('ideas');
       await setSecret(id, {title, note, place});
       const a = actor();
       await setDoc('ideas', id, {surprise: true, status: 'planned', planDate: date, planTime: time, hint, meet, createdAt: Date.now(), likes: {}, ...(a ? {by: a} : {})});
+      notifyPush('surprise', id);
       toast(`Überraschung für ${F_SHORT.format(parseD(date))} geplant.`); closeSheet(); location.hash = 'geplant'; render();
     }
   } catch (e) { btn.disabled = false; }
@@ -2731,11 +2866,13 @@ async function submitDone(form){
     }
   }
   btn.textContent = 'Wird gespeichert …';
-  const data = {status: 'done', doneDate, doneEnd, rating, memory, photos: pd.keep, special: trip ? null : (special || null)};
+  const firstDone = statusOf(i) !== 'done' || !!(state.sheet && state.sheet.fresh), wasBoth = memBoth(i), hadOther = memList(i).some(n => n.uid !== actor());
+  const data = {status: 'done', doneDate, doneEnd, ...memPatch(i, rating, memory), photos: pd.keep, special: trip ? null : (special || null)};
   if (statusOf(i) !== 'done') { data.doneAt = Date.now(); if (actor()) data.doneBy = actor(); }
   if (gift) { const sec = state.secrets[id] || {}; data.title = sec.title || 'Überraschung'; data.note = sec.note || ''; data.place = sec.place || i.meet || ''; data.revealedAt = Date.now(); }
   try {
     await updateDoc('ideas', id, data);
+    if (firstDone) notifyPush('memory', id); else if (!wasBoth && hadOther && (rating || memory)) notifyPush('reveal', id);
     if (gift) { try { await delSecret(id); } catch (e) {} }
     await deleteAssets(pd.removed);
     pd.removed = [];
@@ -2791,7 +2928,7 @@ async function toggleHeart(id){
   const othersYes = likers(i).some(x => x !== me);
   const patch = {likes: {[me]: next}};
   if (next === true && othersYes) { patch.matchedAt = Date.now(); patch.matchedBy = me; }
-  try { await updateDoc('ideas', id, patch); if (next === true && othersYes) toast('Match! Ihr wollt das beide.'); } catch (e) {}
+  try { await updateDoc('ideas', id, patch); if (next === true && othersYes) { toast('Match! Ihr wollt das beide.'); notifyPush('match', id); } } catch (e) {}
 }
 
 /* ---------- trips: plan with stations and map, packing list, to-dos, links ---------- */
@@ -3617,7 +3754,7 @@ function themeBlock(){
   const pref = themePref();
   return `<h3 class="sec">Tag und Nacht</h3>
     <div class="set-block"><div class="optlist themes" role="radiogroup" aria-label="Tag und Nacht">${THEMES.map(t => `<button type="button" class="optbtn" role="radio" aria-checked="${pref === t.v}" data-action="theme" data-v="${t.v}"><span class="th-ic" aria-hidden="true">${ico(t.v === 'tag' ? 'sun' : t.v === 'nacht' ? 'moon' : t.v === 'sonne' ? 'sunset' : 'phone', 20, 2)}</span><span class="opt-txt"><b>${t.l}</b><span>${t.v === 'sonne' ? esc(sunLine()) || t.s : t.s}</span></span><span class="opt-check" aria-hidden="true">${ico('check', 16, 2.6)}</span></button>`).join('')}</div>
-    <p class="muted">Gilt nur auf diesem Handy. „Einigen“ bleibt immer nachts, dort leuchtet das Glas.</p></div>`;
+    <p class="muted">Gilt nur auf diesem Handy.</p></div>`;
 }
 
 /* ---------- own profile photo ---------- */
@@ -3732,10 +3869,676 @@ function nextHTML(){
   return cards.sort((a, b) => a[0].localeCompare(b[0])).map(c => c[1]).join('');
 }
 
+/* ---------- memories: each writes their own text and hearts; both show once both have written, at the latest after 7 days ---------- */
+const REVEAL_DAYS = 7;
+const MEM_SINCE = Date.parse('2026-10-15T00:00:00+02:00');
+/* all notes of an experience; an old shared text counts as its author's note */
+function memList(i){
+  const out = Object.entries((i && i.mem) || {}).filter(([, v]) => v && typeof v === 'object' && (v.t || v.r))
+    .map(([uid, v]) => ({uid, t: String(v.t || ''), r: Number(v.r) || 0, at: v.at || 0}));
+  const lu = i && (i.doneBy || i.by);
+  if (i && (i.memory || Number(i.rating)) && lu && !out.some(n => n.uid === lu)) out.unshift({uid: lu, t: String(i.memory || ''), r: Number(i.rating) || 0, at: 0, legacy: true});
+  return out;
+}
+const memOpenAt = i => (i.doneAt || 0) + REVEAL_DAYS * 864e5;
+const memBoth = i => new Set(memList(i).map(n => n.uid)).size >= 2;
+function memRevealed(i){
+  const n = memList(i);
+  if (n.some(x => x.legacy) || memBoth(i)) return true;
+  return !i.doneAt || i.doneAt < MEM_SINCE || Date.now() >= memOpenAt(i);
+}
+const memMine = i => { const me = actor(); return me ? memList(i).find(n => n.uid === me) || null : null; };
+const memVisible = i => { const me = actor(); return memRevealed(i) ? memList(i) : memList(i).filter(n => n.uid === me); };
+function memAvg(i, all){
+  const rs = (all ? memList(i) : memVisible(i)).map(n => n.r).filter(Boolean);
+  return rs.length ? rs.reduce((a, b) => a + b, 0) / rs.length : 0;
+}
+const memRating = i => Math.round(memAvg(i));
+const memFirstText = i => (memVisible(i).find(n => n.t) || {}).t || '';
+const memQuotesHTML = (i, cls = 'memo-quote') => memVisible(i).filter(n => n.t).map(n => `<span class="${cls}">„${esc(n.t)}“ <b>${esc(personNom(n.uid))}</b></span>`).join('');
+const memWaitText = i => `Sieht ${esc(partnerName('der andere'))}, sobald ihr beide geschrieben habt, spätestens am ${F_DM.format(new Date(memOpenAt(i)))}.`;
+/* under an album card: write your own, or a quiet note that yours is still private */
+function memCTA(i, inSheet){
+  if (state.readOnly || !actor()) return '';
+  const mine = memMine(i), id = esc(i.id);
+  if (!mine) {
+    const fresh = !memList(i).some(n => n.legacy) && (i.doneAt || 0) > Date.now() - 45 * 864e5;
+    if (!inSheet && !fresh) return '';
+    return `<button class="mem-cta" data-action="done" data-id="${id}">${ico('heart', 15, 2.2)} Deine Erinnerung ${memRevealed(i) && memList(i).length ? 'dazuschreiben' : 'schreiben'}</button>`;
+  }
+  if (!memRevealed(i)) return `<p class="mem-wait">${ico('lock', 13, 2.2)} <span>Deine Erinnerung. ${memWaitText(i)}</span></p>`;
+  return '';
+}
+/* the notes inside the idea sheet */
+function memSheetHTML(i){
+  const notes = memVisible(i), r = memRating(i);
+  return `${r ? heartsHTML(r) : ''}${notes.filter(n => n.t || n.r).map(n => `<div class="mem-note"><span class="mem-who">${avatar(n.uid, 22)} ${esc(personNom(n.uid))}${n.r ? `<span class="mem-r">${heartsHTML(n.r)}</span>` : ''}</span>${n.t ? `<p class="sheet-note">„${esc(n.t)}“</p>` : ''}</div>`).join('')}${memCTA(i, true)}`;
+}
+/* the data to save from the "Wie war's?" sheet for the person writing */
+function memPatch(i, rating, text){
+  const me = actor(); if (!me) return {rating, memory: text};
+  const prev = memMine(i);
+  const out = {mem: {[me]: (rating || text) ? {t: text, r: rating, at: (prev && prev.at) || Date.now()} : null}};
+  if (prev && prev.legacy) { out.memory = null; out.rating = null; }
+  return out;
+}
+function memHelp(i){
+  const fresh = statusOf(i) !== 'done' || (state.sheet && state.sheet.fresh);
+  const other = esc(partnerName('der andere'));
+  return `<p class="help">${!fresh && memRevealed(i) ? `${other} sieht deine Erinnerung sofort.` : `${other} sieht deine Erinnerung und deine Herzen erst, wenn ihr beide geschrieben habt, spätestens nach ${REVEAL_DAYS} Tagen.`}</p>`;
+}
+
+/* ---------- Monatsrückblick: on the 1st, last month as story slides, with the song of the month ---------- */
+const mkOf = d => d.getFullYear() + '-' + pad(d.getMonth() + 1);
+const curMk = () => mkOf(new Date());
+const shiftMk = (mk, n) => { const d = parseD(mk + '-01'); d.setMonth(d.getMonth() + n); return mkOf(d); };
+const prevMk = (mk = curMk()) => shiftMk(mk, -1);
+const F_MONLY = new Intl.DateTimeFormat('de-DE', {month: 'long'});
+const mkName = mk => F_MONLY.format(parseD(mk + '-01'));
+const mkYear = mk => mk.slice(0, 4);
+const inMk = (s, mk) => !!s && String(s).slice(0, 7) === mk;
+const msMk = ms => ms ? mkOf(new Date(ms)) : '';
+const songsDoc = () => state.couple.find(d => d.id === 'songs') || null;
+const monthDoc = mk => ((songsDoc() || {})[mk]) || {};
+const songDue = mk => Date.now() >= parseD(shiftMk(mk, 1) + '-08').getTime();
+async function songPatch(mk, patch){
+  if (songsDoc()) return updateDoc('couple', 'songs', {[mk]: patch});
+  return setDoc('couple', 'songs', {[mk]: patch});
+}
+
+function monthData(mk){
+  const done = state.ideas.filter(i => statusOf(i) === 'done' && inMk(i.doneDate, mk)).sort((a, b) => String(a.doneDate).localeCompare(String(b.doneDate)));
+  const photos = [];
+  done.forEach(i => {
+    (i.photos || []).forEach((p, k) => photos.push({p, act: `data-action="photo" data-id="${esc(i.id)}" data-v="${k}"`}));
+    if (isTrip(i)) stopsOf(i).forEach(s => stopPhotos(s).forEach((p, k) => photos.push({p, act: `data-action="stop-photo" data-trip="${esc(i.id)}" data-v="${esc(s.id)}" data-k="${k}"`})));
+  });
+  const places = [], seen = new Set();
+  const addP = s => { const n = String(s || '').split(',')[0].trim(), key = n.toLowerCase(); if (n && !seen.has(key)) { seen.add(key); places.push(n); } };
+  done.forEach(i => { if (isTrip(i)) { const g = tripOf(i).geo; if (g && g.label) addP(g.label); stopsOf(i).forEach(s => addP(s.place || s.t)); } else addP(i.place); });
+  const quotes = [];
+  done.forEach(i => {
+    if (memRevealed(i)) memList(i).filter(n => n.t).forEach(n => quotes.push({t: n.t, uid: n.uid, about: i.title}));
+    if (isTrip(i)) stopsOf(i).forEach(s => Object.entries(s.notes || {}).forEach(([uid, x]) => { if (x && x.t) quotes.push({t: x.t, uid, about: s.t || s.place || i.title}); }));
+  });
+  const ranked = done.map(i => ({i, a: memRevealed(i) ? memAvg(i, true) : 0, n: tripPhotoCount(i)})).sort((x, y) => y.a - x.a || y.n - x.n);
+  return {
+    mk, done, photos, places, quotes, fav: ranked.length ? ranked[0] : null,
+    slips: state.ideas.filter(i => !i.surprise && msMk(i.createdAt) === mk).length,
+    matches: state.ideas.filter(i => msMk(i.matchedAt) === mk).length
+  };
+}
+const coverOf = i => (i.photos || [])[0] || (isTrip(i) ? allStopPhotos(i)[0] : null) || null;
+
+/* ---------- song of the month: proposals during the month, a secret vote on the 1st ---------- */
+function monthSongs(mk){
+  const out = [], ids = new Set();
+  Object.entries(monthDoc(mk).songs || {}).forEach(([sid, s]) => {
+    const sp = s && spotifyParse(s.u);
+    if (sp && !ids.has(sp.id)) { ids.add(sp.id); out.push({sid, sp, t: s.t || '', by: s.by || null, at: s.at || 0}); }
+  });
+  state.ideas.filter(isTrip).forEach(i => stopsOf(i).forEach(st => {
+    const sp = spotifyParse(st.song);
+    if (sp && inMk(st.day || i.doneDate || i.planDate, mk) && !ids.has(sp.id)) { ids.add(sp.id); out.push({sid: 'st-' + sp.id, sp, t: '', by: st.by || null, at: st.at || 0, from: st.t || st.place || i.title}); }
+  }));
+  return out.sort((a, b) => (a.at - b.at) || a.sid.localeCompare(b.sid));
+}
+function songResult(mk){
+  const cands = monthSongs(mk), votes = monthDoc(mk).votes || {};
+  const byId = sid => cands.find(c => c.sid === sid);
+  if (!cands.length) return {state: 'none', cands};
+  if (cands.length === 1) return {state: 'done', song: cands[0], how: 'one', cands};
+  const valid = Object.entries(votes).filter(([, sid]) => byId(sid));
+  const picks = [...new Set(valid.map(v => v[1]))].sort();
+  if (valid.length >= 2) {
+    if (picks.length === 1) return {state: 'done', song: byId(picks[0]), how: 'same', cands};
+    return {state: 'done', song: byId(picks[hash(mk + '|' + picks.join('|')) % picks.length]), how: 'glas', picks, cands};
+  }
+  if (songDue(mk)) {
+    if (valid.length === 1) return {state: 'done', song: byId(valid[0][1]), how: 'one-vote', cands};
+    return {state: 'done', song: cands[hash(mk) % cands.length], how: 'glas', cands};
+  }
+  return {state: 'vote', cands, mine: votes[actor()] || null};
+}
+async function songTitle(sp){
+  try { const r = await fetchJSON('https://open.spotify.com/oembed?url=' + encodeURIComponent(sp.url), 5000); return r && r.title ? String(r.title).slice(0, 80) : ''; } catch (e) { return ''; }
+}
+async function addSong(mk, url, title){
+  const sp = spotifyParse(url);
+  if (!sp || sp.type !== 'track') return false;
+  if (monthSongs(mk).some(c => c.sp.id === sp.id)) { toast('Dieses Lied ist schon vorgeschlagen.'); return true; }
+  const t = title || await songTitle(sp);
+  await songPatch(mk, {songs: {[newId()]: {u: sp.url, t, by: actor() || null, at: Date.now()}}});
+  return true;
+}
+function songSheet(){
+  const mk = (state.sheet && state.sheet.mk) || curMk();
+  return `<form id="f-song" class="form" novalidate>
+    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">Lied für ${esc(mkName(mk))}</h2><p class="sheet-sub" style="margin:0">Öffne das Lied in Spotify, tippe auf die drei Punkte, dann auf „Teilen“ und „Link kopieren“. Am 1. stimmt ihr im Rückblick ab, welches euer Lied des Monats wird.</p></div>
+    <div class="field"><label class="lbl" for="sg-url">Link zum Lied</label><input id="sg-url" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="https://open.spotify.com/track/…"><p class="err" id="sg-err" hidden>Das ist kein Spotify-Link zu einem Lied.</p><div id="sg-prev"></div></div>
+    <div class="field"><label class="lbl" for="sg-t">Titel und Interpret <span class="opt">optional, steht dann auf dem Bild</span></label><input id="sg-t" type="text" maxlength="80" placeholder="z. B. Wien – Wanda"></div>
+    <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button><button type="submit" class="btn primary">Vorschlagen</button></div>
+  </form>`;
+}
+let songPrevT = 0;
+function songUrlInput(el){
+  const sp = spotifyParse(el.value), prev = $('#sg-prev'), err = $('#sg-err');
+  if (err) err.hidden = true;
+  if (!prev) return;
+  if (!sp || sp.type !== 'track') { prev.innerHTML = ''; prev.dataset.id = ''; return; }
+  if (prev.dataset.id === sp.id) return;
+  prev.dataset.id = sp.id; prev.innerHTML = spotifyEmbed(sp, 80);
+  clearTimeout(songPrevT);
+  songPrevT = setTimeout(async () => { const t = await songTitle(sp); const f = $('#sg-t'); if (t && f && !f.value.trim()) f.value = t; }, 200);
+}
+async function submitSong(form){
+  const mk = (state.sheet && state.sheet.mk) || curMk(), url = $('#sg-url').value, sp = spotifyParse(url);
+  if (!sp || sp.type !== 'track') { $('#sg-err').hidden = false; $('#sg-url').focus(); return; }
+  const btn = form.querySelector('[type=submit]'); btn.disabled = true;
+  try { await addSong(mk, url, $('#sg-t').value.trim()); toast('Vorgeschlagen. Am 1. stimmt ihr ab.'); closeSheet(); renderAlbumMonth(); }
+  catch (e) { btn.disabled = false; }
+}
+
+/* ---------- in the album: last month's recap and this month's song proposals ---------- */
+function albumMonthHTML(){
+  if (!state.loaded) return '';
+  const pm = prevMk(), cm = curMk(), out = [];
+  const months = [...new Set(state.ideas.filter(i => statusOf(i) === 'done' && i.doneDate && i.doneDate.slice(0, 7) < cm).map(i => i.doneDate.slice(0, 7)))].sort().reverse();
+  if (months.length) {
+    const d = monthData(pm), r = songResult(pm);
+    const meta = d.done.length ? `${d.done.length} ${d.done.length === 1 ? 'Erlebnis' : 'Erlebnisse'}${d.photos.length ? ' · ' + d.photos.length + ' ' + (d.photos.length === 1 ? 'Foto' : 'Fotos') : ''}` : 'Ein ruhiger Monat';
+    out.push(`<button class="mcard" data-action="month-open" data-v="${pm}"><span class="mcard-ic" aria-hidden="true">${ico('sparkle', 22, 2)}</span><span class="nc-txt"><span class="nc-k">Monatsrückblick</span><span class="nc-t">Euer ${esc(mkName(pm))}</span><span class="nc-m">${meta}${r.state === 'vote' && !r.mine && actor() ? ' · Lied des Monats wählen' : ''}</span></span>${ico('right', 22, 2.2)}</button>`);
+    const older = months.filter(m => m < pm).slice(0, 8);
+    if (older.length) out.push(`<div class="chips mchips" role="group" aria-label="Frühere Rückblicke">${older.map(m => `<button class="chip" data-action="month-open" data-v="${m}">${esc(mkName(m))}${mkYear(m) !== mkYear(cm) ? ' ' + mkYear(m) : ''}</button>`).join('')}</div>`);
+  }
+  const cands = monthSongs(cm);
+  out.push(`<section class="songcard" aria-label="Lied des Monats"><div class="songcard-h"><span class="sc-k">${ico('music', 14, 2.2)} Lied des Monats · ${esc(mkName(cm))}</span>${state.readOnly ? '' : `<button class="btn soft small" data-action="song-new">${ico('plus', 16, 2.4)} Vorschlagen</button>`}</div>
+    <p class="songcard-p">${cands.length ? `${cands.length} ${cands.length === 1 ? 'Vorschlag' : 'Vorschläge'}. Am 1. stimmt ihr im Rückblick ab.` : 'Schlagt im Lauf des Monats Lieder vor. Songs an Reisestationen zählen automatisch mit. Am 1. stimmt ihr ab.'}</p>
+    ${cands.length ? `<ul class="songlist">${cands.map(c => `<li><span>${esc(c.t || (c.from ? 'Song von „' + c.from + '“' : 'Spotify-Lied'))}</span><small>${c.by ? esc(personNom(c.by)) : ''}</small>${c.by && c.by === actor() && !c.sid.startsWith('st-') && !state.readOnly ? `<button class="ti-x" data-action="song-del" data-v="${esc(c.sid)}" aria-label="Vorschlag entfernen">${ico('x', 16, 2.4)}</button>` : ''}</li>`).join('')}</ul>` : ''}
+  </section>`);
+  return out.join('');
+}
+function renderAlbumMonth(){ const box = $('#album-month'); if (box) box.innerHTML = albumMonthHTML(); }
+
+/* ---------- the story ---------- */
+function monthSlides(mk){
+  const d = monthData(mk), r = songResult(mk), names = coupleNames(), slides = [];
+  const lit = Math.max(2, Math.min(10, d.done.length + 2));
+  slides.push({k: 'intro', html: `<div class="mr-center"><span class="mr-kick">Euer Monatsrückblick</span><h2 class="mr-big" id="mr-h">${esc(mkName(mk))}</h2><p class="mr-sub">${esc(names || 'Unser Ideenglas')} · ${mkYear(mk)}</p><div class="mr-jar">${jarSVG(lit, 'Leuchtendes Glas')}</div><p class="mr-hint">Tippe auf „Weiter“ oder wische zur Seite.</p></div>`});
+  const nums = d.done.length
+    ? [[d.done.length, d.done.length === 1 ? 'Erlebnis' : 'Erlebnisse'], [d.photos.length, d.photos.length === 1 ? 'Foto' : 'Fotos'], [d.places.length, d.places.length === 1 ? 'Ort' : 'Orte'], [d.matches, d.matches === 1 ? 'Match' : 'Matches'], [d.slips, d.slips === 1 ? 'neuer Zettel' : 'neue Zettel']]
+    : [[d.slips, d.slips === 1 ? 'neuer Zettel' : 'neue Zettel'], [d.matches, d.matches === 1 ? 'Match' : 'Matches']];
+  slides.push({k: 'nums', html: `<span class="mr-kick">In Zahlen</span><h2 class="mr-h">${d.done.length ? `${d.done.length === 1 ? 'Ein Erlebnis' : d.done.length + ' Erlebnisse'} im ${esc(mkName(mk))}` : 'Ein ruhiger Monat'}</h2>${d.done.length ? '' : '<p class="mr-p">Im Album ist diesen Monat nichts dazugekommen. Dafür hat sich im Glas etwas getan:</p>'}<div class="mr-nums">${nums.map(([n, l]) => `<div class="mr-num"><b>${NUM.format(n)}</b><span>${esc(l)}</span></div>`).join('')}</div>${d.done.length ? `<ul class="mr-list">${d.done.map(i => `<li><span class="mr-dot"></span><span>${esc(i.title)}</span><small>${esc(shortRange(i.doneDate, i.doneEnd))}</small></li>`).join('')}</ul>` : ''}`});
+  if (d.fav) {
+    const i = d.fav.i, cov = coverOf(i), notes = memRevealed(i) ? memList(i).filter(n => n.t) : [];
+    slides.push({k: 'fav', html: `<span class="mr-kick">Euer Lieblingsmoment</span>${cov ? `<button class="mr-cover" ${i.photos && i.photos.length ? `data-action="photo" data-id="${esc(i.id)}" data-v="0"` : 'data-action="month-noop"'} aria-label="Foto vergrößern"><img ${imgAttr(cov)} alt="" data-asset="1"></button>` : ''}<h2 class="mr-h">${esc(i.title)}</h2><p class="mr-p">${esc(rangeText(i.doneDate, i.doneEnd))}${d.fav.a ? ' · ' : ''}${d.fav.a ? heartsHTML(Math.round(d.fav.a)) : ''}</p>${notes.map(n => `<figure class="mr-quote"><blockquote>„${esc(n.t)}“</blockquote><figcaption>${esc(personNom(n.uid))}</figcaption></figure>`).join('')}`});
+  }
+  if (d.photos.length >= 2) {
+    const ph = d.photos.slice(0, 9);
+    slides.push({k: 'photos', html: `<span class="mr-kick">Eure Fotos</span><h2 class="mr-h">${d.photos.length} ${d.photos.length === 1 ? 'Foto' : 'Fotos'}</h2><div class="mr-grid n${Math.min(ph.length, 9)}">${ph.map(x => `<button class="cl" ${x.act} aria-label="Foto vergrößern"><img ${imgAttr(x.p)} alt="" data-asset="1"></button>`).join('')}</div>${d.photos.length > 9 ? `<p class="mr-p">und ${d.photos.length - 9} mehr im Album</p>` : ''}`});
+  }
+  if (d.places.length) slides.push({k: 'places', html: `<span class="mr-kick">Eure Orte</span><h2 class="mr-h">${d.places.length === 1 ? 'Ein Ort' : d.places.length + ' Orte'}</h2><div class="mr-places">${d.places.slice(0, 18).map(p => `<span class="fact">${ico('pin', 15)} ${esc(p)}</span>`).join('')}</div>${d.places.length > 18 ? `<p class="mr-p">und ${d.places.length - 18} weitere</p>` : ''}<div class="row-flex"><button class="btn ghost" data-action="places">${ico('pin', 18, 2.2)} Unsere Orte auf der Karte</button></div>`});
+  if (d.quotes.length) {
+    const qs = d.quotes.slice(0, 5);
+    slides.push({k: 'words', html: `<span class="mr-kick">Eure Worte</span><h2 class="mr-h">Was ihr geschrieben habt</h2>${qs.map(q => `<figure class="mr-quote"><blockquote>„${esc(q.t)}“</blockquote><figcaption>${esc(personNom(q.uid))} · ${esc(q.about)}</figcaption></figure>`).join('')}`});
+  }
+  slides.push({k: 'song', html: songSlideHTML(mk, r)});
+  const img = state.month && state.month.img;
+  const pl = spotifyParse(music().playlist);
+  slides.push({k: 'end', html: `<div class="mr-center"><span class="mr-kick">Das war euer ${esc(mkName(mk))}</span><h2 class="mr-h">Auf den nächsten Monat</h2>
+    <div class="mr-share">${img && img.url ? `<img class="mr-prev" src="${img.url}" alt="Euer Monatsbild"><button class="btn fly" data-action="month-share">${ico('download', 18, 2.2)} Bild sichern</button>` : `<button class="btn fly" data-action="month-img" ${img && img.busy ? 'disabled' : ''}>${ico('camera', 18, 2.2)} ${img && img.busy ? 'Bild wird erstellt …' : 'Bild für eure Fotos'}</button>`}</div>
+    ${pl ? `<div class="mr-pl"><span class="mr-kick">${ico('music', 14, 2.2)} Eure Playlist</span>${spotifyEmbed(pl, 152)}</div>` : ''}
+    <button class="btn ghost" data-action="month-close">Schließen</button></div>`});
+  return slides;
+}
+function songSlideHTML(mk, r){
+  const head = `<span class="mr-kick">${ico('music', 14, 2.2)} Lied des Monats</span>`;
+  if (r.state === 'none') return `${head}<h2 class="mr-h">Noch kein Lied</h2><p class="mr-p">Diesen Monat hat keiner ein Lied vorgeschlagen. Ihr könnt jetzt noch eins eintragen.</p>${state.readOnly ? '' : `<div class="searchrow"><input id="mr-song" type="url" inputmode="url" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="Spotify-Link zum Lied" aria-label="Spotify-Link zum Lied"><button class="btn fly small" data-action="month-song-add">Eintragen</button></div>`}`;
+  if (r.state === 'vote') {
+    const other = partnerName('der andere');
+    return `${head}<h2 class="mr-h">Welches Lied war euer ${esc(mkName(mk))}?</h2><p class="mr-p">${r.mine ? `Deine Stimme zählt. Sobald ${esc(other)} auch gewählt hat, steht euer Lied fest, spätestens am 8. ${esc(mkName(shiftMk(mk, 1)))}.` : `Jeder wählt heimlich. Seid ihr euch nicht einig, entscheidet das Glas.`}</p>
+      <ul class="mr-songs">${r.cands.map(c => `<li class="${r.mine === c.sid ? 'on' : ''}">${spotifyEmbed(c.sp, 80)}<div class="mr-song-row"><small>${c.from ? 'von der Station „' + esc(c.from) + '“' : c.by ? 'vorgeschlagen von ' + esc(personDat(c.by)) : ''}</small>${actor() && !state.readOnly ? `<button class="btn small ${r.mine === c.sid ? 'fly' : 'ghost'}" data-action="month-vote" data-v="${esc(c.sid)}" aria-pressed="${r.mine === c.sid}">${r.mine === c.sid ? ico('check', 16, 2.6) + ' Dein Favorit' : 'Mein Favorit'}</button>` : ''}</div></li>`).join('')}</ul>`;
+  }
+  const how = r.how === 'same' ? 'Ihr habt beide dasselbe gewählt.' : r.how === 'glas' ? 'Ihr wart euch nicht einig, also hat das Glas entschieden.' : r.how === 'one' ? 'Euer einziger Vorschlag in diesem Monat.' : '';
+  const shake = r.how === 'glas' && lsGet('ideenglas.song.shaken') !== mk;
+  if (shake) lsSet('ideenglas.song.shaken', mk);
+  return `${head}${r.how === 'glas' ? `<div class="mr-minijar${shake ? ' shake' : ''}">${jarSVG(4, 'Das Glas entscheidet')}</div>` : ''}<h2 class="mr-h">${esc(r.song.t || 'Euer Lied')}</h2><p class="mr-p">${how}</p>${spotifyEmbed(r.song.sp, 152)}<div class="row-flex"><a class="btn ghost small" href="${esc(r.song.sp.url)}" target="_blank" rel="noopener">${ico('music', 16, 2.2)} In Spotify öffnen</a></div>`;
+}
+function openMonth(mk){
+  if (state.sheet) closeSheet();
+  state.month = {mk, k: 0, img: null};
+  if (mk === prevMk()) lsSet('ideenglas.month.seen', mk);
+  renderMonth(true);
+}
+function closeMonth(){
+  const m = state.month; if (!m) return;
+  if (m.img && m.img.url) { try { URL.revokeObjectURL(m.img.url); } catch (e) {} }
+  state.month = null;
+  const box = $('#mrecap'); box.hidden = true; box.innerHTML = '';
+  if (!state.trip && !state.sheet && !state.recap) document.body.classList.remove('locked');
+  renderAlbumMonth();
+}
+function renderMonth(initial){
+  const m = state.month, box = $('#mrecap'); if (!m || !box) return;
+  const slides = monthSlides(m.mk);
+  m.k = Math.max(0, Math.min(m.k, slides.length - 1));
+  const s = slides[m.k];
+  box.innerHTML = `<span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span><span class="fx" aria-hidden="true"></span>
+    <div class="mr-top"><div class="mr-bars" aria-hidden="true">${slides.map((x, k) => `<i class="${k < m.k ? 'done' : k === m.k ? 'on' : ''}"></i>`).join('')}</div><button class="lb-btn mr-x" data-action="month-close" aria-label="Rückblick schließen">${ico('x', 22, 2.2)}</button></div>
+    <div class="mr-slide" data-k="${s.k}" id="mr-slide" aria-live="polite">${s.html}</div>
+    <div class="mr-nav"><button class="btn ghost" data-action="month-step" data-v="-1" ${m.k ? '' : 'disabled'}>${ico('left', 18, 2.4)} Zurück</button><span class="mr-count">${m.k + 1} / ${slides.length}</span>${m.k < slides.length - 1 ? `<button class="btn fly" data-action="month-step" data-v="1">Weiter ${ico('right', 18, 2.4)}</button>` : `<button class="btn fly" data-action="month-close">Fertig</button>`}</div>`;
+  box.hidden = false; document.body.classList.add('locked');
+  const sl = $('#mr-slide'); if (sl) sl.scrollTop = 0;
+  if (initial) { const x = box.querySelector('.mr-x'); if (x) x.focus({preventScroll: true}); }
+}
+function monthStep(n){ const m = state.month; if (!m) return; m.k += n; renderMonth(); }
+async function monthVote(sid){
+  const m = state.month, me = actor(); if (!m || !me) return;
+  const cur = (monthDoc(m.mk).votes || {})[me];
+  try { await songPatch(m.mk, {votes: {[me]: cur === sid ? null : sid}}); } catch (e) {}
+  renderMonth();
+}
+async function monthSongAdd(){
+  const m = state.month, f = $('#mr-song'); if (!m || !f) return;
+  const ok = await addSong(m.mk, f.value, '').catch(() => false);
+  if (!ok) { toast('Das ist kein Spotify-Link zu einem Lied.'); f.focus(); return; }
+  renderMonth();
+}
+/* swipe between slides */
+(() => {
+  let sx = 0, sy = 0, on = false;
+  document.addEventListener('pointerdown', e => { if (!state.month || !e.target.closest('#mr-slide')) return; on = true; sx = e.clientX; sy = e.clientY; }, true);
+  document.addEventListener('pointerup', e => {
+    if (!on) return; on = false;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (Math.abs(dx) > 60 && Math.abs(dy) < 50 && !e.target.closest('input, iframe')) monthStep(dx < 0 ? 1 : -1);
+  }, true);
+  document.addEventListener('keydown', e => {
+    if (!state.month || state.lightbox) return;
+    if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); closeMonth(); }
+    else if (e.key === 'ArrowRight' && !e.target.closest('input')) { e.preventDefault(); e.stopImmediatePropagation(); monthStep(1); }
+    else if (e.key === 'ArrowLeft' && !e.target.closest('input')) { e.preventDefault(); e.stopImmediatePropagation(); monthStep(-1); }
+  }, true);
+})();
+let monthChecked = false;
+function maybeMonth(){
+  if (monthChecked || !state.loaded || !state.me || state.readOnly) return;
+  monthChecked = true;
+  const pm = prevMk();
+  if (new Date().getDate() > 7 || lsGet('ideenglas.month.seen') === pm) return;
+  if (!state.ideas.some(i => statusOf(i) === 'done')) return;
+  setTimeout(() => { if (!state.sheet && !state.trip && !state.recap && !state.month && !state.lightbox) openMonth(pm); }, 700);
+}
+
+/* ---------- a picture of the month for the photo library ---------- */
+async function photoBitmap(id){
+  let url = photoSrc(id);
+  if (url === BLANK) { await sleep(900); url = photoSrc(id); }
+  if (!url || url === BLANK) return null;
+  try { const r = await fetch(url); if (!r.ok) return null; return await createImageBitmap(await r.blob()); } catch (e) { return null; }
+}
+function wrapLines(g, text, maxW, maxLines){
+  const words = String(text).split(/\s+/), lines = [];
+  let cur = '';
+  for (const w of words) {
+    const t = cur ? cur + ' ' + w : w;
+    if (g.measureText(t).width <= maxW || !cur) cur = t; else { lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  if (lines.length > maxLines) { lines.length = maxLines; lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + ' …'; }
+  return lines;
+}
+function rrect(g, x, y, w, h, r){ g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+async function monthImage(mk){
+  const d = monthData(mk), r = songResult(mk);
+  try { await Promise.all([document.fonts.load('400 120px "DM Serif Display"'), document.fonts.load('700 40px Figtree'), document.fonts.load('600 40px Figtree')]); } catch (e) {}
+  const W = 1080, H = 1920, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  const serif = '"DM Serif Display", Georgia, serif', sans = 'Figtree, -apple-system, "Helvetica Neue", sans-serif';
+  const bg = g.createRadialGradient(W / 2, 300, 40, W / 2, 500, 1500);
+  bg.addColorStop(0, '#2C2358'); bg.addColorStop(0.5, '#1A1538'); bg.addColorStop(1, '#100C22');
+  g.fillStyle = bg; g.fillRect(0, 0, W, H);
+  const fly = (x, y, rad) => { const gr = g.createRadialGradient(x, y, 0, x, y, rad * 5); gr.addColorStop(0, 'rgba(255,240,180,1)'); gr.addColorStop(0.22, 'rgba(255,216,102,.55)'); gr.addColorStop(1, 'rgba(255,216,102,0)'); g.fillStyle = gr; g.beginPath(); g.arc(x, y, rad * 5, 0, Math.PI * 2); g.fill(); };
+  [[96, 250, 6], [990, 170, 7], [960, 700, 5], [80, 900, 5], [1010, 1290, 6], [64, 1580, 5], [880, 1840, 4], [200, 1820, 3]].forEach(f => fly(...f));
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  g.fillStyle = '#FFD866'; g.font = `800 34px ${sans}`; g.fillText('UNSER MONATSRÜCKBLICK', W / 2, 180);
+  g.fillStyle = '#F2EEFF'; g.font = `400 156px ${serif}`; g.fillText(mkName(mk), W / 2, 340);
+  g.fillStyle = '#B8AFD9'; g.font = `600 40px ${sans}`; g.fillText(`${coupleNames() || 'Unser Ideenglas'} · ${mkYear(mk)}`, W / 2, 410);
+  const stats = d.done.length
+    ? [[d.done.length, d.done.length === 1 ? 'Erlebnis' : 'Erlebnisse'], [d.photos.length, d.photos.length === 1 ? 'Foto' : 'Fotos'], [d.places.length, d.places.length === 1 ? 'Ort' : 'Orte']]
+    : [[d.slips, d.slips === 1 ? 'neuer Zettel' : 'neue Zettel'], [d.matches, d.matches === 1 ? 'Match' : 'Matches'], [d.quotes.length, 'Worte']];
+  stats.forEach(([n, l], k) => {
+    const x = 60 + k * 330, y = 480;
+    rrect(g, x, y, 300, 210, 36); g.fillStyle = 'rgba(255,255,255,.07)'; g.fill(); g.strokeStyle = 'rgba(255,255,255,.14)'; g.lineWidth = 2; g.stroke();
+    g.fillStyle = '#F2EEFF'; g.font = `400 104px ${serif}`; g.fillText(NUM.format(n), x + 150, y + 122);
+    g.fillStyle = '#B8AFD9'; g.font = `700 34px ${sans}`; g.fillText(l, x + 150, y + 172);
+  });
+  let y = 760;
+  if (d.fav) {
+    const i = d.fav.i, cov = coverOf(i), bmp = cov ? await photoBitmap(cov) : null;
+    const top = y, ph = bmp ? 520 : 0, cardH = (bmp ? ph + 60 : 40) + 280;
+    rrect(g, 60, top, 960, cardH, 44); g.fillStyle = 'rgba(255,216,102,.07)'; g.fill(); g.strokeStyle = 'rgba(255,216,102,.35)'; g.lineWidth = 2; g.stroke();
+    if (bmp) {
+      g.save(); rrect(g, 100, top + 40, 880, ph, 30); g.clip();
+      const s = Math.max(880 / bmp.width, ph / bmp.height), w = bmp.width * s, h = bmp.height * s;
+      g.drawImage(bmp, 100 + (880 - w) / 2, top + 40 + (ph - h) / 2, w, h); g.restore();
+    }
+    let ty = top + (bmp ? ph + 110 : 100);
+    g.fillStyle = '#FFD866'; g.font = `800 32px ${sans}`; g.fillText('EUER LIEBLINGSMOMENT', W / 2, ty);
+    g.fillStyle = '#F2EEFF'; g.font = `400 70px ${serif}`;
+    wrapLines(g, i.title, 860, 2).forEach((ln, k) => g.fillText(ln, W / 2, ty + 88 + k * 76));
+    const hearts = Math.round(d.fav.a);
+    if (hearts) {
+      const hp = new Path2D('M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z');
+      const hy = ty + 88 + Math.min(2, wrapLines(g, i.title, 860, 2).length) * 76 - 40;
+      for (let k = 0; k < 5; k++) { g.save(); g.translate(W / 2 - 150 + k * 62, hy); g.scale(2.2, 2.2); g.fillStyle = k < hearts ? '#F27BB2' : 'rgba(255,255,255,.18)'; g.fill(hp); g.restore(); }
+    }
+    y = top + cardH + 50;
+  } else {
+    g.fillStyle = '#E6DFFF'; g.font = `400 64px ${serif}`;
+    wrapLines(g, 'Ein ruhiger Monat. Das Glas wartet schon auf euch.', 860, 3).forEach((ln, k) => g.fillText(ln, W / 2, 860 + k * 76));
+    y = 1120;
+  }
+  if (r.state === 'done' && y < 1700) {
+    const t = r.song.t || await songTitle(r.song.sp);
+    g.fillStyle = '#FFD866'; g.font = `800 32px ${sans}`; g.fillText('♫  LIED DES MONATS', W / 2, y + 20);
+    g.fillStyle = '#F2EEFF'; g.font = `400 58px ${serif}`;
+    wrapLines(g, t || 'Euer Lied', 900, 2).forEach((ln, k) => g.fillText(ln, W / 2, y + 96 + k * 64));
+  }
+  g.fillStyle = 'rgba(184,175,217,.85)'; g.font = `700 30px ${sans}`; g.fillText('Unser Ideenglas', W / 2, H - 70);
+  return new Promise(res => c.toBlob(b => res(b), 'image/jpeg', 0.92));
+}
+async function monthMakeImage(){
+  const m = state.month; if (!m || (m.img && m.img.busy)) return;
+  m.img = {busy: true}; renderMonth();
+  try {
+    const blob = await monthImage(m.mk);
+    if (!blob) throw new Error('canvas');
+    if (state.month !== m) return;
+    m.img = {blob, url: URL.createObjectURL(blob), name: `ideenglas-${m.mk}.jpg`};
+  } catch (e) { m.img = null; toast('Das Bild ließ sich nicht erstellen.'); }
+  renderMonth();
+}
+async function monthShare(){
+  const m = state.month; if (!m || !m.img || !m.img.blob) return;
+  const file = new File([m.img.blob], m.img.name, {type: 'image/jpeg'});
+  if (navigator.canShare && navigator.canShare({files: [file]})) {
+    try { await navigator.share({files: [file], title: `Euer ${mkName(m.mk)}`}); } catch (e) {}
+    return;
+  }
+  const a = document.createElement('a'); a.href = m.img.url; a.download = m.img.name; document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- Unsere Orte: everything you experienced, on one map ---------- */
+const pmap = {map: null, layer: null, sig: ''};
+const geoTried = new Set();
+function placePoints(){
+  const pts = [], missing = [];
+  state.ideas.filter(i => statusOf(i) === 'done').sort((a, b) => String(b.doneDate || '').localeCompare(String(a.doneDate || ''))).forEach(i => {
+    if (isTrip(i)) {
+      const stops = stopsOf(i).filter(hasCoords), g = tripOf(i).geo;
+      stops.forEach(s => pts.push({lat: s.lat, lon: s.lon, t: s.t || placeShort(s) || 'Station', sub: i.title, date: s.day || i.doneDate, id: i.id, kind: 'stop'}));
+      if (!stops.length && g && hasCoords(g)) pts.push({lat: g.lat, lon: g.lon, t: i.title, sub: String(g.label || '').split(',')[0], date: i.doneDate, id: i.id, kind: 'trip'});
+      return;
+    }
+    const pl = String(i.place || '').trim(); if (!pl) return;
+    const pg = i.placeGeo;
+    if (pg && pg.q === pl) { if (hasCoords(pg)) pts.push({lat: pg.lat, lon: pg.lon, t: i.title, sub: pl, date: i.doneDate, id: i.id, kind: 'memo', fix: true}); else missing.push(i); }
+    else missing.push(i);
+  });
+  return {pts, missing};
+}
+function placesShellHTML(){
+  return `<div class="trip-in"><div class="trip-top"><button class="iconbtn" data-action="places-close" aria-label="Zurück">${ico('left', 20, 2.4)}</button><span class="trip-top-t" id="places-h" tabindex="-1">Unsere Orte</span><span style="width:44px"></span></div>
+    <div class="mapwrap places-map"><div class="tmap" id="pmap" role="region" aria-label="Karte mit euren Orten"></div><p class="map-msg" id="pmap-msg" hidden></p></div>
+    <p class="map-help" id="places-sum"></p>
+    <div id="places-list"></div></div>`;
+}
+function openPlaces(){
+  if (state.month) closeMonth();
+  if (state.sheet) closeSheet();
+  state.places = true;
+  const box = $('#places'); box.innerHTML = placesShellHTML(); box.hidden = false; document.body.classList.add('locked');
+  renderPlaces(); ensurePlacesMap(); geocodeMissing();
+  const h = $('#places-h'); if (h) h.focus({preventScroll: true});
+}
+function closePlaces(){
+  state.places = false;
+  if (pmap.map) { try { pmap.map.remove(); } catch (e) {} }
+  Object.assign(pmap, {map: null, layer: null, sig: ''});
+  const box = $('#places'); box.hidden = true; box.innerHTML = '';
+  if (!state.trip && !state.sheet && !state.recap && !state.month) document.body.classList.remove('locked');
+}
+function renderPlaces(){
+  if (!state.places) return;
+  const {pts, missing} = placePoints();
+  const sum = $('#places-sum'), list = $('#places-list');
+  const trips = new Set(pts.filter(p => p.kind !== 'memo').map(p => p.id)).size;
+  if (sum) sum.textContent = pts.length ? `${pts.length} ${pts.length === 1 ? 'Ort' : 'Orte'}${trips ? ` · davon ${trips} ${trips === 1 ? 'Reise' : 'Reisen'}` : ''}. Tippe auf einen Punkt für mehr.` : (missing.length ? 'Die Orte werden gesucht …' : 'Sobald Erinnerungen einen Ort haben, erscheinen sie hier.');
+  if (list) {
+    const rows = pts.map((p, k) => `<li class="ti"><button class="ti-main pl-go" data-action="place-go" data-v="${k}"><span class="pl-pin k-${p.kind}" aria-hidden="true"></span><span class="ti-txt"><span class="ti-t">${esc(p.t)}</span><small>${esc([p.sub, p.date ? F_SHORT.format(parseD(p.date)) : ''].filter(Boolean).join(' · '))}</small></span></button>${p.fix && !state.readOnly ? `<button class="link-btn pl-fix" data-action="place-fix" data-id="${esc(p.id)}">Ort korrigieren</button>` : ''}</li>`).join('');
+    const miss = missing.filter(i => i.placeGeo && i.placeGeo.q === String(i.place || '').trim() && i.placeGeo.none && !i.placeGeo.hidden);
+    list.innerHTML = (rows ? `<ul class="tlist">${rows}</ul>` : '')
+      + (miss.length ? `<h3 class="sec">Nicht gefunden</h3><ul class="tlist">${miss.map(i => `<li class="ti"><span class="ti-txt" style="padding-left:6px"><span class="ti-t">${esc(i.title)}</span><small>${esc(i.place)}</small></span>${state.readOnly ? '' : `<button class="link-btn pl-fix" data-action="place-fix" data-id="${esc(i.id)}">Ort suchen</button>`}</li>`).join('')}</ul>` : '');
+  }
+  updatePlacesMap(pts);
+}
+async function ensurePlacesMap(){
+  const el = $('#pmap'); if (!el || pmap.map) return;
+  let L;
+  try { L = await loadLeaflet(); } catch (e) { const m = $('#pmap-msg'); if (m) { m.textContent = 'Die Karte lädt gerade nicht. Prüf das Internet.'; m.hidden = false; } return; }
+  if (!state.places || !$('#pmap') || pmap.map) return;
+  pmap.map = L.map('pmap', {zoomControl: false, attributionControl: true, tap: true});
+  try { pmap.map.attributionControl.setPrefix(false); } catch (e) {}
+  baseTiles(L).addTo(pmap.map);
+  pmap.layer = L.layerGroup().addTo(pmap.map);
+  pmap.sig = '';
+  updatePlacesMap(placePoints().pts);
+}
+function updatePlacesMap(pts){
+  if (!pmap.map || !window.L) return;
+  const sig = pts.map(p => p.lat.toFixed(5) + ',' + p.lon.toFixed(5)).join('|');
+  if (sig === pmap.sig) return;
+  const first = !pmap.sig; pmap.sig = sig;
+  const L = window.L; pmap.layer.clearLayers();
+  pts.forEach((p, k) => {
+    const color = p.kind === 'memo' ? '#E8B526' : '#8F6BD6';
+    const mk = L.marker([p.lat, p.lon], {icon: L.divIcon({className: 'stop-pin pl-mark', html: `<span style="--c:${color}"></span>`, iconSize: [22, 22], iconAnchor: [11, 11]}), keyboard: false});
+    mk.bindPopup(`<b>${esc(p.t)}</b><br><span>${esc([p.sub, p.date ? F_SHORT.format(parseD(p.date)) : ''].filter(Boolean).join(' · '))}</span><br><button class="link-btn" data-action="place-open" data-id="${esc(p.id)}">Erinnerung ansehen</button>`);
+    mk.addTo(pmap.layer); p.marker = mk;
+  });
+  pmap.pts = pts;
+  if (first || pts.length) fitPts(pmap.map, pts.map(p => [p.lat, p.lon]), HOME);
+  setTimeout(() => { try { pmap.map.invalidateSize(); } catch (e) {} }, 60);
+}
+function placeGo(k){
+  const p = pmap.pts && pmap.pts[k]; if (!p || !pmap.map) return;
+  pmap.map.setView([p.lat, p.lon], Math.max(pmap.map.getZoom(), 14));
+  if (p.marker) p.marker.openPopup();
+  const w = $('.places-map'); if (w) w.scrollIntoView({block: 'start', behavior: reduceMotion() ? 'auto' : 'smooth'});
+}
+/* places written as text: look them up once (near Augsburg) and keep the result with the memory */
+let geoBusy = false;
+async function geocodeMissing(){
+  if (geoBusy || state.readOnly || !navigator.onLine) return;
+  geoBusy = true;
+  try {
+    let n = 0;
+    for (const i of placePoints().missing) {
+      if (!state.places || n >= 15) break;
+      const pl = String(i.place || '').trim();
+      if (i.placeGeo && i.placeGeo.q === pl) continue;
+      if (geoTried.has(i.id + '|' + pl)) continue;
+      geoTried.add(i.id + '|' + pl); n++;
+      let res = [];
+      try { res = await geoSearch(pl, HOME); } catch (e) { break; }
+      const r = res[0];
+      await updateDoc('ideas', i.id, {placeGeo: r ? {q: pl, lat: r.lat, lon: r.lon, label: [r.name, r.sub].filter(Boolean).join(', '), auto: true} : {q: pl, none: true}}).catch(() => {});
+      renderPlaces();
+      await sleep(1100);
+    }
+  } finally { geoBusy = false; }
+}
+function placeFixSheet(i){
+  if (!i) return '<p class="sheet-sub">Diese Erinnerung gibt es nicht mehr.</p>';
+  const f = state.sheet.fix || {q: i.place || '', res: null};
+  return `<form id="f-pfix" class="form" novalidate>
+    <div><h2 class="sheet-h" id="sheet-h" tabindex="-1">Ort auf der Karte</h2><p class="sheet-name">${esc(i.title)}</p><p class="sheet-sub" style="margin:4px 0 0">Gespeichert ist „${esc(i.place || '')}“. Such den richtigen Ort und tippe ihn an.</p></div>
+    <div class="searchrow"><input id="pf-q" type="text" value="${esc(f.q)}" aria-label="Ort suchen" autocomplete="off"><button class="btn soft" type="submit">Suchen</button></div>
+    ${f.busy ? '<p class="help">Wird gesucht …</p>' : f.res ? (f.res.length ? `<ul class="georesults">${f.res.map((r, k) => `<li><button type="button" data-action="place-pick" data-v="${k}">${ico('pin', 18, 2.2)}<span><b>${esc(r.name)}</b><small>${esc(r.sub)}</small></span></button></li>`).join('')}</ul>` : '<p class="help">Nichts gefunden. Versuch es mit Stadt oder Straße dazu.</p>') : ''}
+    <div class="form-actions"><button type="button" class="btn ghost" data-action="close">Abbrechen</button><button type="button" class="btn ghost" data-action="place-none">Nicht auf die Karte</button></div>
+  </form>`;
+}
+async function placeFixSearch(){
+  const s = state.sheet; if (!s || s.type !== 'placefix') return;
+  const q = ($('#pf-q') && $('#pf-q').value.trim()) || '';
+  if (!q) return;
+  s.fix = {q, busy: true}; renderSheet();
+  let res = [];
+  try { res = await geoSearch(q, HOME); } catch (e) { toast('Die Ortssuche antwortet gerade nicht.'); }
+  if (state.sheet !== s) return;
+  s.fix = {q, res}; renderSheet();
+}
+async function placePick(k){
+  const s = state.sheet, i = s && find(s.id), r = s && s.fix && s.fix.res && s.fix.res[k]; if (!i || !r) return;
+  try { await updateDoc('ideas', i.id, {placeGeo: {q: String(i.place || '').trim(), lat: r.lat, lon: r.lon, label: [r.name, r.sub].filter(Boolean).join(', '), auto: false}}); toast('Ort gespeichert.'); closeSheet(); renderPlaces(); } catch (e) {}
+}
+async function placeNone(){
+  const s = state.sheet, i = s && find(s.id); if (!i) return;
+  try { await updateDoc('ideas', i.id, {placeGeo: {q: String(i.place || '').trim(), none: true, hidden: true}}); closeSheet(); renderPlaces(); } catch (e) {}
+}
+function placeOpen(id){
+  const i = find(id); if (!i) return;
+  if (isTrip(i)) { closePlaces(); openTrip(id); }
+  else openSheet('idea', id);
+}
+
+/* ---------- notifications: this phone subscribes, the server function "push" sends ---------- */
+const VAPID_PUBLIC = 'BJyOmWevCHp38I1Oh2x1-TdEX2KDOP1H0T71GhosNAo_MS8fdlkfWraIVlDy2fOZX_yDlYuONAk9JZ9JbD0QhYo';
+const PUSH_KINDS = [
+  {k: 'match', l: 'Neues Match'},
+  {k: 'surprise', l: 'Überraschung für dich'},
+  {k: 'memory', l: 'Neue Erinnerung im Album'},
+  {k: 'evening', l: 'Abend vor einem Date', s: 'um 19 Uhr'},
+  {k: 'special', l: 'Besondere Tage', s: 'morgens um 9'},
+  {k: 'remember', l: 'Weißt du noch?', s: 'an genauen Monats- und Jahrestagen'},
+  {k: 'recap', l: 'Monatsrückblick', s: 'am 1. um 9 Uhr'}
+];
+const pushOK = () => 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+function b64uBytes(s){
+  const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+  return Uint8Array.from(b, c => c.charCodeAt(0));
+}
+function swReady(ms = 6000){
+  return Promise.race([navigator.serviceWorker.ready, new Promise((_, rej) => setTimeout(() => rej(new Error('sw')), ms))]);
+}
+async function pushRefresh(){
+  if (!pushOK() || !state.me || !sb) return;
+  const p = state.push;
+  p.perm = Notification.permission;
+  try { const reg = await swReady(); p.sub = await reg.pushManager.getSubscription(); } catch (e) { p.sub = null; }
+  try { const rows = await run(sb.from('push_prefs').select('prefs').eq('user_id', state.me)); p.prefs = (rows && rows[0] && rows[0].prefs) || {}; } catch (e) { p.prefs = p.prefs || {}; }
+  p.ready = true;
+  if (state.sheet && state.sheet.type === 'settings') renderSheet();
+}
+async function pushEnable(){
+  if (!pushOK() || state.push.busy) return;
+  const perm = await Notification.requestPermission();
+  state.push.perm = perm;
+  if (perm !== 'granted') { toast('Ohne deine Erlaubnis geht es nicht. Du kannst sie in den iPhone-Einstellungen unter „Mitteilungen“ erlauben.'); renderSheet(); return; }
+  state.push.busy = true; renderSheet();
+  try {
+    const reg = await swReady();
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) sub = await reg.pushManager.subscribe({userVisibleOnly: true, applicationServerKey: b64uBytes(VAPID_PUBLIC)});
+    const j = sub.toJSON();
+    await run(sb.from('push_subs').upsert({endpoint: j.endpoint, user_id: state.me, p256dh: j.keys.p256dh, auth: j.keys.auth, ua: navigator.userAgent.slice(0, 120)}));
+    state.push.sub = sub;
+    toast('Benachrichtigungen sind auf diesem Handy an.');
+  } catch (e) { toast('Das hat nicht geklappt. Öffne die App vom Home-Bildschirm und versuch es nochmal.'); }
+  state.push.busy = false; renderSheet();
+}
+async function pushDisable(){
+  const p = state.push; if (p.busy) return;
+  p.busy = true; renderSheet();
+  try {
+    const sub = p.sub || (await (await swReady()).pushManager.getSubscription());
+    if (sub) { const ep = sub.endpoint; try { await sub.unsubscribe(); } catch (e) {} await run(sb.from('push_subs').delete().match({endpoint: ep})); }
+    p.sub = null; toast('Benachrichtigungen sind auf diesem Handy aus.');
+  } catch (e) {}
+  p.busy = false; renderSheet();
+}
+async function pushTest(){
+  if (!sb || !sb.functions) return;
+  try { const r = await sb.functions.invoke('push', {body: {type: 'test'}}); toast(r && r.error ? 'Der Test kam nicht durch. Ist die Funktion in Supabase eingerichtet?' : 'Test geschickt. Er kommt gleich als Mitteilung.'); }
+  catch (e) { toast('Der Test kam nicht durch.'); }
+}
+async function pushPref(k, on){
+  const p = state.push; p.prefs = {...(p.prefs || {}), [k]: on};
+  try { await run(sb.from('push_prefs').upsert({user_id: state.me, prefs: p.prefs, updated_at: new Date().toISOString()})); } catch (e) {}
+}
+/* tell the other phone; quietly does nothing while testing or offline */
+function notifyPush(type, id){
+  if (!sb || !sb.functions || state.testMode || state.readOnly || !navigator.onLine) return;
+  try { sb.functions.invoke('push', {body: {type, id}}).catch(() => {}); } catch (e) {}
+}
+function pushBlock(){
+  const p = state.push;
+  let body;
+  if (!pushOK()) body = `<p class="muted">${isStandalone() ? 'Dieses Handy kann keine Mitteilungen von Web-Apps zeigen. Auf dem iPhone geht das ab iOS 16.4.' : 'Auf dem iPhone gehen Mitteilungen nur, wenn du das Glas vom Home-Bildschirm öffnest.'}</p>`;
+  else if (p.perm === 'denied') body = `<p class="muted">Du hast Mitteilungen für das Glas abgelehnt. Erlauben kannst du sie in den iPhone-Einstellungen unter „Mitteilungen“ → „Ideenglas“.</p>`;
+  else if (!p.ready) body = `<p class="muted">Wird geprüft …</p>`;
+  else if (!p.sub) body = `<p class="muted">Auf diesem Handy noch aus. Jeder schaltet sie auf seinem eigenen Handy ein.</p><div><button class="btn primary" data-action="push-on" ${p.busy ? 'disabled' : ''}>${ico('bell', 18, 2.2)} Auf diesem Handy einschalten</button></div>`;
+  else body = `<p class="muted">Auf diesem Handy an. Wähl aus, was du bekommen möchtest.</p>
+      <div class="push-kinds">${PUSH_KINDS.map(x => `<label class="toggle"><input type="checkbox" data-push-kind="${x.k}" ${(p.prefs || {})[x.k] === false ? '' : 'checked'}><span>${esc(x.l)}${x.s ? `<small>${esc(x.s)}</small>` : ''}</span></label>`).join('')}</div>
+      <div class="row-flex"><button class="btn soft small" data-action="push-test">Test schicken</button><button class="link-btn" data-action="push-off" ${p.busy ? 'disabled' : ''}>Auf diesem Handy ausschalten</button></div>`;
+  return `<h3 class="sec">Benachrichtigungen</h3><div class="set-block">${body}</div>`;
+}
+
+/* ---------- actions of the memories, monthly recap, places and notifications ---------- */
+state.push = {sub: null, perm: 'default', prefs: null, ready: false, busy: false};
+state.month = null; state.places = false;
+function extraAction(a, el, id, v){
+  switch (a) {
+    case 'month-open': openMonth(v); return true;
+    case 'month-close': closeMonth(); return true;
+    case 'month-step': monthStep(Number(v) || 0); return true;
+    case 'month-vote': monthVote(v); return true;
+    case 'month-song-add': monthSongAdd(); return true;
+    case 'month-img': monthMakeImage(); return true;
+    case 'month-share': monthShare(); return true;
+    case 'month-noop': return true;
+    case 'song-new': openSheet('song', null, {mk: curMk()}); return true;
+    case 'song-del': { const mk = curMk(); updateDoc('couple', 'songs', {[mk]: {songs: {[v]: null}}}).then(renderAlbumMonth).catch(() => {}); return true; }
+    case 'places': openPlaces(); return true;
+    case 'places-close': closePlaces(); return true;
+    case 'place-go': placeGo(Number(v)); return true;
+    case 'place-open': placeOpen(id); return true;
+    case 'place-fix': openSheet('placefix', id); return true;
+    case 'place-pick': placePick(Number(v)); return true;
+    case 'place-none': placeNone(); return true;
+    case 'push-on': pushEnable(); return true;
+    case 'push-off': pushDisable(); return true;
+    case 'push-test': pushTest(); return true;
+  }
+  return false;
+}
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t && t.dataset && t.dataset.pushKind) pushPref(t.dataset.pushKind, t.checked);
+});
+document.addEventListener('input', e => { const t = e.target; if (t && t.id === 'sg-url') songUrlInput(t); });
+/* the service worker passes on where a tapped notification should lead */
+if ('serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', e => {
+  const d = e.data || {};
+  if (d.type === 'open' && d.url) { try { const h = new URL(d.url, location.href).hash; if (h && h !== location.hash) location.hash = h; } catch (err) {} }
+});
+
 /* ---------- events ---------- */
 document.addEventListener('click', async e => {
   const el = e.target.closest('[data-action]'); if (!el || el.disabled) return;
   const a = el.dataset.action, id = el.dataset.id, v = el.dataset.v;
+  if (extraAction(a, el, id, v)) return;
   switch (a) {
     case 'open': openSheet('idea', id); break;
     case 'add': openSheet('add'); break;
@@ -3834,7 +4637,7 @@ document.addEventListener('click', async e => {
       const next = cur === yes ? null : yes;
       const patch = {likes: {[me]: next}};
       if (next === true && othersYes) { patch.matchedAt = Date.now(); patch.matchedBy = me; }
-      try { await updateDoc('ideas', id, patch); if (next === true && othersYes) toast('Match! Ihr wollt das beide.'); } catch (err) {}
+      try { await updateDoc('ideas', id, patch); if (next === true && othersYes) { toast('Match! Ihr wollt das beide.'); notifyPush('match', id); } } catch (err) {}
       break;
     }
     case 'pin': {
@@ -3992,7 +4795,7 @@ document.addEventListener('submit', e => {
   const f = e.target; e.preventDefault();
   if (f.id === 'f-add') submitAdd(f); else if (f.id === 'f-plan') submitPlan(f); else if (f.id === 'f-done') submitDone(f);
   else if (f.id === 'f-jar') submitJar(f);
-  else if (f.id === 'f-stop') submitStop(f); else if (f.id === 'f-tdates') submitTripDates(f); else if (f.id === 'f-music') submitMusic(f);
+  else if (f.id === 'f-stop') submitStop(f); else if (f.id === 'f-tdates') submitTripDates(f); else if (f.id === 'f-music') submitMusic(f); else if (f.id === 'f-song') submitSong(f); else if (f.id === 'f-pfix') placeFixSearch();
   else if (f.id === 'f-geo') tripGeoSearch(); else if (f.id === 'f-titem') addTripItem(f);
   else if (f.id === 'f-login') submitLogin(f); else if (f.id === 'f-code') submitCode(f); else if (f.id === 'f-profile') submitProfile(f); else if (f.id === 'f-pw') submitPassword(f); else if (f.id === 'f-sur') submitSurprise(f); else if (f.id === 'f-days') submitDays(f);
 });
@@ -4062,6 +4865,8 @@ function afterData(){
   if (state.trip) renderTrip();
   restoreTrip();
   applyTheme();
+  if (state.places) renderPlaces();
+  maybeMonth();
   refreshProfiles();
 }
 
