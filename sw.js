@@ -2,11 +2,11 @@
    Eigene Dateien kommen immer frisch aus dem Netz und nur im Notfall aus dem Speicher.
    Kartenausschnitte, die ihr schon angesehen habt, bleiben eine Weile gespeichert, damit die Karte auch im Funkloch etwas zeigt. */
 const CACHE = 'ideenglas-v2';
-const TILES = 'ideenglas-karte';
+const TILES = 'ideenglas-karte-2';
 const MAX_TILES = 1500;
 const SHELL = ['./', './index.html', './config.js', './manifest.webmanifest', './icon-192.png', './apple-touch-icon.png'];
 const CDN = ['cdn.jsdelivr.net', 'fonts.googleapis.com', 'fonts.gstatic.com'];
-const isTile = host => /(^|\.)basemaps\.cartocdn\.com$/.test(host);
+const isTile = host => /(^|\.)basemaps\.cartocdn\.com$/.test(host) || host === 'tile.openstreetmap.org';
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

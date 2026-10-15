@@ -752,6 +752,10 @@ input[type=url]:focus-visible{outline:3px solid var(--accent);outline-offset:1px
 .av-ph > svg{width:24px;height:24px}
 .av-ph{background:var(--track);color:var(--muted)}
 .photo-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px}
+
+/* OpenStreetMap at night: darkened and calmer, labels stay readable */
+.tiles-dark{filter:invert(1) hue-rotate(180deg) brightness(.88) contrast(.92) saturate(.55)}
+.tiles-day{filter:saturate(.85) contrast(.96)}
 /* memories: each person's own note */
 .mem-cta{display:inline-flex;align-items:center;gap:6px;margin-top:10px;min-height:40px;padding:8px 14px;border-radius:14px;border:1.5px dashed var(--dash);background:transparent;color:var(--accent-soft-ink);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
 .mem-cta svg{color:var(--heart)}
@@ -3119,10 +3123,14 @@ function loadLeaflet(){
   return leafletP;
 }
 const darkUI = () => { const th = document.documentElement.getAttribute('data-theme'); return th ? th === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); };
+/* map pictures: OpenStreetMap (no key needed, darkened at night by a filter);
+   with a free CARTO key in config.js (mapKey) the nicer CARTO maps come back */
+const OSM_ATTR = '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>';
 function baseTiles(L){
-  const style = darkUI() ? 'dark_all' : 'rastertiles/voyager';
-  return L.tileLayer(`https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`, {subdomains: 'abcd', maxZoom: 19, detectRetina: false,
-    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'});
+  const dark = darkUI(), key = String((window.IDEENGLAS_CONFIG || {}).mapKey || '').trim();
+  if (key) return L.tileLayer(`https://basemaps.cartocdn.com/${dark ? 'dark_all' : 'rastertiles/voyager'}/{z}/{x}/{y}.png?key=${encodeURIComponent(key)}`, {maxZoom: 19, detectRetina: false,
+    attribution: OSM_ATTR + ' · © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'});
+  return L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, detectRetina: false, className: dark ? 'tiles-dark' : 'tiles-day', attribution: OSM_ATTR});
 }
 const pinIcon = (L, n, color, done, faded) => L.divIcon({className: 'stop-pin' + (done ? ' done' : '') + (faded ? ' faded' : ''), html: `<span style="--c:${color}">${esc(String(n))}</span>`, iconSize: [30, 30], iconAnchor: [15, 15]});
 const flyIcon = L => L.divIcon({className: 'fly-pin', html: '<span></span>', iconSize: [20, 20], iconAnchor: [10, 10]});
@@ -4328,7 +4336,7 @@ async function ensurePlacesMap(){
   let L;
   try { L = await loadLeaflet(); } catch (e) { const m = $('#pmap-msg'); if (m) { m.textContent = 'Die Karte lädt gerade nicht. Prüf das Internet.'; m.hidden = false; } return; }
   if (!state.places || !$('#pmap') || pmap.map) return;
-  pmap.map = L.map('pmap', {zoomControl: false, attributionControl: true, tap: true});
+  pmap.map = L.map('pmap', {zoomControl: false, tapHold: false});
   try { pmap.map.attributionControl.setPrefix(false); } catch (e) {}
   baseTiles(L).addTo(pmap.map);
   pmap.layer = L.layerGroup().addTo(pmap.map);
